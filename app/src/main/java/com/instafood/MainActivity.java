@@ -12,5 +12,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
+
+        // TODO: handle fragments with the fragments manager
+
     }
 }

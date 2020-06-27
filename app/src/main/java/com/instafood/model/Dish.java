@@ -13,6 +13,7 @@ public class Dish {
     String imgUrl;
     String makerID;
     String basedOn;
+    boolean checked;
     int likes;
 
     // TODO decide how to create the connection between the dish and it's derivatives (optional)
@@ -24,5 +25,6 @@ public class Dish {
         this.makerID = makerID;
         this.basedOn = basedOn;
         this.likes = 0;
+        this.checked = false;
     }
 }
