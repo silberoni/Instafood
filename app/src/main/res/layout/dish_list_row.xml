@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dish_row_checked_cb"
+    android:id="@+id/dish_row_checked_cv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.369"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@android:drawable/ic_menu_camera" />
+        android:src="@drawable/avatar"/>
 
     <TextView
         android:id="@+id/dish_row_name_tv"
@@ -31,13 +31,13 @@
         android:layout_marginBottom="16dp"
         android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        app:layout_constraintEnd_toStartOf="@+id/dish_row_check_cb"
         app:layout_constraintHorizontal_bias="0.128"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dish_row_image_iv" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/dish_row_check_cb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

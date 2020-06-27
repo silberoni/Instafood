@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import com.instafood.model.Dish;
 
-public class MainActivity extends AppCompatActivity implements DishListFragment.delegate{
+public class MainActivity extends AppCompatActivity implements DishListFragment.delegate {
     public static Context context;
 
     @Override
@@ -23,22 +23,22 @@ public class MainActivity extends AppCompatActivity implements DishListFragment.
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.main_frgmnt_container, dlfrgmnt, "PUTMEIT");
         transaction.commit();
-
-        // TODO: handle fragments with the fragments manager
-
     }
 
-    void openDishDetails() {
-//
-//        DishDetailsFragment dfrgmnt = new DishDetailsFragment();
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.add(R.id.main_frgmnt_container, dfrgmnt, "TAG");
-//        transaction.addToBackStack("TAG");
-//        transaction.commit();
+    void openDishDetails(Dish dish) {
+
+        DishDetailsFragment dfrgmnt = new DishDetailsFragment();
+        dfrgmnt.setDish(dish);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+                R.animator.slide_in_right, R.animator.slide_out_left);
+        transaction.replace(R.id.main_frgmnt_container, dfrgmnt, "TAG");
+        transaction.addToBackStack("TAG");
+        transaction.commit();
     }
 
     @Override
     public void onItemSelected(Dish dish) {
-
+        openDishDetails(dish);
     }
 }

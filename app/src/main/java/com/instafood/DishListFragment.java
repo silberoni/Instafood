@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -101,7 +100,7 @@ public class DishListFragment extends Fragment {
         public DishViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             nametv = itemView.findViewById(R.id.dish_row_name_tv);
-            cb = itemView.findViewById(R.id.dish_row_checked_cb);
+            cb = itemView.findViewById(R.id.dish_row_check_cb);
             cb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
