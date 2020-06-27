@@ -16,7 +16,39 @@ public class Dish {
     boolean checked;
     int likes;
 
-    // TODO decide how to create the connection between the dish and it's derivatives (optional)
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public String getMakerID() {
+        return makerID;
+    }
+
+    public String getBasedOn() {
+        return basedOn;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+// TODO decide how to create the connection between the dish and it's derivatives (optional)
 
     public Dish(String id, String name, String imgUrl, String makerID, String basedOn) {
         this.id = id;

@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.369"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@mipmap/ic_launcher" />
+        tools:srcCompat="@android:drawable/ic_menu_camera" />
 
     <TextView
         android:id="@+id/dish_row_name_tv"
@@ -43,6 +43,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:focusable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dish_row_image_iv" />
 </androidx.constraintlayout.widget.ConstraintLayout>

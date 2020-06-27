@@ -7,11 +7,4 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     tools:layout_editor_absoluteX="1dp"
-    tools:layout_editor_absoluteY="1dp">
-
-    <fragment
-        android:id="@+id/dish_list_frg"
-        android:name="com.instafood.DishListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+    tools:layout_editor_absoluteY="1dp"/>
