@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,24 +19,36 @@ import android.widget.TextView;
 import com.instafood.model.Dish;
 import com.instafood.model.DishModel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 // TODO: will recieve a list/pointer to a list of dish posts to show. We can reuse the same fragment with different data.
 public class DishListFragment extends Fragment {
     private RecyclerView dish_list;
-    private List<Dish> data;
+    private List<Dish> data = new LinkedList<Dish>();
     private delegate parent;
+    private DishListViewModel viewModel;
+    private dishListAdapter adptr;
 
     interface delegate {
         void onItemSelected(Dish dish);
     }
 
     public DishListFragment() {
-        data = DishModel.instance.getAllDishes();
+        DishModel.instance.getAllDishes(new DishModel.Listener<List<Dish>>() {
+            @Override
+            public void onComplete(List<Dish> _data) {
+                data = _data;
+                if (adptr != null){
+                    adptr.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     // TODO: is needed?
     public static DishListFragment newInstance() {
+
         DishListFragment fragment = new DishListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -56,7 +69,7 @@ public class DishListFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement Delegate");
         }
-
+        viewModel = new ViewModelProvider(this).get(DishListViewModel.class);
     }
 
     @Override
@@ -71,7 +84,7 @@ public class DishListFragment extends Fragment {
         LinearLayoutManager layoutmngr = new LinearLayoutManager(getContext());
         dish_list.setLayoutManager(layoutmngr);
 
-        dishListAdapter adptr = new dishListAdapter();
+        adptr = new dishListAdapter();
         dish_list.setAdapter(adptr);
 
         adptr.setOnItemClickListener(new OnItemClickListener() {
