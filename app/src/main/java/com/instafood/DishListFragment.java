@@ -76,17 +76,13 @@ public class DishListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dish_list, container, false);
-
-
         dish_list = view.findViewById(R.id.fragment_dish_list_rv);
         dish_list.setHasFixedSize(true);
 
         LinearLayoutManager layoutmngr = new LinearLayoutManager(getContext());
         dish_list.setLayoutManager(layoutmngr);
-
         adptr = new dishListAdapter();
         dish_list.setAdapter(adptr);
-
         adptr.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onClick(int position) {

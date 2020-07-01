@@ -7,17 +7,19 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/dish_row_image_iv"
+        android:id="@+id/fragment_dish_row_image_iv"
         android:layout_width="330dp"
         android:layout_height="330dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.369"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/avatar"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/dish_row_name_tv"
@@ -34,7 +36,7 @@
         app:layout_constraintEnd_toStartOf="@+id/dish_row_check_cb"
         app:layout_constraintHorizontal_bias="0.128"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dish_row_image_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_dish_row_image_iv" />
 
     <CheckBox
         android:id="@+id/dish_row_check_cb"
@@ -45,5 +47,5 @@
         android:layout_marginRight="16dp"
         android:focusable="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dish_row_image_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_dish_row_image_iv" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,19 +4,19 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_dish_details_scroll"
+    android:id="@+id/fragment_dish_edit_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".DishDetailsFragment">
+    tools:context=".DishEditFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_dish_details_const"
+        android:id="@+id/fragment_dish_edit_const"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/fragment_dish_details_image_iv"
+            android:id="@+id/fragment_dish_edit_image_iv"
             android:layout_width="330dp"
             android:layout_height="330dp"
             android:layout_marginStart="16dp"
@@ -31,28 +31,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/fragment_dish_details_dish_name_tv"
+        <EditText
+            android:id="@+id/fragment_dish_edit_dish_name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="50dp"
+            android:inputType="text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_image_iv" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_edit_image_iv" />
 
-        <TextView
-            android:id="@+id/fragment_dish_details_dish_desc_tv"
+        <EditText
+            android:id="@+id/fragment_dish_edit_dish_desc_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
+            android:maxLines="6"
             android:layout_marginTop="50dp"
+            android:inputType="textMultiLine"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_dish_name_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_edit_dish_name_tv" />
 
         <CheckBox
-            android:id="@+id/fragment_dish_details_made_cb"
+            android:id="@+id/fragment_dish_edit_made_cb"
             android:layout_width="0dp"
             android:layout_height="46dp"
             android:layout_marginTop="4dp"
@@ -60,21 +63,21 @@
             android:layout_marginRight="12dp"
             android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_image_iv" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_edit_image_iv" />
 
         <TextView
-            android:id="@+id/fragment_dish_details_made_it_lbl"
+            android:id="@+id/fragment_dish_edit_made_it_lbl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="28dp"
             android:layout_marginRight="28dp"
             android:text="@string/dish_details_made_title"
-            app:layout_constraintEnd_toStartOf="@+id/fragment_dish_details_made_cb"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_image_iv" />
+            app:layout_constraintEnd_toStartOf="@+id/fragment_dish_edit_made_cb"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_edit_image_iv" />
 
         <TextView
-            android:id="@+id/fragment_dish_details_sec_1_lbl"
+            android:id="@+id/fragment_dish_edit_sec_1_lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -82,21 +85,24 @@
             android:layout_marginTop="32dp"
             android:text="@string/dish_details_sec_1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_dish_desc_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_edit_dish_desc_tv" />
 
-        <TextView
-            android:id="@+id/fragment_dish_details_sec_1_tb"
+        <EditText
+            android:id="@+id/fragment_dish_edit_sec_1_tb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
+            android:minLines="3"
+            android:maxLines="30"
+            android:inputType="textMultiLine"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_sec_1_lbl" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_edit_sec_1_lbl" />
 
 
         <TextView
-            android:id="@+id/fragment_dish_details_sec_2_lbl"
+            android:id="@+id/fragment_dish_edit_sec_2_lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -104,28 +110,48 @@
             android:layout_marginTop="32dp"
             android:text="@string/dish_details_sec_1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_sec_1_tb" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_edit_sec_1_tb" />
 
-        <TextView
-            android:id="@+id/fragment_dish_details_sec_2_tb"
+        <EditText
+            android:id="@+id/fragment_dish_edit_sec_2_tb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
+            android:minLines="3"
+            android:maxLines="30"
+            android:inputType="textMultiLine"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_sec_2_lbl" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_edit_sec_2_lbl" />
 
         <Button
-            android:id="@+id/fragment_dish_details_edit_btn"
+            android:id="@+id/fragment_dish_edit_save_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dish_edit_btn"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="72dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="103dp"
+            android:layout_marginRight="103dp"
             android:layout_marginBottom="64dp"
+            android:text="@string/dish_save_btn"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_dish_edit_delete_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_sec_2_tb" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_edit_sec_2_tb" />
 
+        <Button
+            android:id="@+id/fragment_dish_edit_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginBottom="64dp"
+            android:text="@string/dish_delete_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_edit_sec_2_tb" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

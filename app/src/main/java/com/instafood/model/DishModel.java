@@ -28,9 +28,9 @@ public class DishModel {
     {
         class AsyTask extends AsyncTask<String, String, String>{
             List<Dish> data;
-
             @Override
             protected String doInBackground(String... strings) {
+                // fillDishes();
                 data = AppLocalDb.db.dishDao().getAll();
                 return null;
             }
@@ -54,11 +54,15 @@ public class DishModel {
     public Dish getDish(String id){return null;}
 
     public void update(Dish dish){
-
+        AppLocalDb.db.dishDao().insertAll(dish);
     }
-    public void delete(Dish dish){
-
+    public boolean delete(Dish dish){
+        return true;
     }
 
-
+    public void fillDishes(){
+        for(int i = 1; i<=10; i++){
+            AppLocalDb.db.dishDao().insertAll(new Dish(""+i, "dish "+i,"Yummy Yummy this dish is so good :) "+i+" dish is just delicious. I love making it so much yum yum", "", "1", "", "stuff 1 \n stuff 2 \n "+i, "stuff 1 \n stuff 2 \n "+i));
+        }
+    }
 }
