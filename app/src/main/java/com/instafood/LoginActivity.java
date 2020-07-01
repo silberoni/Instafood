@@ -17,12 +17,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        LoginFragment loginFrag = (LoginFragment) getSupportFragmentManager().findFragmentById(R.id.Loginfragment);
+        FragmentTransaction fragmenTtransaction =  getSupportFragmentManager().beginTransaction();
+        fragmenTtransaction.add(R.id.Login_Container, new LoginFragment());
+        fragmenTtransaction.commit();
 
-        SignupFragment signFrag = new SignupFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.Login_Container, signFrag, "TAG");
-        transaction.commit();
+
+
+        //LoginFragment loginFrag = (LoginFragment) getSupportFragmentManager().findFragmentById(R.id.Loginfragment);
+//
+        //SignupFragment signFrag = new SignupFragment();
+        //FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        //transaction.add(R.id.Login_Container, signFrag, "TAG");
+        //transaction.commit();
 
 
         //init();
