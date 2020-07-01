@@ -8,7 +8,7 @@ import com.instafood.MainActivity;
 
 @Database(entities = {Dish.class}, version = 1)
 abstract class AppLocalDbRepository extends RoomDatabase {
-    public abstract DishDao studentDao();
+    public abstract DishDao dishDao();
 }
 
 public class AppLocalDb{

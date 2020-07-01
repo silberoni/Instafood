@@ -1,12 +1,21 @@
 package com.instafood.model;
 
+import androidx.lifecycle.LiveData;
+
 import java.util.LinkedList;
 import java.util.List;
+import android.os.AsyncTask;
+import androidx.lifecycle.LiveData;
 
 public class DishModel {
     public static final DishModel instance = new DishModel();
 
-    // When used will be used like this: DishModel.instance.METHOD
+    public interface Listener<T>{
+        void onComplete(T data);
+    }
+    private DishModel(){
+
+    }
 
     // testing list
     List<Dish> dishes = new LinkedList<>();
@@ -15,17 +24,41 @@ public class DishModel {
         this.dishes = dishes;
     }
 
-    private DishModel(){
-        for (int i=0; i<10; i++){
-            Dish d = new Dish(""+i, "dish "+i, "", "1", "");
-            dishes.add(d);
+    public void getAllDishes(final Listener<List<Dish>> Listener)
+    {
+        class AsyTask extends AsyncTask<String, String, String>{
+            List<Dish> data;
+
+            @Override
+            protected String doInBackground(String... strings) {
+                data = AppLocalDb.db.dishDao().getAll();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                Listener.onComplete(data);
+
+            }
         }
-    }
-    public List<Dish> getAllDishes(){
-        return dishes;
+        AsyTask task = new AsyTask();
+        task.execute();
+
     }
 
-    public List<Dish> getAllByCook(String cookID){
-        return null;
+//    public void getAllByCook(String cookID){
+//        return null;
+//    }
+
+    public Dish getDish(String id){return null;}
+
+    public void update(Dish dish){
+
     }
+    public void delete(Dish dish){
+
+    }
+
+
 }
