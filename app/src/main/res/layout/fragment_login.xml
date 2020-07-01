@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginFragment"
+    android:background="@drawable/gradient_list"
+    >
+
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       android:layout_gravity="center"
+       android:layout_margin="20dp"
+       >
+
+       <ImageView
+           android:id="@+id/imageView"
+           android:layout_width="400dp"
+           android:layout_height="200dp"
+           android:layout_gravity="center"
+           android:layout_weight=""
+           android:src="@drawable/untitled_1" />
+
+       <!-- android:textColor="#FF9C8B" -->
+       <TextView
+           android:id="@+id/textLoginWelcome"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Welcome"
+           android:textColor="#ffff"
+           android:textStyle="bold"
+           android:layout_gravity="center"
+           android:textSize="45dp"
+           />
+
+       <EditText
+           android:id="@+id/textLoginUsername"
+           android:layout_width="300dp"
+           android:layout_height="wrap_content"
+           android:hint="Username"
+           android:textColorHint="#FFFF"
+           android:layout_gravity="center"
+           android:textStyle="bold"
+           android:drawableLeft="@drawable/ic_person"
+           android:drawablePadding="10dp"
+           android:layout_marginTop="35dp"
+           android:background="@drawable/edit"
+           android:padding="20dp"
+           />
+
+       <EditText
+           android:id="@+id/textLoginPassword"
+           android:layout_width="300dp"
+           android:layout_height="wrap_content"
+           android:hint="Password"
+           android:textColorHint="#FFFF"
+           android:layout_gravity="center"
+           android:textStyle="bold"
+           android:drawableLeft="@drawable/ic_lock"
+           android:drawablePadding="10dp"
+           android:layout_marginTop="15dp"
+           android:background="@drawable/edit"
+           android:padding="20dp"
+           />
+
+       <Button
+           android:id="@+id/buttonLoginLogin"
+           android:layout_width="300dp"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center"
+           android:text="Login"
+           android:textColor="#FFFF"
+           android:textStyle="bold"
+           android:layout_marginTop="20dp"
+           android:background="@drawable/button"
+           />
+
+   </LinearLayout>
+
+
+</LinearLayout>
