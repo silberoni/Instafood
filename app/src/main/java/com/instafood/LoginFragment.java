@@ -1,7 +1,9 @@
 package com.instafood;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -9,6 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.concurrent.Executor;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +33,11 @@ public class LoginFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    //public FirebaseAuth firebaseAuth;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -56,6 +73,8 @@ public class LoginFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        //firebase
+
 
     }
 
@@ -65,9 +84,14 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
 
+        firebaseAuth = FirebaseAuth.getInstance();
         Button btnLoginSignup = (Button)view.findViewById(R.id.buttonLoginSignup);
+        Button btnLogin = view.findViewById(R.id.buttonLoginLogin);
+        final EditText textLoginEmail = view.findViewById(R.id.textLoginUsername);
+        //final EditText textLoginEmail = view.findViewById(R.id.textLoginEmail);
+        final EditText textLoginPassword = view.findViewById(R.id.textLoginPassword);
 
-
+        // Open SignUp fragment when clicking
         btnLoginSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View V){
@@ -78,7 +102,64 @@ public class LoginFragment extends Fragment {
 
         });
 
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
+                if (mFirebaseUser != null){
+                    Toast.makeText(getContext(), "You are logged in", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent (getContext(), MainActivity.class);
+                    startActivity(i);
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
 
-        return view;
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //String nname = textLoginName.getText().toString();;
+                String email = textLoginEmail.getText().toString();
+                String pwd = textLoginPassword.getText().toString();
+
+                //if(nname.isEmpty())
+                //{
+                //    textSignupName.setError("Please Enter Name");
+                //    textSignupName.requestFocus();
+                //}
+                if (email.isEmpty()) {
+                    textLoginEmail.setError("Please Enter Email");
+                    textLoginEmail.requestFocus();
+                }
+                if (pwd.isEmpty()) {
+                    textLoginPassword.setError("Please Enter Password");
+                    textLoginPassword.requestFocus();
+                }
+
+                if (!(email.isEmpty() && pwd.isEmpty())) {
+                    firebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener((Executor) LoginFragment.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()){
+                                Toast.makeText(getContext(), "Login Error, Please Try Again", Toast.LENGTH_SHORT).show();
+                            }
+                            //else
+                            //{
+                            //    //Intent intToHome = new Intent (LoginFragment.this, MainActivity.class);
+                            //}
+                        }
+                    });
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Error Occured", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+                return view;
     }
 }

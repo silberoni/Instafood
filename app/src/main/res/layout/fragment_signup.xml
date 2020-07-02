@@ -66,15 +66,16 @@
             android:padding="20dp"
             />
         <EditText
-            android:id="@+id/textSignupLastname"
+            android:id="@+id/textSignupEmail"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:hint="Last Name"
+            android:hint="Email"
             android:textColorHint="#FFFF"
             android:layout_gravity="center"
             android:textStyle="bold"
-            android:drawableLeft="@drawable/ic_pencil"
+            android:drawableLeft="@drawable/ic_email"
             android:drawablePadding="10dp"
+            android:inputType="textEmailAddress"
             android:layout_marginTop="15dp"
             android:background="@drawable/edit"
             android:padding="20dp"
@@ -111,10 +112,8 @@
             android:padding="20dp"
             />
 
-
-
         <Button
-            android:id="@+id/buttonLoginSignup"
+            android:id="@+id/buttonSignupSignup"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
