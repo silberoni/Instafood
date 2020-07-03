@@ -28,6 +28,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
+
+
         //LoginFragment loginFrag = (LoginFragment) getSupportFragmentManager().findFragmentById(R.id.Loginfragment);
 //
         //SignupFragment signFrag = new SignupFragment();

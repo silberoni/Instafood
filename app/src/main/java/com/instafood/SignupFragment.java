@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -64,6 +65,7 @@ public class SignupFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         //if (getArguments() != null) {
         //    mParam1 = getArguments().getString(ARG_PARAM1);
         //    mParam2 = getArguments().getString(ARG_PARAM2);
@@ -78,23 +80,32 @@ public class SignupFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
+        // Variables
         firebaseAuth = FirebaseAuth.getInstance();
-        Button btnSignUp = view.findViewById(R.id.buttonSignupSignup);
+        //Button btnSignUp = view.findViewById(R.id.buttonSignupSignup);
         final EditText textSignupName = view.findViewById(R.id.textSignupFirstname);
         final EditText textSignupEmail = view.findViewById(R.id.textSignupEmail);
         final EditText textSignupPassword = view.findViewById(R.id.textSignupPassword);
+        final EditText textSignupUsername = view.findViewById(R.id.textSignupUsername);
+        //final ProgressBar progressBar = null;
 
-        LoginFragment lgFragment = (LoginFragment) getFragmentManager().findFragmentById(R.id.Loginfragment);
+        //LoginFragment lgFragment = (LoginFragment) getFragmentManager().findFragmentById(R.id.Loginfragment);
 
-        btnSignUp = (Button)view.findViewById(R.id.buttonSignupSignup);
+        Button btnSignUp = (Button)view.findViewById(R.id.buttonSignupSignup);
+
+        // If  the use is already logged in enter MainActivity
+        //if (firebaseAuth.getCurrentUser() != null)
+        //{
+        //     startActivity(new Intent(getContext(), MainActivity.class));
+        //}
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nname = textSignupName.getText().toString();;
+                String nname = textSignupName.getText().toString();
                 String email = textSignupEmail.getText().toString();
                 String pwd = textSignupPassword.getText().toString();
-
+                String username = textSignupUsername.getText().toString();
                 if(nname.isEmpty())
                 {
                     textSignupName.setError("Please Enter Name");
@@ -110,32 +121,33 @@ public class SignupFragment extends Fragment {
                     textSignupPassword.setError("Please Enter Password");
                     textSignupPassword.requestFocus();
                 }
+                if (username.isEmpty())
+                {
+                    textSignupUsername.setError("Please Enter Username");
+                    textSignupUsername.requestFocus();
+                }
+
+                //progressBar.setVisibility(view.VISIBLE);
 
                 if (!(email.isEmpty() && pwd.isEmpty() && nname.isEmpty()))
                 {
-                    firebaseAuth.createUserWithEmailAndPassword(email,pwd).addOnCompleteListener((Executor) SignupFragment.this, new OnCompleteListener<AuthResult>() {
+                    firebaseAuth.createUserWithEmailAndPassword(email,pwd).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()){
                                 //Toast.makeText(SignupFragment.this, "", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getContext(), "SignUp Unsuccessful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "SignUp Unsuccessful", Toast.LENGTH_SHORT).show();
                             }
-  //                          else{
-//                                startActivity(new Intent());
-
-    //                        }
-
+                            else{
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                            }
                         }
                     });
                 }
                 else
                 {
-                    Toast.makeText(getContext(), "Error Occured!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error Occured!", Toast.LENGTH_SHORT).show();
                 }
-
-
-
-
             }
         });
 

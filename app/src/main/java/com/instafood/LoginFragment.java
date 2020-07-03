@@ -144,18 +144,17 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()){
-                                Toast.makeText(getContext(), "Login Error, Please Try Again", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Login Error, Please Try Again", Toast.LENGTH_SHORT).show();
                             }
-                            //else
-                            //{
-                            //    //Intent intToHome = new Intent (LoginFragment.this, MainActivity.class);
-                            //}
+                            else{
+                                startActivity(new Intent(getContext(), MainActivity.class));
+                            }
                         }
                     });
                 }
                 else
                 {
-                    Toast.makeText(getContext(), "Error Occured", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error Occured", Toast.LENGTH_SHORT).show();
                 }
             }
         });
