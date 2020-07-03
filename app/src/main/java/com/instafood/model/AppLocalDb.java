@@ -6,9 +6,10 @@ import androidx.room.RoomDatabase;
 
 import com.instafood.MainActivity;
 
-@Database(entities = {Dish.class}, version = 1)
+@Database(entities = {Dish.class, Chef.class}, version = 4)
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract DishDao dishDao();
+    public abstract ChefDao ChefDao();
 }
 
 public class AppLocalDb{

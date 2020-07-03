@@ -69,6 +69,7 @@ public class DishListFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement Delegate");
         }
+        // TODO: use live data
         viewModel = new ViewModelProvider(this).get(DishListViewModel.class);
     }
 
@@ -76,17 +77,13 @@ public class DishListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dish_list, container, false);
-
-
         dish_list = view.findViewById(R.id.fragment_dish_list_rv);
         dish_list.setHasFixedSize(true);
 
         LinearLayoutManager layoutmngr = new LinearLayoutManager(getContext());
         dish_list.setLayoutManager(layoutmngr);
-
         adptr = new dishListAdapter();
         dish_list.setAdapter(adptr);
-
         adptr.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onClick(int position) {
@@ -98,11 +95,6 @@ public class DishListFragment extends Fragment {
 
 
         return view;
-    }
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        parent = null;
     }
 
     static class DishViewHolder extends RecyclerView.ViewHolder {
@@ -169,5 +161,10 @@ public class DishListFragment extends Fragment {
         public int getItemCount() {
             return data.size();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }
