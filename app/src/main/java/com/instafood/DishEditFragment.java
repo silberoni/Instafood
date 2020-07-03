@@ -1,9 +1,12 @@
 package com.instafood;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.instafood.model.Dish;
 import com.instafood.model.DishModel;
@@ -45,10 +49,7 @@ public class DishEditFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +59,6 @@ public class DishEditFragment extends Fragment {
         dish_edit_img = view.findViewById(R.id.fragment_dish_edit_image_iv);
         dish_edit_name = view.findViewById(R.id.fragment_dish_edit_dish_name_tv);
         dish_edit_desc = view.findViewById(R.id.fragment_dish_edit_dish_desc_tv);
-        dish_edit_made = view.findViewById(R.id.fragment_dish_edit_made_cb);
         dish_edit_sec_1 = view.findViewById(R.id.fragment_dish_edit_sec_1_tb);
         dish_edit_sec_2 = view.findViewById(R.id.fragment_dish_edit_sec_2_tb);
         dish_edit_save = view.findViewById(R.id.fragment_dish_edit_save_btn);
@@ -73,29 +73,29 @@ public class DishEditFragment extends Fragment {
     private void update_display() {
         dish_edit_name.setText(dish_edit.getName());
         dish_edit_desc.setText(dish_edit.getDesc());
-        dish_edit_made.setChecked(dish_edit.isChecked());
         dish_edit_sec_1.setText(dish_edit.getIngredients());
         dish_edit_sec_2.setText(dish_edit.getInstructions());
-
-        dish_edit_made.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dish_edit.setChecked(dish_edit_made.isChecked());
-            }
-        });
         dish_edit_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dish_edit.setName(dish_edit_name.getText().toString());
+                dish_edit.setDesc(dish_edit_desc.getText().toString());
+                dish_edit.setIngredients(dish_edit_sec_1.getText().toString());
+                dish_edit.setInstructions(dish_edit_sec_2.getText().toString());
                 DishModel.instance.update(dish_edit);
-                dish_edit_save.setClickable(false);
+                Snackbar.make(view, "Item saves", Snackbar.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
         dish_edit_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dish_edit.setDeleted(true);
+                // Log.d("TAG","1. desc: "+dish_edit.getDesc());
                 DishModel.instance.update(dish_edit);
                 dish_edit_delete.setClickable(false);
+                Snackbar.make(view, "Item deleted", Snackbar.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }
@@ -105,5 +105,11 @@ public class DishEditFragment extends Fragment {
         if (dish_edit_name != null) {
             update_display();
         }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

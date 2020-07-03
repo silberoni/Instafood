@@ -69,6 +69,7 @@ public class DishListFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement Delegate");
         }
+        // TODO: use live data
         viewModel = new ViewModelProvider(this).get(DishListViewModel.class);
     }
 
@@ -94,11 +95,6 @@ public class DishListFragment extends Fragment {
 
 
         return view;
-    }
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        parent = null;
     }
 
     static class DishViewHolder extends RecyclerView.ViewHolder {
@@ -165,5 +161,10 @@ public class DishListFragment extends Fragment {
         public int getItemCount() {
             return data.size();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

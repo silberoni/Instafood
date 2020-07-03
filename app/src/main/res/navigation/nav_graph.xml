@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/First">
+
+    <fragment
+        android:id="@+id/First"
+        android:name="com.instafood.DishListFragment"
+        android:label="Dish_list"
+        tools:layout="@layout/fragment_dish_list" />
+    <fragment
+        android:id="@+id/Second"
+        android:name="com.instafood.ChefDetailsFragment"
+        android:label="Chef_me_details"
+        tools:layout="@layout/fragment_chef_details" />
+    <action android:id="@+id/action_global_fourthFragment" app:destination="@id/Second"/>
+</navigation>

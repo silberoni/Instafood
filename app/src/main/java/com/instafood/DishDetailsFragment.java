@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,12 +54,13 @@ public class DishDetailsFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context){
         super.onAttach(context);
-        if (context instanceof DishListFragment.delegate) {
+        if (context instanceof delegate) {
             parent = (delegate) getActivity();
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement Delegate");
         }
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,10 +111,10 @@ public class DishDetailsFragment extends Fragment {
         dish_sec_1.setText(dish.getIngredients());
         dish_sec_2.setText(dish.getInstructions());
     }
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        parent = null;
-    }
 
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 }
