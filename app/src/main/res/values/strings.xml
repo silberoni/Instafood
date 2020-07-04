@@ -12,4 +12,6 @@
     <string name="dish_delete_btn">Delete dish</string>
     <string name="dish_list_frgmnt">To the feast</string>
     <string name="chef_frgmnt">To your chef page</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
 </resources>

@@ -4,10 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Dish {
+public class Dish implements Serializable {
     @PrimaryKey
     @NonNull
     String id;

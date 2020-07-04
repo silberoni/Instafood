@@ -67,7 +67,7 @@ public class DishListFragment extends Fragment {
             parent = (delegate) getActivity();
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement Delegate");
+                    + " must implement Delegate list");
         }
         // TODO: use live data
         viewModel = new ViewModelProvider(this).get(DishListViewModel.class);

@@ -13,26 +13,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.instafood.model.Dish;
 import com.instafood.model.DishModel;
 
 public class DishDetailsFragment extends Fragment {
     private Dish dish;
     ImageView dish_img;
-    TextView dish_name;
-    TextView dish_desc;
+    EditText dish_name;
+    EditText dish_desc;
     CheckBox dish_made;
-    TextView dish_sec_1;
-    TextView dish_sec_2;
+    EditText dish_sec_1;
+    EditText dish_sec_2;
     Button dish_edit;
-    private delegate parent;
-
-    interface delegate {
-        void onItemEdit(Dish dish);
-    }
+    Button dish_save;
+    Button dish_delete;
 
     public DishDetailsFragment() {
         // Required empty public constructor
@@ -54,26 +53,24 @@ public class DishDetailsFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context){
         super.onAttach(context);
-        if (context instanceof delegate) {
-            parent = (delegate) getActivity();
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement Delegate");
-        }
-
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dish_details, container, false);
         dish_img = view.findViewById(R.id.fragment_dish_details_image_iv);
-        dish_name = view.findViewById(R.id.fragment_dish_details_dish_name_tv);
-        dish_desc = view.findViewById(R.id.fragment_dish_details_dish_desc_tv);
+        dish_name = view.findViewById(R.id.fragment_dish_details_dish_name_ev);
+        dish_desc = view.findViewById(R.id.fragment_dish_details_dish_desc_ev);
         dish_made = view.findViewById(R.id.fragment_dish_details_made_cb);
-        dish_sec_1 = view.findViewById(R.id.fragment_dish_details_sec_1_tb);
-        dish_sec_2 = view.findViewById(R.id.fragment_dish_details_sec_2_tb);
+        dish_sec_1 = view.findViewById(R.id.fragment_dish_details_sec_1_eb);
+        dish_sec_2 = view.findViewById(R.id.fragment_dish_details_sec_2_eb);
         dish_edit = view.findViewById(R.id.fragment_dish_details_edit_btn);
+        dish_save   = view.findViewById(R.id.fragment_dish_details_save_btn);
+        dish_delete=view.findViewById(R.id.fragment_dish_details_delete_btn);
+
+        // DishDetailsFragmentArgs.fromBundle(getArguments()).getDish();
 
         if (dish != null) {
             update_display();
@@ -98,18 +95,43 @@ public class DishDetailsFragment extends Fragment {
                 dish.setChecked(dish_made.isChecked());
             }
         });
+        dish_sec_1.setText(dish.getIngredients());
+        dish_sec_2.setText(dish.getInstructions());
+
+        //TODO: check if user supposed to have edit button
         dish_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(parent != null) {
-                    parent.onItemEdit(dish);
-                } else{
-                    throw new RuntimeException("help");
-                }
+                dish_save.setClickable(true);
+                dish_delete.setClickable(true);
+                dish_save.setVisibility(View.VISIBLE);
+                dish_save.setVisibility(View.VISIBLE);
+                dish_edit.setClickable(false);
+                dish_edit.setVisibility(View.INVISIBLE);
             }
         });
-        dish_sec_1.setText(dish.getIngredients());
-        dish_sec_2.setText(dish.getInstructions());
+        dish_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dish.setName(dish_name.getText().toString());
+                dish.setDesc(dish_desc.getText().toString());
+                dish.setIngredients(dish_sec_1.getText().toString());
+                dish.setInstructions(dish_sec_2.getText().toString());
+                DishModel.instance.update(dish);
+                Snackbar.make(view, "Item saves", Snackbar.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+        dish_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dish.setDeleted(true);
+                DishModel.instance.update(dish);
+                dish_delete.setClickable(false);
+                Snackbar.make(view, "Item deleted", Snackbar.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
     }
 
 

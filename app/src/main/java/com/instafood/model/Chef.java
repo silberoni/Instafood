@@ -5,8 +5,10 @@ import androidx.room.Entity;
 import androidx.annotation.NonNull;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class Chef {
+public class Chef implements Serializable {
     @PrimaryKey
     @NonNull
     String id;
