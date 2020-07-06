@@ -9,7 +9,7 @@
     <string name="dish_details_sec_2">Instructions</string>
     <string name="dish_edit_btn">Edit</string>
     <string name="dish_save_btn">Save</string>
-    <string name="dish_delete_btn">Delete dish</string>
+    <string name="dish_delete_btn">Delete</string>
     <string name="dish_list_frgmnt">To the feast</string>
     <string name="chef_frgmnt">To your chef page</string>
     <string name="navigation_drawer_open">open</string>

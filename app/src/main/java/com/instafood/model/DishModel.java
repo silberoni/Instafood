@@ -3,6 +3,7 @@ package com.instafood.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -19,36 +20,30 @@ public class DishModel {
     }
 
     // testing list
-    List<Dish> dishes = new LinkedList<>();
+    // List<Dish> dishes = new LinkedList<>();
 
-    public DishModel(List<Dish> dishes) {
-        this.dishes = dishes;
-    }
+//    public DishModel(List<Dish> dishes) {
+//        this.dishes = dishes;
+//    }
 
     public void getAllDishes(final Listener<List<Dish>> getListener) {
-        class AsyTask extends AsyncTask<String, String, String> {
-            List<Dish> data;
 
+        @SuppressLint("StaticFieldLeak")
+        AsyncTask<String, String, List<Dish>> taskA = new AsyncTask<String, String, List<Dish>>(){
             @Override
-            protected String doInBackground(String... strings) {
-                fillDishes();
-                data = AppLocalDb.db.dishDao().getAll();
-                return null;
+            protected List<Dish> doInBackground(String... strings) {
+                // fillDishes();
+                return AppLocalDb.db.dishDao().getAll();
             }
-
             @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                getListener.onComplete(data);
+            protected void onPostExecute(List<Dish> dishes) {
+                super.onPostExecute(dishes);
+                getListener.onComplete(dishes);
             }
-        }
-        AsyTask task = new AsyTask();
-        task.execute();
+        };
+        taskA.execute();
     }
 
-//    public void getAllByCook(String cookID){
-//        return null;
-//    }
 
     public Dish getDish(String id) {
         return null;

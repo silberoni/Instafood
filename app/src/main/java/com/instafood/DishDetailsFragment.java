@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,7 +53,7 @@ public class DishDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(@NonNull Context context){
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
 
@@ -67,22 +69,12 @@ public class DishDetailsFragment extends Fragment {
         dish_sec_1 = view.findViewById(R.id.fragment_dish_details_sec_1_eb);
         dish_sec_2 = view.findViewById(R.id.fragment_dish_details_sec_2_eb);
         dish_edit = view.findViewById(R.id.fragment_dish_details_edit_btn);
-        dish_save   = view.findViewById(R.id.fragment_dish_details_save_btn);
-        dish_delete=view.findViewById(R.id.fragment_dish_details_delete_btn);
+        dish_save = view.findViewById(R.id.fragment_dish_details_save_btn);
+        dish_delete = view.findViewById(R.id.fragment_dish_details_delete_btn);
 
-        // DishDetailsFragmentArgs.fromBundle(getArguments()).getDish();
-
-        if (dish != null) {
-            update_display();
-        }
+        dish = DishDetailsFragmentArgs.fromBundle(getArguments()).getDish();
+        update_display();
         return view;
-    }
-
-    public void setDish(Dish dish) {
-        this.dish = dish;
-        if (dish_name != null) {
-            update_display();
-        }
     }
 
     private void update_display() {
@@ -98,14 +90,19 @@ public class DishDetailsFragment extends Fragment {
         dish_sec_1.setText(dish.getIngredients());
         dish_sec_2.setText(dish.getInstructions());
 
-        //TODO: check if user supposed to have edit button
+        //TODO: add check if user supposed to have edit button
         dish_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dish_save.setClickable(true);
+                dish_save.setVisibility(View.VISIBLE);
+                dish_delete.setVisibility(View.VISIBLE);
                 dish_delete.setClickable(true);
-                dish_save.setVisibility(View.VISIBLE);
-                dish_save.setVisibility(View.VISIBLE);
+                dish_save.setClickable(true);
+                dish_name.setEnabled(true);
+                dish_desc.setEnabled(true);
+                dish_sec_1.setEnabled(true);
+                dish_sec_2.setEnabled(true);
+
                 dish_edit.setClickable(false);
                 dish_edit.setVisibility(View.INVISIBLE);
             }
@@ -119,7 +116,8 @@ public class DishDetailsFragment extends Fragment {
                 dish.setInstructions(dish_sec_2.getText().toString());
                 DishModel.instance.update(dish);
                 Snackbar.make(view, "Item saves", Snackbar.LENGTH_SHORT).show();
-                getActivity().getSupportFragmentManager().popBackStack();
+                NavController navCtrl = Navigation.findNavController(view);
+                navCtrl.popBackStack();
             }
         });
         dish_delete.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +127,8 @@ public class DishDetailsFragment extends Fragment {
                 DishModel.instance.update(dish);
                 dish_delete.setClickable(false);
                 Snackbar.make(view, "Item deleted", Snackbar.LENGTH_SHORT).show();
-                getActivity().getSupportFragmentManager().popBackStack();
+                NavController navCtrl = Navigation.findNavController(view);
+                navCtrl.popBackStack();
             }
         });
     }

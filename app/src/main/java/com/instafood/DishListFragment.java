@@ -70,7 +70,7 @@ public class DishListFragment extends Fragment {
                     + " must implement Delegate list");
         }
         // TODO: use live data
-        viewModel = new ViewModelProvider(this).get(DishListViewModel.class);
+       // viewModel = new ViewModelProvider(this).get(DishListViewModel.class);
     }
 
     @Override
@@ -79,7 +79,6 @@ public class DishListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dish_list, container, false);
         dish_list = view.findViewById(R.id.fragment_dish_list_rv);
         dish_list.setHasFixedSize(true);
-
         LinearLayoutManager layoutmngr = new LinearLayoutManager(getContext());
         dish_list.setLayoutManager(layoutmngr);
         adptr = new dishListAdapter();

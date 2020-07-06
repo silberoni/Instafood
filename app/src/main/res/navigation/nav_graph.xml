@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dishListFragment">
+
+    <fragment
+        android:id="@+id/dishListFragment"
+        android:name="com.instafood.DishListFragment"
+        android:label="fragment_dish_list"
+        tools:layout="@layout/fragment_dish_list" >
+        <action
+            android:id="@+id/action_dishListFragment_to_dishDetailsFragment"
+            app:destination="@id/dishDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dishDetailsFragment"
+        android:name="com.instafood.DishDetailsFragment"
+        android:label="fragment_dish_details"
+        tools:layout="@layout/fragment_dish_details" >
+        <argument
+            android:name="dish"
+            app:argType="com.instafood.model.Dish" />
+    </fragment>
+    <fragment
+        android:id="@+id/chefDetailsFragment"
+        android:name="com.instafood.ChefDetailsFragment"
+        android:label="fragment_chef_details"
+        tools:layout="@layout/fragment_chef_details" >
+        <argument
+            android:name="chef"
+            app:argType="com.instafood.model.Chef" />
+    </fragment><action android:id="@+id/action_global_chefDetailsFragment2" app:destination="@id/chefDetailsFragment"/>
+
+</navigation>
