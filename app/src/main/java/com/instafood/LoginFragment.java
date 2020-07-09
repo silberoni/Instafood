@@ -97,7 +97,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View V){
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
                 fr.replace(R.id.Login_Container, new SignupFragment());
-                fr.commit();
+                fr.addToBackStack(null).commit();
             }
 
         });
@@ -117,6 +117,7 @@ public class LoginFragment extends Fragment {
                 }
             }
         };
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
