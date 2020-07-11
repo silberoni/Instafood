@@ -32,5 +32,19 @@
             android:name="chef"
             app:argType="com.instafood.model.Chef" />
     </fragment><action android:id="@+id/action_global_chefDetailsFragment2" app:destination="@id/chefDetailsFragment"/>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.instafood.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.instafood.SignupFragment"
+        android:label="fragment_signup"
+        tools:layout="@layout/fragment_signup" />
 
 </navigation>

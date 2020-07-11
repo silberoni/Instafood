@@ -15,11 +15,19 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executor;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.instafood.model.Chef;
+import com.instafood.model.ModelFirebase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,6 +95,7 @@ public class SignupFragment extends Fragment {
         final EditText textSignupEmail = view.findViewById(R.id.textSignupEmail);
         final EditText textSignupPassword = view.findViewById(R.id.textSignupPassword);
         final EditText textSignupUsername = view.findViewById(R.id.textSignupUsername);
+
         //final ProgressBar progressBar = null;
 
         //LoginFragment lgFragment = (LoginFragment) getFragmentManager().findFragmentById(R.id.Loginfragment);
@@ -102,10 +111,10 @@ public class SignupFragment extends Fragment {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nname = textSignupName.getText().toString();
-                String email = textSignupEmail.getText().toString();
+                final String nname = textSignupName.getText().toString();
+                final String email = textSignupEmail.getText().toString();
                 String pwd = textSignupPassword.getText().toString();
-                String username = textSignupUsername.getText().toString();
+                final String username = textSignupUsername.getText().toString();
                 if(nname.isEmpty())
                 {
                     textSignupName.setError("Please Enter Name");
@@ -139,7 +148,31 @@ public class SignupFragment extends Fragment {
                                 Toast.makeText(getActivity(), "SignUp Unsuccessful", Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                // Create a new user with a first and last name
+                                Map<String, Object> user = new HashMap<>();
+                                user.put("firstname", nname);
+                                user.put("username", username);
+                                user.put("email", email);
+
+                                // Add a new document with a generated ID
+                                ModelFirebase.db.collection("users")
+                                        .add(user)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                                Chef cchef = new Chef(email, username, nname, null);
+                                                intent.putExtra("Chef", cchef);
+                                                intent.putExtra("email", email);
+                                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getActivity(), "DB SignUp Unsuccessful", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             }
                         }
                     });

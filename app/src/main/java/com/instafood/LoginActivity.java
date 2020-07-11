@@ -25,12 +25,6 @@ public class LoginActivity extends AppCompatActivity {
         fragmenTtransaction.commit();
 
 
-
-
-
-
-
-
         //LoginFragment loginFrag = (LoginFragment) getSupportFragmentManager().findFragmentById(R.id.Loginfragment);
 //
         //SignupFragment signFrag = new SignupFragment();
