@@ -16,6 +16,7 @@ public class ModelFirebase {
 
     public static FirebaseFirestore db;
 
+    // TODO: seperate
     public ModelFirebase()
     {
         db = FirebaseFirestore.getInstance();
@@ -42,7 +43,25 @@ public class ModelFirebase {
         //            }
         //        });
 //
+        // TODO: dish handeling
+        // get all dishes/ all recent dishes
+        // get all dishes made by a chef
+        // get a specific dish
+        // save a dish
+        // update a dish
 
+
+
+        // db.collection("dishes")
+
+
+
+
+        // TODO: chef handeling
+        // get all chefs
+        // get specific chef
+        // update a chef
+        // add a chef
     }
 
 

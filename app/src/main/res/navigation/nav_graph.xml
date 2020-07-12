@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/dishListFragment"
         android:name="com.instafood.DishListFragment"
-        android:label="fragment_dish_list"
+        android:label="@string/application_title"
         tools:layout="@layout/fragment_dish_list" >
         <action
             android:id="@+id/action_dishListFragment_to_dishDetailsFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/dishDetailsFragment"
         android:name="com.instafood.DishDetailsFragment"
-        android:label="fragment_dish_details"
+        android:label="@string/application_title"
         tools:layout="@layout/fragment_dish_details" >
         <argument
             android:name="dish"
@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/chefDetailsFragment"
         android:name="com.instafood.ChefDetailsFragment"
-        android:label="fragment_chef_details"
+        android:label="@string/application_title"
         tools:layout="@layout/fragment_chef_details" >
         <argument
             android:name="chef"

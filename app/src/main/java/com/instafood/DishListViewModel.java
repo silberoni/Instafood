@@ -10,11 +10,11 @@ import java.util.List;
 
 public class DishListViewModel extends ViewModel {
     LiveData<List<Dish>> liveDishData;
-//
-//    public LiveData<List<Dish>> getData() {
-//        if (liveDishData == null) {
-//            liveDishData = DishModel.instance.getAllDishes();
-//        }
-//        return liveDishData;
-//    }
+
+    public LiveData<List<Dish>> getData() {
+        if (liveDishData == null) {
+            liveDishData = DishModel.instance.getAllDishes();
+        }
+        return liveDishData;
+    }
 }

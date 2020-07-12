@@ -27,6 +27,7 @@ public class Dish implements Serializable {
     String basedOn;
     String ingredients;
     String instructions;
+    long lastUpdated;
     int likes;
     boolean checked;
     boolean deleted;
@@ -49,6 +50,8 @@ public class Dish implements Serializable {
         this.checked = false;
         this.deleted = false;
     }
+    public Dish() {
+    }
 
     public void SaveDishInDb(String id, String name, String desc, String imgUrl, String makerID, String basedOn,
                              String ingredients, String instructions, int likes, boolean checked, boolean deleted)
@@ -70,6 +73,7 @@ public class Dish implements Serializable {
         currDish.put("checked", checked);
         currDish.put("deleted", deleted);
 
+        // TODO: should change to DishFirebase? If not, can copy methods from DishFirebase to ModelFirebase
         // Add a new document with a generated ID
         ModelFirebase.db.collection("dishes")
             .add(currDish)
@@ -85,6 +89,14 @@ public class Dish implements Serializable {
                     //Log.w("TAG", "Error adding document", e);
                 }
             });
+    }
+
+    public long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(long lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public void setChecked(boolean checked) {

@@ -4,16 +4,26 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+
+import com.instafood.MainActivity;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class DishModel {
     public static final DishModel instance = new DishModel();
 
     public interface Listener<T> {
         void onComplete(T data);
+    }
+
+    public interface LDListener{
+        void onComplete();
     }
 
     private DishModel() {
@@ -26,24 +36,49 @@ public class DishModel {
 //        this.dishes = dishes;
 //    }
 
-    public void getAllDishes(final Listener<List<Dish>> getListener) {
-
-        @SuppressLint("StaticFieldLeak")
-        AsyncTask<String, String, List<Dish>> taskA = new AsyncTask<String, String, List<Dish>>(){
-            @Override
-            protected List<Dish> doInBackground(String... strings) {
-                // fillDishes();
-                return AppLocalDb.db.dishDao().getAll();
-            }
-            @Override
-            protected void onPostExecute(List<Dish> dishes) {
-                super.onPostExecute(dishes);
-                getListener.onComplete(dishes);
-            }
-        };
-        taskA.execute();
+    public LiveData<List<Dish>> getAllDishes() {
+        LiveData<List<Dish>> liveData = AppLocalDb.db.dishDao().getAll();
+        refreshDishList(null);
+        return liveData;
     }
 
+    public void refreshDishList(final LDListener listener){
+        long LastUpdate = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getLong("DishLastUpdateTime", 0);
+        DishFirebase.getAllDishesSince(LastUpdate, new Listener<List<Dish>>() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onComplete(final List<Dish> data) {
+                new AsyncTask<String,String,String>(){
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        // Updates the local db itself and therefor doesn't need to return data
+                        // fillDishes();
+                        long lastUpdated = 0;
+                        for(Dish d:data){
+                            AppLocalDb.db.dishDao().insertAll(d);
+                            if(d.lastUpdated>lastUpdated) lastUpdated=d.lastUpdated;
+                        }
+                        SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
+                        edit.putLong("DishLastUpdateTime", lastUpdated);
+                        edit.commit();
+                        return "";
+                    }
+                    @Override
+                    protected void onPostExecute(String d) {
+                        super.onPostExecute(d);
+                        if (listener!=null)  listener.onComplete();
+                    }
+                }.execute("");
+            }
+        });
+
+    }
+
+    public LiveData<List<Dish>> getAllStudents(){
+        LiveData<List<Dish>> liveData = AppLocalDb.db.dishDao().getAll();
+        refreshDishList(null);
+        return liveData;
+    }
 
     public Dish getDish(String id) {
         return null;
@@ -52,6 +87,7 @@ public class DishModel {
     public void update(final Dish dish) {
         class AsyTask extends AsyncTask<String, String, String> {
 
+            // TODO: need to insert and override in the firebase too
             @Override
             protected String doInBackground(String... strings) {
                 AppLocalDb.db.dishDao().insertAll(dish);
