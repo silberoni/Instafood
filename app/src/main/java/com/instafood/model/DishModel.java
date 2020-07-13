@@ -44,7 +44,7 @@ public class DishModel {
 
     public void refreshDishList(final LDListener listener){
         long LastUpdate = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getLong("DishLastUpdateTime", 0);
-        DishFirebase.getAllDishesSince(LastUpdate, new Listener<List<Dish>>() {
+        ModelFirebase.getAllDishesSince(LastUpdate, new Listener<List<Dish>>() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onComplete(final List<Dish> data) {
