@@ -17,4 +17,7 @@ public class DishListViewModel extends ViewModel {
         }
         return liveDishData;
     }
+    public void refresh(DishModel.LDListener listener) {
+        DishModel.instance.refreshDishList(listener);
+    }
 }

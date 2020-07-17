@@ -27,6 +27,10 @@ public class DishModel {
     }
 
     private DishModel() {
+        fillDishes();
+    }
+    public void addDish(Dish dsh, Listener<Boolean> listener){
+        ModelFirebase.addDish(dsh, listener);
     }
 
     // testing list
@@ -44,7 +48,8 @@ public class DishModel {
 
     public void refreshDishList(final LDListener listener){
         long LastUpdate = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getLong("DishLastUpdateTime", 0);
-        ModelFirebase.getAllDishesSince(LastUpdate, new Listener<List<Dish>>() {
+        // ModelFirebase.getAllDishesSince(LastUpdate, new Listener<List<Dish>>() {
+        ModelFirebase.getAllDishes(new Listener<List<Dish>>() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onComplete(final List<Dish> data) {
@@ -52,11 +57,11 @@ public class DishModel {
                     @Override
                     protected String doInBackground(String... strings) {
                         // Updates the local db itself and therefor doesn't need to return data
-                        // fillDishes();
+
                         long lastUpdated = 0;
                         for(Dish d:data){
                             AppLocalDb.db.dishDao().insertAll(d);
-                            if(d.lastUpdated>lastUpdated) lastUpdated=d.lastUpdated;
+                           // if(d.lastUpdated>lastUpdated) lastUpdated=d.lastUpdated;
                         }
                         SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
                         edit.putLong("DishLastUpdateTime", lastUpdated);
@@ -72,12 +77,6 @@ public class DishModel {
             }
         });
 
-    }
-
-    public LiveData<List<Dish>> getAllStudents(){
-        LiveData<List<Dish>> liveData = AppLocalDb.db.dishDao().getAll();
-        refreshDishList(null);
-        return liveData;
     }
 
     public Dish getDish(String id) {
@@ -111,7 +110,8 @@ public class DishModel {
 
     public void fillDishes() {
         for (int i = 1; i <= 10; i++) {
-            AppLocalDb.db.dishDao().insertAll(new Dish("" + i, "dish " + i, "Yummy Yummy this dish is so good :) " + i + " dish is just delicious. I love making it so much yum yum", "", "1", "", "stuff 1 \n stuff 2 \n " + i, "stuff 1 \n stuff 2 \n " + i));
+            Dish dsh = new Dish("" + i, "dish " + i, "Yummy Yummy this dish is so good :) " + i + " dish is just delicious. I love making it so much yum yum", "", "1", "", "stuff 1 \n stuff 2 \n " + i, "stuff 1 \n stuff 2 \n " + i);
+            addDish(dsh, null);
         }
     }
 }

@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -78,6 +79,7 @@ public class ModelFirebase {
     }
 
     public static void getAllDishes(final DishModel.Listener<List<Dish>> listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(DISH_COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -87,7 +89,9 @@ public class ModelFirebase {
                     // Adds all of the current items in the db, maps them from json and adds an object to the linked list
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         Dish dish = doc.toObject(Dish.class);
-                        dshData.add(dish);
+                        if (dish.id != null && !dish.deleted) {
+                            dshData.add(dish);
+                        }
                     }
                 }
                 listener.onComplete(dshData);
@@ -110,28 +114,37 @@ public class ModelFirebase {
 
     private static Dish dishFactory(Map<String, Object> json) {
         // TODO: fill with correct data
-//        Dish dsh = new Dish();
-//
-//        dsh.id = (String)json.get("id");
-//        dsh.name = (String)json.get("name");
-//        dsh.imgUrl = (String)json.get("imgUrl");
-//        dsh.isChecked = (boolean)json.get("isChecked");
-//        Timestamp ts = (Timestamp)json.get("lastUpdated");
-//        if (ts != null) dsh.lastUpdated = ts.getSeconds();
-//        return dsh;
-        return null;
+        Dish dsh = new Dish();
+        dsh.id = (String)json.get("id");
+        dsh.name = (String)json.get("name");
+        dsh.imgUrl = (String)json.get("imgUrl");
+        dsh.desc = (String)json.get("desc");
+        dsh.makerID = (String)json.get("makerID");
+        dsh.basedOn = (String)json.get("basedOn");
+        dsh.ingredients = (String)json.get("ingredients");
+        dsh.instructions = (String)json.get("instructions");
+        dsh.checked = (boolean)json.get("checked");
+        dsh.deleted = (boolean)json.get("deleted");
+        //Timestamp ts = (Timestamp)json.get("lastUpdated");
+        //if (ts != null) dsh.lastUpdated = ts.getSeconds();
+        return dsh;
     }
 
     private static Map<String, Object> toJson(Dish dsh) {
         // TODO: fill with correct data
-//        HashMap<String, Object> result = new HashMap<>();
-//        result.put("id", st.id);
-//        result.put("name", st.name);
-//        result.put("imgUrl", st.imgUrl);
-//        result.put("isChecked", st.isChecked);
-//        result.put("lastUpdated", FieldValue.serverTimestamp());
-//        return result;
-        return null;
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", dsh.id);
+        result.put("name", dsh.name);
+        result.put("imgUrl", dsh.imgUrl);
+        result.put("basedOn", dsh.basedOn);
+        result.put("makerID", dsh.makerID);
+        result.put("ingredients", dsh.ingredients);
+        result.put("instructions", dsh.instructions);
+        result.put("desc", dsh.desc);
+        result.put("checked", dsh.checked);
+        result.put("deleted", dsh.deleted);
+        //result.put("lastUpdated", FieldValue.serverTimestamp());
+        return result;
     }
 
 

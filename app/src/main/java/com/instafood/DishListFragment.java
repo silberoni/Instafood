@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.instafood.model.Dish;
 import com.instafood.model.DishModel;
 
@@ -110,8 +111,7 @@ public class DishListFragment extends Fragment {
 //                    }
 //                });
 //            }
-//        });
-
+//        });Snackbar.make(view, "Item saves", Snackbar.LENGTH_SHORT).show();
         return view;
     }
 
