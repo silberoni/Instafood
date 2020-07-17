@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -75,7 +77,7 @@ public class DishListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dish_list, container, false);
+        final View view = inflater.inflate(R.layout.fragment_dish_list, container, false);
 
         dish_list = view.findViewById(R.id.fragment_dish_list_rv);
         dish_list.setHasFixedSize(true);
@@ -91,7 +93,10 @@ public class DishListFragment extends Fragment {
             public void onClick(int position) {
                 Log.d("NOTIFY","row was clicked" + position);
                 Dish dish = data.get(position);
-                parent.onItemSelected(dish);
+                NavController navController = Navigation.findNavController(view);
+                DishListFragmentDirections.ActionDishListFragmentToDishDetailsFragment dir = DishListFragmentDirections.actionDishListFragmentToDishDetailsFragment(dish);
+                navController.navigate(dir);
+               // parent.onItemSelected(dish);
             }
         });
 

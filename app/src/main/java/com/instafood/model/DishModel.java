@@ -17,6 +17,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DishModel {
     public static final DishModel instance = new DishModel();
+    LiveData<List<Dish>> liveData;
 
     public interface Listener<T> {
         void onComplete(T data);
@@ -27,7 +28,7 @@ public class DishModel {
     }
 
     private DishModel() {
-        fillDishes();
+        // fillDishes();
     }
     public void addDish(Dish dsh, Listener<Boolean> listener){
         ModelFirebase.addDish(dsh, listener);
@@ -35,14 +36,13 @@ public class DishModel {
 
     public LiveData<List<Dish>> getAllDishes() {
         LiveData<List<Dish>> liveData = AppLocalDb.db.dishDao().getAll();
-        refreshDishList(null);
+        //refreshDishList(null);
         return liveData;
     }
 
     public void refreshDishList(final LDListener listener){
         long LastUpdate = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getLong("DishLastUpdateTime", 0);
-        // ModelFirebase.getAllDishesSince(LastUpdate, new Listener<List<Dish>>() {
-        ModelFirebase.getAllDishes(new Listener<List<Dish>>() {
+        ModelFirebase.getAllDishesSince(LastUpdate, new Listener<List<Dish>>() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onComplete(final List<Dish> data) {
