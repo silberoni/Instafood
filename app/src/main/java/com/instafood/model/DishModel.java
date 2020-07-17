@@ -31,14 +31,8 @@ public class DishModel {
     }
     public void addDish(Dish dsh, Listener<Boolean> listener){
         ModelFirebase.addDish(dsh, listener);
+        AppLocalDb.db.dishDao().insertAll(dsh);
     }
-
-    // testing list
-    // List<Dish> dishes = new LinkedList<>();
-
-//    public DishModel(List<Dish> dishes) {
-//        this.dishes = dishes;
-//    }
 
     public LiveData<List<Dish>> getAllDishes() {
         LiveData<List<Dish>> liveData = AppLocalDb.db.dishDao().getAll();
@@ -48,8 +42,8 @@ public class DishModel {
 
     public void refreshDishList(final LDListener listener){
         long LastUpdate = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getLong("DishLastUpdateTime", 0);
-        // ModelFirebase.getAllDishesSince(LastUpdate, new Listener<List<Dish>>() {
-        ModelFirebase.getAllDishes(new Listener<List<Dish>>() {
+        ModelFirebase.getAllDishesSince(LastUpdate, new Listener<List<Dish>>() {
+        // ModelFirebase.getAllDishes(new Listener<List<Dish>>() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onComplete(final List<Dish> data) {
@@ -61,7 +55,7 @@ public class DishModel {
                         long lastUpdated = 0;
                         for(Dish d:data){
                             AppLocalDb.db.dishDao().insertAll(d);
-                           // if(d.lastUpdated>lastUpdated) lastUpdated=d.lastUpdated;
+                            if(d.lastUpdated>lastUpdated) lastUpdated=d.lastUpdated;
                         }
                         SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
                         edit.putLong("DishLastUpdateTime", lastUpdated);
@@ -90,6 +84,7 @@ public class DishModel {
             @Override
             protected String doInBackground(String... strings) {
                 AppLocalDb.db.dishDao().insertAll(dish);
+                ModelFirebase.addDish(dish, null);
                 return null;
             }
 
