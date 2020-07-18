@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -76,6 +77,7 @@ public class LoginFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
 
         //firebase
@@ -89,6 +91,8 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view =  inflater.inflate(R.layout.fragment_login, container, false);
         final View view2 = view;
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
         firebaseAuth = FirebaseAuth.getInstance();
         Button btnLoginSignup = (Button)view.findViewById(R.id.buttonLoginSignup);
