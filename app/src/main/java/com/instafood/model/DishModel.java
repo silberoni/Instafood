@@ -31,7 +31,8 @@ public class DishModel {
         // fillDishes();
     }
     public void addDish(Dish dsh, Listener<Boolean> listener){
-        ModelFirebase.addDish(dsh, listener);
+        //ModelFirebase.addDish(dsh, listener);
+        AppLocalDb.db.dishDao().insertAll(dsh);
     }
 
     public LiveData<List<Dish>> getAllDishes() {
@@ -83,7 +84,7 @@ public class DishModel {
             @Override
             protected String doInBackground(String... strings) {
                 AppLocalDb.db.dishDao().insertAll(dish);
-                ModelFirebase.addDish(dish, null);
+                //ModelFirebase.addDish(dish, null);
                 return null;
             }
 
