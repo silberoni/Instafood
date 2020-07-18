@@ -6,6 +6,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.instafood.model.Dish;
 
 import java.util.concurrent.Executor;
 
@@ -82,7 +87,8 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_login, container, false);
+        final View view =  inflater.inflate(R.layout.fragment_login, container, false);
+        final View view2 = view;
 
         firebaseAuth = FirebaseAuth.getInstance();
         Button btnLoginSignup = (Button)view.findViewById(R.id.buttonLoginSignup);
@@ -90,14 +96,19 @@ public class LoginFragment extends Fragment {
         final EditText textLoginEmail = view.findViewById(R.id.textLoginUsername);
         //final EditText textLoginEmail = view.findViewById(R.id.textLoginEmail);
         final EditText textLoginPassword = view.findViewById(R.id.textLoginPassword);
+       // final NavController nav = Navigation.findNavController(view);
+
 
         // Open SignUp fragment when clicking
         btnLoginSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View V){
-                FragmentTransaction fr = getFragmentManager().beginTransaction();
-                fr.replace(R.id.Login_Container, new SignupFragment());
-                fr.addToBackStack(null).commit();
+                //FragmentTransaction fr = getFragmentManager().beginTransaction();
+                //fr.replace(R.id.Login_Container, new SignupFragment());
+                //fr.addToBackStack(null).commit();
+
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_loginFragment_to_signupFragment);
             }
 
         });
@@ -117,7 +128,6 @@ public class LoginFragment extends Fragment {
                 }
             }
         };
-
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +158,9 @@ public class LoginFragment extends Fragment {
                                 Toast.makeText(getActivity(), "Login Error, Please Try Again", Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                startActivity(new Intent(getContext(), MainActivity.class));
+                                //startActivity(new Intent(getContext(), MainActivity.class));
+                                NavController navController = Navigation.findNavController(view2);
+                                navController.navigate(R.id.action_loginFragment_to_dishListFragment);
                             }
                         }
                     });

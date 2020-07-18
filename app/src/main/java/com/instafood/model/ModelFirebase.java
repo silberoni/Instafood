@@ -28,13 +28,6 @@ public class ModelFirebase {
     public ModelFirebase()
     {
         db = FirebaseFirestore.getInstance();
-//
-        // Create a new user with a first and last name
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);
-
     }
 
     public void SaveDishInDb(String id, String name, String desc, String imgUrl, String makerID, String basedOn,
@@ -165,6 +158,4 @@ public class ModelFirebase {
        // result.put("lastUpdated", FieldValue.serverTimestamp());
         return result;
     }
-
-
 }

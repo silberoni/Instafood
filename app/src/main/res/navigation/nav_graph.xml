@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/dishListFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/dishListFragment"
@@ -40,11 +40,18 @@
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_dishListFragment"
+            app:destination="@id/dishListFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.instafood.SignupFragment"
         android:label="fragment_signup"
-        tools:layout="@layout/fragment_signup" />
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signupFragment_to_dishListFragment"
+            app:destination="@id/dishListFragment" />
+    </fragment>
 
 </navigation>

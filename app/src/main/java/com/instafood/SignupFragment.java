@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +24,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.instafood.model.Chef;
+import com.instafood.model.Dish;
 import com.instafood.model.ModelFirebase;
 
 /**
@@ -77,8 +84,6 @@ public class SignupFragment extends Fragment {
         //if (getArguments() != null) {
         //    mParam1 = getArguments().getString(ARG_PARAM1);
         //    mParam2 = getArguments().getString(ARG_PARAM2);
-
-
         //}
     }
 
@@ -87,6 +92,7 @@ public class SignupFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
+        final View view2 = view;
 
         // Variables
         firebaseAuth = FirebaseAuth.getInstance();
@@ -95,7 +101,8 @@ public class SignupFragment extends Fragment {
         final EditText textSignupEmail = view.findViewById(R.id.textSignupEmail);
         final EditText textSignupPassword = view.findViewById(R.id.textSignupPassword);
         final EditText textSignupUsername = view.findViewById(R.id.textSignupUsername);
-
+        //final NavController nav = Navigation.findNavController(view);
+        ModelFirebase firebase = new ModelFirebase();
         //final ProgressBar progressBar = null;
 
         //LoginFragment lgFragment = (LoginFragment) getFragmentManager().findFragmentById(R.id.Loginfragment);
@@ -150,21 +157,20 @@ public class SignupFragment extends Fragment {
                             else{
                                 // Create a new user with a first and last name
                                 Map<String, Object> user = new HashMap<>();
-                                user.put("firstname", nname);
-                                user.put("username", username);
-                                user.put("email", email);
+                                user.put("firstname", "acb");
+                                user.put("username", "abc");
+                                user.put("email", "abc");
+                                //NavController navController = Navigation.findNavController(view2);
+                                //navController.navigate(R.id.action_signupFragment_to_dishListFragment);
 
-                                // Add a new document with a generated ID
-                                ModelFirebase.db.collection("users")
-                                        .add(user)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                ModelFirebase.db.collection("data").document("one")
+                                        .set(user)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                            public void onSuccess(Void aVoid) {
                                                 Chef cchef = new Chef(email, username, nname, null);
-                                                intent.putExtra("Chef", cchef);
-                                                intent.putExtra("email", email);
-                                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                                NavController navController = Navigation.findNavController(view2);
+                                                navController.navigate(R.id.action_signupFragment_to_dishListFragment);
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -173,7 +179,49 @@ public class SignupFragment extends Fragment {
                                                 Toast.makeText(getActivity(), "DB SignUp Unsuccessful", Toast.LENGTH_SHORT).show();
                                             }
                                         });
-                            }
+
+                                //ModelFirebase.db.collection("users")
+                                //        .set(user)
+                                //        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                //            @Override
+                                //            public void onSuccess(DocumentReference documentReference) {
+                                //                Chef cchef = new Chef(email, username, nname, null);
+                                //                NavController navController = Navigation.findNavController(view2);
+                                //                navController.navigate(R.id.action_signupFragment_to_dishListFragment);
+                                //            }
+                                //        })
+                                //        .addOnFailureListener(new OnFailureListener() {
+                                //            @Override
+                                //            public void onFailure(@NonNull Exception e) {
+                                //                //Log.w("TAG", "Error adding document", e);
+                                //            }
+                                //        });
+
+
+
+                               // // Add a new document with a generated ID
+                               // ModelFirebase.db.collection("users")
+                               //         .add(user)
+                               //         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                               //             @Override
+                               //             public void onSuccess(DocumentReference documentReference) {
+                               //                 //Intent intent = new Intent(getActivity(), LoginActivity.class);
+                               //                 Chef cchef = new Chef(email, username, nname, null);
+                               //                 //intent.putExtra("Chef", cchef);
+                               //                 //intent.putExtra("email", email);
+                               //                 //startActivity(new Intent(getActivity(), LoginActivity.class));
+                               //                 //nav.navigate(R.id.action_signupFragment_to_dishListFragment);
+                               //                 NavController navController = Navigation.findNavController(view2);
+                               //                 navController.navigate(R.id.action_signupFragment_to_dishListFragment);
+                               //             }
+                               //         })
+                               //         .addOnFailureListener(new OnFailureListener() {
+                               //             @Override
+                               //             public void onFailure(@NonNull Exception e) {
+                               //                 Toast.makeText(getActivity(), "DB SignUp Unsuccessful", Toast.LENGTH_SHORT).show();
+                               //             }
+                               //         });
+                            }//
                         }
                     });
                 }
