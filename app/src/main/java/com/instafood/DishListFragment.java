@@ -32,21 +32,16 @@ import java.util.List;
 public class DishListFragment extends Fragment {
     private RecyclerView dish_list;
     private List<Dish> data = new LinkedList<Dish>();
-    private delegate parent;
     private DishListViewModel viewModel;
     private dishListAdapter adptr;
     private LiveData<List<Dish>> liveData;
 
-    interface delegate {
-        void onItemSelected(Dish dish);
-    }
 
     public DishListFragment() {
     }
 
     // TODO: is needed?
     public static DishListFragment newInstance() {
-
         DishListFragment fragment = new DishListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -61,14 +56,8 @@ public class DishListFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof delegate) {
-            parent = (delegate) getActivity();
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement Delegate list");
-        }
         // TODO: finish building the option menu
-        // setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
 
         // TODO: use live data
         viewModel = new ViewModelProvider(this).get(DishListViewModel.class);
@@ -96,7 +85,6 @@ public class DishListFragment extends Fragment {
                 NavController navController = Navigation.findNavController(view);
                 DishListFragmentDirections.ActionDishListFragmentToDishDetailsFragment dir = DishListFragmentDirections.actionDishListFragmentToDishDetailsFragment(dish);
                 navController.navigate(dir);
-               // parent.onItemSelected(dish);
             }
         });
 
@@ -127,7 +115,6 @@ public class DishListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        parent = null;
     }
 
     static class DishViewHolder extends RecyclerView.ViewHolder {
@@ -157,8 +144,6 @@ public class DishListFragment extends Fragment {
                 }
             });
         }
-
-
         void bind(Dish dish) {
             this.dish = dish;
             nametv.setText(dish.getName());

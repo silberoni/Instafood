@@ -49,8 +49,9 @@ public class Dish implements Serializable {
         // TODO: can we find a nice way to make checked? if not, delete.
         this.checked = false;
         this.deleted = false;
-        //this.lastUpdated = 0L;
+        this.lastUpdated = 0L;
     }
+
     public Dish() {
     }
 

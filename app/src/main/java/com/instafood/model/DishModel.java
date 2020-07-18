@@ -17,7 +17,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DishModel {
     public static final DishModel instance = new DishModel();
-    LiveData<List<Dish>> liveData;
 
     public interface Listener<T> {
         void onComplete(T data);
@@ -31,13 +30,13 @@ public class DishModel {
         // fillDishes();
     }
     public void addDish(Dish dsh, Listener<Boolean> listener){
-        //ModelFirebase.addDish(dsh, listener);
+        ModelFirebase.addDish(dsh, listener);
         AppLocalDb.db.dishDao().insertAll(dsh);
     }
 
     public LiveData<List<Dish>> getAllDishes() {
         LiveData<List<Dish>> liveData = AppLocalDb.db.dishDao().getAll();
-        //refreshDishList(null);
+        refreshDishList(null);
         return liveData;
     }
 
@@ -55,7 +54,7 @@ public class DishModel {
                         long lastUpdated = 0;
                         for(Dish d:data){
                             AppLocalDb.db.dishDao().insertAll(d);
-                        //    if(d.lastUpdated>lastUpdated) lastUpdated=d.lastUpdated;
+                            if(d.lastUpdated>lastUpdated) lastUpdated=d.lastUpdated;
                         }
                         SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
                         edit.putLong("DishLastUpdateTime", lastUpdated);
@@ -84,7 +83,7 @@ public class DishModel {
             @Override
             protected String doInBackground(String... strings) {
                 AppLocalDb.db.dishDao().insertAll(dish);
-                //ModelFirebase.addDish(dish, null);
+                ModelFirebase.addDish(dish, null);
                 return null;
             }
 
