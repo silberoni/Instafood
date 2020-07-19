@@ -49,6 +49,7 @@ public class ModelFirebase {
         currDish.put("likes", likes);
         currDish.put("checked", checked);
         currDish.put("deleted", deleted);
+        currDish.put("lastUpdated", FieldValue.serverTimestamp());
 
         // Add a new document with a generated ID
         ModelFirebase.db.collection("dishes")
@@ -56,13 +57,13 @@ public class ModelFirebase {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        //Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
+                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        //Log.w("TAG", "Error adding document", e);
+                        Log.w("TAG", "Error adding document", e);
                     }
                 });
     }
@@ -137,8 +138,8 @@ public class ModelFirebase {
         dsh.instructions = (String)json.get("instructions");
         dsh.checked = (boolean)json.get("checked");
         dsh.deleted = (boolean)json.get("deleted");
-       // Timestamp ts = (Timestamp)json.get("lastUpdated");
-        //if (ts != null) dsh.lastUpdated = ts.getSeconds();
+        Timestamp ts = (Timestamp)json.get("lastUpdated");
+        if (ts != null) dsh.lastUpdated = ts.getSeconds();
         return dsh;
     }
 
@@ -155,7 +156,7 @@ public class ModelFirebase {
         result.put("desc", dsh.desc);
         result.put("checked", dsh.checked);
         result.put("deleted", dsh.deleted);
-       // result.put("lastUpdated", FieldValue.serverTimestamp());
+        result.put("lastUpdated", FieldValue.serverTimestamp());
         return result;
     }
 }

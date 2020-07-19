@@ -21,7 +21,7 @@ import android.view.MenuItem;
 
 import com.instafood.model.Dish;
 
-public class MainActivity extends AppCompatActivity implements DishListFragment.delegate {
+public class MainActivity extends AppCompatActivity{
     public static Context context;
     NavController navController;
 
@@ -32,14 +32,6 @@ public class MainActivity extends AppCompatActivity implements DishListFragment.
         context = getApplicationContext();
         navController = Navigation.findNavController(this, R.id.navigation_graph);
         NavigationUI.setupActionBarWithNavController(this, navController);
-
-    }
-
-    @Override
-    public void onItemSelected(Dish dish) {
-        navController = Navigation.findNavController(this, R.id.navigation_graph);
-        DishListFragmentDirections.ActionDishListFragmentToDishDetailsFragment dir = DishListFragmentDirections.actionDishListFragmentToDishDetailsFragment(dish);
-        navController.navigate(dir);
     }
 
     @Override

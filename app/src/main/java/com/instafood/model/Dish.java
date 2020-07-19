@@ -46,21 +46,28 @@ public class Dish implements Serializable {
         this.ingredients = ingredients;
         this.instructions = instructions;
         this.likes = 0;
-        // TODO: can we find a nice way to make checked? if not, delete.
         this.checked = false;
         this.deleted = false;
-        //this.lastUpdated = 0L;
+        this.lastUpdated = 0L;
     }
+
     public Dish() {
     }
 
-//    public long getLastUpdated() {
-//        return lastUpdated;
-//    }
+    public Dish(@NonNull String id) {
+        this.id = id;
+        this.likes = 0;
+        this.checked = false;
+        this.deleted = false;
+        this.lastUpdated = 0L;
+    }
+    public long getLastUpdated() {
+        return lastUpdated;
+    }
 
-//    public void setLastUpdated(long lastUpdated) {
-//        this.lastUpdated = lastUpdated;
-//    }
+    public void setLastUpdated(long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 
     public void setChecked(boolean checked) {
         this.checked = checked;
