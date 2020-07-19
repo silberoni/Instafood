@@ -105,6 +105,8 @@ public class SignupFragment extends Fragment {
         ModelFirebase firebase = new ModelFirebase();
         //final ProgressBar progressBar = null;
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         //LoginFragment lgFragment = (LoginFragment) getFragmentManager().findFragmentById(R.id.Loginfragment);
 
         Button btnSignUp = (Button)view.findViewById(R.id.buttonSignupSignup);

@@ -96,6 +96,7 @@ public class LoginFragment extends Fragment {
         final View view =  inflater.inflate(R.layout.fragment_login, container, false);
         final View view2 = view;
 
+        // Hide Action Bar
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         ModelFirebase firebase = new ModelFirebase();
 
@@ -119,7 +120,6 @@ public class LoginFragment extends Fragment {
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.action_loginFragment_to_signupFragment);
             }
-
         });
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -166,7 +166,7 @@ public class LoginFragment extends Fragment {
                 }
 
                 if (!(email.isEmpty() && pwd.isEmpty())) {
-                    //firebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener()
+                    // Try Login and authenticate with DB
                     firebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
