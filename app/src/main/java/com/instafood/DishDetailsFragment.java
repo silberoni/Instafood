@@ -96,8 +96,8 @@ public class DishDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(view);
-                DishDetailsFragmentDirections.ActionDishDetailsFragmentToDishAddFragment dir = DishDetailsFragmentDirections.actionDishDetailsFragmentToDishAddFragment(dish);
-                navController.navigate(dir);
+                NavGraphDirections.ActionGlobalDishAddFragment action = DishAddFragmentDirections.actionGlobalDishAddFragment(dish);
+                navController.navigate(action);
             }
         });
 

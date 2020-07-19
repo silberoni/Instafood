@@ -36,7 +36,8 @@ public class DishModel {
 
     public LiveData<List<Dish>> getAllDishes() {
         LiveData<List<Dish>> liveData = AppLocalDb.db.dishDao().getAll();
-        refreshDishList(null);
+        getEverything(null);
+        //refreshDishList(null);
         return liveData;
     }
 
@@ -59,6 +60,32 @@ public class DishModel {
                         SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
                         edit.putLong("DishLastUpdateTime", lastUpdated);
                         edit.commit();
+                        return "";
+                    }
+                    @Override
+                    protected void onPostExecute(String d) {
+                        super.onPostExecute(d);
+                        if (listener!=null)  listener.onComplete();
+                    }
+                }.execute("");
+            }
+        });
+
+    }
+
+    public void getEverything(final LDListener listener){
+        long LastUpdate = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getLong("DishLastUpdateTime", 0);
+        ModelFirebase.getAllDishes(new Listener<List<Dish>>() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onComplete(final List<Dish> data) {
+                new AsyncTask<String,String,String>(){
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        // Updates the local db itself and therefor doesn't need to return data
+                        for(Dish d:data){
+                            AppLocalDb.db.dishDao().insertAll(d);
+                        }
                         return "";
                     }
                     @Override

@@ -72,5 +72,6 @@
             app:argType="com.instafood.model.Dish"
             app:nullable="true" />
     </fragment>
+    <action android:id="@+id/action_global_dishAddFragment" app:destination="@id/dishAddFragment" />
 
 </navigation>
