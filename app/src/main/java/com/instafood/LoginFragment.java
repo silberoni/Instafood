@@ -166,7 +166,8 @@ public class LoginFragment extends Fragment {
                 }
 
                 if (!(email.isEmpty() && pwd.isEmpty())) {
-                    firebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener((Executor) LoginFragment.this, new OnCompleteListener<AuthResult>() {
+                    //firebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener()
+                    firebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()){
