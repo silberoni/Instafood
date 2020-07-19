@@ -95,7 +95,7 @@ public class SignupFragment extends Fragment {
         final View view2 = view;
 
         // Variables
-        firebaseAuth = FirebaseAuth.getInstance();
+        //firebaseAuth = FirebaseAuth.getInstance();
         //Button btnSignUp = view.findViewById(R.id.buttonSignupSignup);
         final EditText textSignupName = view.findViewById(R.id.textSignupFirstname);
         final EditText textSignupEmail = view.findViewById(R.id.textSignupEmail);

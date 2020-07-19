@@ -25,6 +25,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.instafood.model.Dish;
+import com.instafood.model.ModelFirebase;
 
 import java.util.concurrent.Executor;
 
@@ -93,6 +94,7 @@ public class LoginFragment extends Fragment {
         final View view2 = view;
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ModelFirebase firebase = new ModelFirebase();
 
         firebaseAuth = FirebaseAuth.getInstance();
         Button btnLoginSignup = (Button)view.findViewById(R.id.buttonLoginSignup);
