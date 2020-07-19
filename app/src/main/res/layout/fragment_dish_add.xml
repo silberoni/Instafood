@@ -37,11 +37,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="50dp"
-            android:inputType="textShortMessage"
+            android:layout_marginTop="16dp"
             android:hint="@string/dish_name_hint"
+            android:inputType="textShortMessage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_image_iv" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_photo_btn" />
 
         <EditText
             android:id="@+id/fragment_dish_add_dish_desc_ev"
@@ -115,6 +115,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_2_eb" />
+
+        <Button
+            android:id="@+id/fragment_dish_add_photo_btn"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/dish_add_photo_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_image_iv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

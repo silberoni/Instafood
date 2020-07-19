@@ -1,7 +1,10 @@
 package com.instafood;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,7 @@ public class DishAddFragment extends Fragment {
     EditText dish_sec_1;
     EditText dish_sec_2;
     Button dish_save;
+    Button dish_add_photo;
 
     public DishAddFragment() {
         // Required empty public constructor
@@ -64,9 +68,10 @@ public class DishAddFragment extends Fragment {
         dish_sec_1 = view.findViewById(R.id.fragment_dish_add_sec_1_eb);
         dish_sec_2 = view.findViewById(R.id.fragment_dish_add_sec_2_eb);
         dish_save = view.findViewById(R.id.fragment_dish_add_save_btn);
+        dish_add_photo = view.findViewById(R.id.fragment_dish_add_photo_btn);
 
         dishBased = DishDetailsFragmentArgs.fromBundle(getArguments()).getDish();
-        if (dishBased != null){
+        if (dishBased != null) {
             update_display();
         }
 
@@ -81,7 +86,7 @@ public class DishAddFragment extends Fragment {
                 dishNew.setDesc(dish_desc.getText().toString());
                 // picture
                 dishNew.setMakerID(MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", ""));
-                if (dishBased != null){
+                if (dishBased != null) {
                     dishNew.setBasedOn(dishBased.getId());
                 }
                 dishNew.setIngredients(dish_sec_1.getText().toString());
@@ -91,6 +96,13 @@ public class DishAddFragment extends Fragment {
                 Snackbar.make(view, "Dish served to the feed", Snackbar.LENGTH_SHORT).show();
                 NavController navCtrl = Navigation.findNavController(view);
                 navCtrl.popBackStack();
+            }
+        });
+        dish_add_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+          //      takePhoto();
+                Snackbar.make(view, "No photos for you", Snackbar.LENGTH_SHORT).show();
             }
         });
         return view;
@@ -106,5 +118,27 @@ public class DishAddFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    final static int RESULT_OK = 0;
+
+
+    void takePhoto() {
+        Intent takePictureIntent = new Intent(
+                MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE &&
+                resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            dish_img.setImageBitmap(imageBitmap);
+        }
     }
 }

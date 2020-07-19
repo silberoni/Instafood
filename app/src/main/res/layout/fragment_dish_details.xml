@@ -37,10 +37,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="16dp"
             android:enabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_image_iv" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_make_version_btn" />
 
         <EditText
             android:id="@+id/fragment_dish_details_dish_desc_ev"
@@ -163,6 +165,17 @@
             app:layout_constraintStart_toEndOf="@+id/fragment_dish_details_edit_btn"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_sec_2_eb"
             app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/fragment_dish_details_make_version_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/dish_make_version_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_image_iv" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@
     <string name="dish_details_sec_1">Ingredients</string>
     <string name="dish_details_sec_2">Instructions</string>
     <string name="dish_edit_btn">Edit</string>
+    <string name="dish_make_version_btn">ReCreate this</string>
     <string name="dish_save_btn">Save</string>
     <string name="dish_add_btn">Serve!</string>
     <string name="dish_delete_btn">Delete</string>
@@ -23,4 +24,5 @@
     everything nice</string>
     <string name="dish_inst_hint">Mix everything
     put in oven</string>
+    <string name="dish_add_photo_btn">Add a picture</string>
 </resources>

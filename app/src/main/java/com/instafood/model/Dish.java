@@ -45,6 +45,7 @@ public class Dish implements Serializable {
         this.basedOn = basedOn;
         this.ingredients = ingredients;
         this.instructions = instructions;
+        // might change to versions instead of likes.
         this.likes = 0;
         this.checked = false;
         this.deleted = false;

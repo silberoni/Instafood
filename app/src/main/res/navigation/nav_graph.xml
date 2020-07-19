@@ -14,8 +14,8 @@
             android:id="@+id/action_dishListFragment_to_dishDetailsFragment"
             app:destination="@id/dishDetailsFragment" />
         <action
-            android:id="@+id/action_dishListFragment_to_dishAddFragment2"
-            app:destination="@id/dishAddFragment2" />
+            android:id="@+id/action_dishListFragment_to_dishAddFragment"
+            app:destination="@id/dishAddFragment" />
         <action
             android:id="@+id/action_dishListFragment_to_chefDetailsFragment"
             app:destination="@id/chefDetailsFragment" />
@@ -29,8 +29,8 @@
             android:name="dish"
             app:argType="com.instafood.model.Dish" />
         <action
-            android:id="@+id/action_dishDetailsFragment_to_dishAddFragment2"
-            app:destination="@id/dishAddFragment2" />
+            android:id="@+id/action_dishDetailsFragment_to_dishAddFragment"
+            app:destination="@id/dishAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/chefDetailsFragment"
@@ -63,15 +63,14 @@
             app:destination="@id/dishListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/dishAddFragment2"
+        android:id="@+id/dishAddFragment"
         android:name="com.instafood.DishAddFragment"
         android:label="fragment_dish_add"
         tools:layout="@layout/fragment_dish_add" >
         <argument
             android:name="Dish"
             app:argType="com.instafood.model.Dish"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 
 </navigation>

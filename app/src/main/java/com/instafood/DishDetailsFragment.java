@@ -31,6 +31,7 @@ public class DishDetailsFragment extends Fragment {
     CheckBox dish_made;
     EditText dish_sec_1;
     EditText dish_sec_2;
+    Button  make_version;
     Button dish_edit;
     Button dish_save;
     Button dish_delete;
@@ -71,6 +72,7 @@ public class DishDetailsFragment extends Fragment {
         dish_edit = view.findViewById(R.id.fragment_dish_details_edit_btn);
         dish_save = view.findViewById(R.id.fragment_dish_details_save_btn);
         dish_delete = view.findViewById(R.id.fragment_dish_details_delete_btn);
+        make_version=view.findViewById(R.id.fragment_dish_details_make_version_btn);
 
         dish = DishDetailsFragmentArgs.fromBundle(getArguments()).getDish();
         update_display();
@@ -78,7 +80,7 @@ public class DishDetailsFragment extends Fragment {
     }
 
     private void update_display() {
-        dish_name.setText(dish.getName());
+        dish_name.setText(dish.getName()+" creator"+dish.getMakerID());
         dish_desc.setText(dish.getDesc());
         dish_made.setChecked(dish.isChecked());
         dish_made.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +91,15 @@ public class DishDetailsFragment extends Fragment {
         });
         dish_sec_1.setText(dish.getIngredients());
         dish_sec_2.setText(dish.getInstructions());
+
+        make_version.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(view);
+                DishDetailsFragmentDirections.ActionDishDetailsFragmentToDishAddFragment dir = DishDetailsFragmentDirections.actionDishDetailsFragmentToDishAddFragment(dish);
+                navController.navigate(dir);
+            }
+        });
 
         //TODO: add check if user supposed to have edit button
         String CurrUser = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
