@@ -91,46 +91,55 @@ public class DishDetailsFragment extends Fragment {
         dish_sec_2.setText(dish.getInstructions());
 
         //TODO: add check if user supposed to have edit button
-        dish_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dish_save.setVisibility(View.VISIBLE);
-                dish_delete.setVisibility(View.VISIBLE);
-                dish_delete.setClickable(true);
-                dish_save.setClickable(true);
-                dish_name.setEnabled(true);
-                dish_desc.setEnabled(true);
-                dish_sec_1.setEnabled(true);
-                dish_sec_2.setEnabled(true);
-
-                dish_edit.setClickable(false);
-                dish_edit.setVisibility(View.INVISIBLE);
-            }
-        });
-        dish_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dish.setName(dish_name.getText().toString());
-                dish.setDesc(dish_desc.getText().toString());
-                dish.setIngredients(dish_sec_1.getText().toString());
-                dish.setInstructions(dish_sec_2.getText().toString());
-                DishModel.instance.update(dish);
-                Snackbar.make(view, "Item saves", Snackbar.LENGTH_SHORT).show();
-                NavController navCtrl = Navigation.findNavController(view);
-                navCtrl.popBackStack();
-            }
-        });
-        dish_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dish.setDeleted(true);
-                DishModel.instance.update(dish);
-                dish_delete.setClickable(false);
-                Snackbar.make(view, "Item deleted", Snackbar.LENGTH_SHORT).show();
-                NavController navCtrl = Navigation.findNavController(view);
-                navCtrl.popBackStack();
-            }
-        });
+        String CurrUser = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
+        if (CurrUser == dish.getMakerID()) {
+            dish_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dish_save.setVisibility(View.VISIBLE);
+                    dish_delete.setVisibility(View.VISIBLE);
+                    dish_delete.setClickable(true);
+                    dish_save.setClickable(true);
+                    dish_name.setEnabled(true);
+                    dish_desc.setEnabled(true);
+                    dish_sec_1.setEnabled(true);
+                    dish_sec_2.setEnabled(true);
+                    dish_edit.setClickable(false);
+                    dish_edit.setVisibility(View.INVISIBLE);
+                }
+            });
+            dish_save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dish.setName(dish_name.getText().toString());
+                    dish.setDesc(dish_desc.getText().toString());
+                    dish.setIngredients(dish_sec_1.getText().toString());
+                    dish.setInstructions(dish_sec_2.getText().toString());
+                    DishModel.instance.update(dish);
+                    Snackbar.make(view, "Item saves", Snackbar.LENGTH_SHORT).show();
+                    NavController navCtrl = Navigation.findNavController(view);
+                    navCtrl.popBackStack();
+                }
+            });
+            dish_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dish.setDeleted(true);
+                    DishModel.instance.update(dish);
+                    dish_delete.setClickable(false);
+                    Snackbar.make(view, "Item deleted", Snackbar.LENGTH_SHORT).show();
+                    NavController navCtrl = Navigation.findNavController(view);
+                    navCtrl.popBackStack();
+                }
+            });
+        } else {
+            dish_edit.setVisibility(View.INVISIBLE);
+            dish_edit.setEnabled(false);
+            dish_save.setVisibility(View.INVISIBLE);
+            dish_save.setEnabled(false);
+            dish_delete.setVisibility(View.GONE);
+            dish_delete.setEnabled(false);
+        }
     }
 
 

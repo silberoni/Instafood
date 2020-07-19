@@ -19,8 +19,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.instafood.model.Dish;
 import com.instafood.model.DishModel;
 
+import java.util.UUID;
+
 public class DishAddFragment extends Fragment {
-    private Dish dish;
+    private Dish dishNew;
+    private Dish dishBased;
     ImageView dish_img;
     EditText dish_name;
     EditText dish_desc;
@@ -61,31 +64,43 @@ public class DishAddFragment extends Fragment {
         dish_sec_1 = view.findViewById(R.id.fragment_dish_add_sec_1_eb);
         dish_sec_2 = view.findViewById(R.id.fragment_dish_add_sec_2_eb);
         dish_save = view.findViewById(R.id.fragment_dish_add_save_btn);
-        update_display();
-        return view;
-    }
 
-    private void update_display() {
-        dish_name.setText(dish.getName());
-        dish_desc.setText(dish.getDesc());
+        dishBased = DishDetailsFragmentArgs.fromBundle(getArguments()).getDish();
+        if (dishBased != null){
+            update_display();
+        }
 
-        dish_sec_1.setText(dish.getIngredients());
-        dish_sec_2.setText(dish.getInstructions());
-
-        //TODO: add check if user supposed to have edit button
         dish_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dish.setName(dish_name.getText().toString());
-                dish.setDesc(dish_desc.getText().toString());
-                dish.setIngredients(dish_sec_1.getText().toString());
-                dish.setInstructions(dish_sec_2.getText().toString());
-                DishModel.instance.update(dish);
+                // How do we get a new ID each time?
+                String id = UUID.randomUUID().toString();
+                dishNew = new Dish(id);
+
+                dishNew.setName(dish_name.getText().toString());
+                dishNew.setDesc(dish_desc.getText().toString());
+                // picture
+                dishNew.setMakerID(MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", ""));
+                if (dishBased != null){
+                    dishNew.setBasedOn(dishBased.getId());
+                }
+                dishNew.setIngredients(dish_sec_1.getText().toString());
+                dishNew.setInstructions(dish_sec_2.getText().toString());
+
+                DishModel.instance.update(dishNew);
                 Snackbar.make(view, "Dish served to the feed", Snackbar.LENGTH_SHORT).show();
                 NavController navCtrl = Navigation.findNavController(view);
                 navCtrl.popBackStack();
             }
         });
+        return view;
+    }
+
+    private void update_display() {
+        dish_name.setText(dishBased.getName());
+        dish_desc.setText(dishBased.getDesc());
+        dish_sec_1.setText(dishBased.getIngredients());
+        dish_sec_2.setText(dishBased.getInstructions());
     }
 
     @Override

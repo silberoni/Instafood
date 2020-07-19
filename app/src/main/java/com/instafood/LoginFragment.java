@@ -1,6 +1,7 @@
 package com.instafood;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.instafood.model.Dish;
 
 import java.util.concurrent.Executor;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -123,6 +126,12 @@ public class LoginFragment extends Fragment {
                 FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
                 if (mFirebaseUser != null){
                     Toast.makeText(getContext(), "You are logged in", Toast.LENGTH_SHORT).show();
+
+                    // save the user information
+                    SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
+                    edit.putString("CurrentUser", mFirebaseUser.getUid());
+                    edit.commit();
+
                     Intent i = new Intent (getContext(), MainActivity.class);
                     startActivity(i);
                 }
