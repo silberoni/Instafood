@@ -23,12 +23,6 @@ public class ChefDetailsFragment extends Fragment {
     TextView chef_desc;
     Button chef_edit;
 
-    private delegate parent;
-
-    interface delegate {
-        void onEditChef(Chef chef);
-    }
-
     public ChefDetailsFragment() {
         // Required empty public constructor
     }
@@ -41,13 +35,6 @@ public class ChefDetailsFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof delegate) {
-            parent = (delegate) getActivity();
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement Delegate");
-        }
-
     }
 
     @Override
@@ -76,16 +63,6 @@ public class ChefDetailsFragment extends Fragment {
     private void update_display() {
         chef_name.setText(chef.getName());
         chef_desc.setText(chef.getDesc());
-        chef_desc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (parent != null) {
-                    parent.onEditChef(chef);
-                } else {
-                    throw new RuntimeException("help");
-                }
-            }
-        });
     }
 
     @Override

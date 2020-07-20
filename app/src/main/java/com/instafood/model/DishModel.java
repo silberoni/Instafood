@@ -29,9 +29,26 @@ public class DishModel {
     private DishModel() {
         //fillDishes();
     }
-    public void addDish(Dish dsh, Listener<Boolean> listener){
-        ModelFirebase.addDish(dsh, listener);
-        // AppLocalDb.db.dishDao().insertAll(dsh);
+    public void addDish(final Dish dsh, final Listener<Boolean> listener){
+        class AsyTask extends AsyncTask<String, String, String> {
+
+            // TODO: need to insert and override in the firebase too
+            @Override
+            protected String doInBackground(String... strings) {
+                AppLocalDb.db.dishDao().insertAll(dsh);
+                ModelFirebase.addDish(dsh, listener);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                // TODO: check if possible to return true/false as success..
+                Log.d("NOTIFY", "finished adding");
+            }
+        }
+        AsyTask task = new AsyTask();
+        task.execute();
     }
 
     public LiveData<List<Dish>> getAllDishes() {
@@ -118,7 +135,7 @@ public class DishModel {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 // TODO: check if possible to return true/false as success.
-                Log.d("TAG", "finished saving");
+                Log.d("NOTIFY", "finished saving");
             }
         }
         AsyTask task = new AsyTask();

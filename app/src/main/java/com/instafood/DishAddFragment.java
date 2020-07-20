@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -34,6 +37,7 @@ public class DishAddFragment extends Fragment {
     EditText dish_sec_2;
     Button dish_save;
     Button dish_add_photo;
+    String chef_id;
 
     public DishAddFragment() {
         // Required empty public constructor
@@ -70,6 +74,9 @@ public class DishAddFragment extends Fragment {
         dish_save = view.findViewById(R.id.fragment_dish_add_save_btn);
         dish_add_photo = view.findViewById(R.id.fragment_dish_add_photo_btn);
 
+        chef_id =MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
+
+
         dishBased = DishAddFragmentArgs.fromBundle(getArguments()).getDish();
         if (dishBased != null) {
             update_display();
@@ -77,7 +84,7 @@ public class DishAddFragment extends Fragment {
 
         dish_save.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 // How do we get a new ID each time?
                 String id = UUID.randomUUID().toString();
                 dishNew = new Dish(id);
@@ -85,31 +92,44 @@ public class DishAddFragment extends Fragment {
                 dishNew.setName(dish_name.getText().toString());
                 dishNew.setDesc(dish_desc.getText().toString());
                 // picture
-                dishNew.setMakerID(MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", ""));
+
+                dishNew.setMakerID(chef_id);
+
                 if (dishBased != null) {
                     dishNew.setBasedOn(dishBased.getId());
                 }
                 dishNew.setIngredients(dish_sec_1.getText().toString());
                 dishNew.setInstructions(dish_sec_2.getText().toString());
 
-                DishModel.instance.update(dishNew);
-                Snackbar.make(view, "Dish served to the feed", Snackbar.LENGTH_SHORT).show();
+                DishModel.instance.addDish(dishNew, new DishModel.Listener<Boolean>() {
+                    @Override
+                    public void onComplete(Boolean data) {
+                        if(data){
+                            Log.d("NOTIFY", "added dish ");
+                        } else {
+                            Log.d("NOTIFY", "Something went wrong ");
+                        }
+
+                    }
+                });
+
                 NavController navCtrl = Navigation.findNavController(view);
                 navCtrl.popBackStack();
             }
         });
+
         dish_add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
           //      takePhoto();
-                Snackbar.make(view, "No photos for you", Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "No photos for you", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
     }
 
     private void update_display() {
-        dish_name.setText(dishBased.getName());
+        dish_name.setText(dishBased.getName()+"  -    -  "+chef_id);
         dish_desc.setText(dishBased.getDesc());
         dish_sec_1.setText(dishBased.getIngredients());
         dish_sec_2.setText(dishBased.getInstructions());

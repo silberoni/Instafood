@@ -1,6 +1,7 @@
 package com.instafood;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +35,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.instafood.model.Chef;
+import com.instafood.model.ChefModel;
 import com.instafood.model.Dish;
+import com.instafood.model.DishModel;
 import com.instafood.model.ModelFirebase;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -151,28 +157,37 @@ public class SignupFragment extends Fragment {
                 {
                     firebaseAuth.createUserWithEmailAndPassword(email,pwd).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            task.getException();
-                            task.getResult();
+                        public void onComplete(@NonNull final Task<AuthResult> task) {
+                            //task.getResult();
                             if (!task.isSuccessful()){
-                                //Toast.makeText(SignupFragment.this, "", Toast.LENGTH_SHORT).show();
+                                Log.d("NOTIFY", String.valueOf(task.getException()));
                                 Toast.makeText(getActivity(), "SignUp Unsuccessful", Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 // Create a new user with a first and last name
                                 Map<String, Object> user = new HashMap<>();
+                                user.put("id", "abc");
                                 user.put("firstname", "acb");
                                 user.put("username", "abc");
                                 user.put("email", "abc");
-                                //NavController navController = Navigation.findNavController(view2);
-                                //navController.navigate(R.id.action_signupFragment_to_dishListFragment);
+
+                                SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
+                                edit.putString("CurrentUser", task.getResult().getUser().getUid());
+                                edit.commit();
 
                                 ModelFirebase.db.collection("data").document("one")
                                         .set(user)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                Chef cchef = new Chef(email, username, nname, null);
+                                                Chef cchef = new Chef(task.getResult().getUser().getUid(), email, username, nname, null);
+                                                ChefModel.instance.addChef(cchef, new DishModel.Listener<Boolean>() {
+                                                    @Override
+                                                    public void onComplete(Boolean data) {
+                                                        Toast.makeText(getActivity(), "SignUp Successful", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+
                                                 NavController navController = Navigation.findNavController(view2);
                                                 navController.navigate(R.id.action_signupFragment_to_dishListFragment);
                                             }
@@ -184,48 +199,7 @@ public class SignupFragment extends Fragment {
                                             }
                                         });
 
-                                //ModelFirebase.db.collection("users")
-                                //        .set(user)
-                                //        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                //            @Override
-                                //            public void onSuccess(DocumentReference documentReference) {
-                                //                Chef cchef = new Chef(email, username, nname, null);
-                                //                NavController navController = Navigation.findNavController(view2);
-                                //                navController.navigate(R.id.action_signupFragment_to_dishListFragment);
-                                //            }
-                                //        })
-                                //        .addOnFailureListener(new OnFailureListener() {
-                                //            @Override
-                                //            public void onFailure(@NonNull Exception e) {
-                                //                //Log.w("TAG", "Error adding document", e);
-                                //            }
-                                //        });
-
-
-
-                               // // Add a new document with a generated ID
-                               // ModelFirebase.db.collection("users")
-                               //         .add(user)
-                               //         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                               //             @Override
-                               //             public void onSuccess(DocumentReference documentReference) {
-                               //                 //Intent intent = new Intent(getActivity(), LoginActivity.class);
-                               //                 Chef cchef = new Chef(email, username, nname, null);
-                               //                 //intent.putExtra("Chef", cchef);
-                               //                 //intent.putExtra("email", email);
-                               //                 //startActivity(new Intent(getActivity(), LoginActivity.class));
-                               //                 //nav.navigate(R.id.action_signupFragment_to_dishListFragment);
-                               //                 NavController navController = Navigation.findNavController(view2);
-                               //                 navController.navigate(R.id.action_signupFragment_to_dishListFragment);
-                               //             }
-                               //         })
-                               //         .addOnFailureListener(new OnFailureListener() {
-                               //             @Override
-                               //             public void onFailure(@NonNull Exception e) {
-                               //                 Toast.makeText(getActivity(), "DB SignUp Unsuccessful", Toast.LENGTH_SHORT).show();
-                               //             }
-                               //         });
-                            }//
+                            }
                         }
                     });
                 }

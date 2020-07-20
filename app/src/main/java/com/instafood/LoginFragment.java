@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,10 +101,7 @@ public class LoginFragment extends Fragment {
                 if (mFirebaseUser != null){
                     Toast.makeText(getContext(), "You are logged in", Toast.LENGTH_SHORT).show();
 
-                    // save the user information
-                    SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
-                    edit.putString("CurrentUser", mFirebaseUser.getUid());
-                    edit.commit();
+
 
                     Intent i = new Intent (getContext(), MainActivity.class);
                     startActivity(i);
@@ -136,9 +134,15 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()){
+                                Log.d("NOTIFY", String.valueOf(task.getException()));
                                 Toast.makeText(getActivity(), "Login Error, Please Try Again", Toast.LENGTH_SHORT).show();
                             }
                             else{
+                                // save the user information
+                                SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
+                                edit.putString("CurrentUser", task.getResult().getUser().getUid());
+                                edit.commit();
+
                                 NavController navController = Navigation.findNavController(view2);
                                 navController.navigate(R.id.action_loginFragment_to_dishListFragment);
                             }

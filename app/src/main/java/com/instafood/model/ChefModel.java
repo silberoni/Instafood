@@ -38,6 +38,26 @@ public class ChefModel {
         task.execute();
     }
 
+    public void addChef(final Chef chef, DishModel.Listener<Boolean> listener){
+        class AsyTask extends AsyncTask<String, String, String> {
+            @Override
+            protected String doInBackground(String... strings) {
+                fillChefs();
+                AppLocalDb.db.ChefDao().insertAll(chef);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                // TODO: check if possible to return true/false as success.
+                Log.d("NOTIFY", "finished saving");
+            }
+        }
+        AsyTask task = new AsyTask();
+        task.execute();
+    }
+
     public void update(final Chef chef) {
         class AsyTask extends AsyncTask<String, String, String> {
             @Override
@@ -51,7 +71,7 @@ public class ChefModel {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 // TODO: check if possible to return true/false as success.
-                Log.d("TAG", "finished saving");
+                Log.d("NOTIFY", "finished saving");
             }
         }
         AsyTask task = new AsyTask();
@@ -59,6 +79,6 @@ public class ChefModel {
     }
 
     public void fillChefs() {
-        AppLocalDb.db.ChefDao().insertAll(new Chef("1", "chef Gaston", "I'm the known chef Gaston and I'm happy to post my recipes here", ""));
+        AppLocalDb.db.ChefDao().insertAll(new Chef("1","gas@on.com", "chef Gaston", "I'm the known chef Gaston and I'm happy to post my recipes here", ""));
     }
 }

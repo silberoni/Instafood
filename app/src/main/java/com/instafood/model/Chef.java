@@ -12,13 +12,15 @@ public class Chef implements Serializable {
     @PrimaryKey
     @NonNull
     String id;
+    String email;
     String name;
     String desc;
     String imgUrl;
 
 
-    public Chef(@NonNull String id, String name, String desc, String imgUrl) {
+    public Chef(@NonNull String id,String email, String name, String desc, String imgUrl) {
         this.id = id;
+        this.email=email;
         this.name = name;
         this.desc = desc;
         this.imgUrl = imgUrl;

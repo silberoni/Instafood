@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.instafood.model.Dish;
@@ -80,7 +81,7 @@ public class DishDetailsFragment extends Fragment {
     }
 
     private void update_display() {
-        dish_name.setText(dish.getName()+" creator"+dish.getMakerID());
+        dish_name.setText(dish.getName()+" -----   creator "+dish.getMakerID());
         dish_desc.setText(dish.getDesc());
         dish_made.setChecked(dish.isChecked());
         dish_made.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +129,7 @@ public class DishDetailsFragment extends Fragment {
                     dish.setIngredients(dish_sec_1.getText().toString());
                     dish.setInstructions(dish_sec_2.getText().toString());
                     DishModel.instance.update(dish);
-                    Snackbar.make(view, "Item saves", Snackbar.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Item saves", Toast.LENGTH_SHORT).show();
                     NavController navCtrl = Navigation.findNavController(view);
                     navCtrl.popBackStack();
                 }
@@ -139,7 +140,7 @@ public class DishDetailsFragment extends Fragment {
                     dish.setDeleted(true);
                     DishModel.instance.update(dish);
                     dish_delete.setClickable(false);
-                    Snackbar.make(view, "Item deleted", Snackbar.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Item deleted", Toast.LENGTH_SHORT).show();
                     NavController navCtrl = Navigation.findNavController(view);
                     navCtrl.popBackStack();
                 }
