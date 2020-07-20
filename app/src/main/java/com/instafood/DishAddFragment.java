@@ -70,7 +70,7 @@ public class DishAddFragment extends Fragment {
         dish_save = view.findViewById(R.id.fragment_dish_add_save_btn);
         dish_add_photo = view.findViewById(R.id.fragment_dish_add_photo_btn);
 
-        dishBased = DishDetailsFragmentArgs.fromBundle(getArguments()).getDish();
+        dishBased = DishAddFragmentArgs.fromBundle(getArguments()).getDish();
         if (dishBased != null) {
             update_display();
         }

@@ -82,7 +82,9 @@ public class ModelFirebase {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         Map<String, Object> json = doc.getData();
                         Dish dish = dishFactory(json);
-                        dshData.add(dish);
+                        if (dish.id != null && !dish.deleted) {
+                            dshData.add(dish);
+                        }
                     }
                 }
                 listener.onComplete(dshData);
@@ -101,7 +103,9 @@ public class ModelFirebase {
                     dshData = new LinkedList<Dish>();
                     // Adds all of the current items in the db, maps them from json and adds an object to the linked list
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        Dish dish = doc.toObject(Dish.class);
+                        Map<String, Object> json = doc.getData();
+                        Dish dish = dishFactory(json);
+                        dshData.add(dish);
                         if (dish.id != null && !dish.deleted) {
                             dshData.add(dish);
                         }

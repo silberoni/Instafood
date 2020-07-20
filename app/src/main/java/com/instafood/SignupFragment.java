@@ -152,6 +152,8 @@ public class SignupFragment extends Fragment {
                     firebaseAuth.createUserWithEmailAndPassword(email,pwd).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            task.getException();
+                            task.getResult();
                             if (!task.isSuccessful()){
                                 //Toast.makeText(SignupFragment.this, "", Toast.LENGTH_SHORT).show();
                                 Toast.makeText(getActivity(), "SignUp Unsuccessful", Toast.LENGTH_SHORT).show();

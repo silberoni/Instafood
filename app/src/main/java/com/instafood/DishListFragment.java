@@ -80,7 +80,6 @@ public class DishListFragment extends Fragment {
         adptr.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                Log.d("NOTIFY","row was clicked" + position);
                 Dish dish = data.get(position);
                 NavController navController = Navigation.findNavController(view);
                 DishListFragmentDirections.ActionDishListFragmentToDishDetailsFragment dir = DishListFragmentDirections.actionDishListFragmentToDishDetailsFragment(dish);

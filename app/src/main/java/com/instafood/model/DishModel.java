@@ -27,11 +27,11 @@ public class DishModel {
     }
 
     private DishModel() {
-        // fillDishes();
+        //fillDishes();
     }
     public void addDish(Dish dsh, Listener<Boolean> listener){
         ModelFirebase.addDish(dsh, listener);
-        AppLocalDb.db.dishDao().insertAll(dsh);
+        // AppLocalDb.db.dishDao().insertAll(dsh);
     }
 
     public LiveData<List<Dish>> getAllDishes() {
@@ -50,7 +50,7 @@ public class DishModel {
                 new AsyncTask<String,String,String>(){
                     @Override
                     protected String doInBackground(String... strings) {
-                        // Updates the local db itself and therefor doesn't need to return data
+                        // Updates the local db itself and therefore doesn't need to return data
 
                         long lastUpdated = 0;
                         for(Dish d:data){
@@ -82,7 +82,7 @@ public class DishModel {
                 new AsyncTask<String,String,String>(){
                     @Override
                     protected String doInBackground(String... strings) {
-                        // Updates the local db itself and therefor doesn't need to return data
+                        // Updates the local db itself and therefore doesn't need to return data
                         for(Dish d:data){
                             AppLocalDb.db.dishDao().insertAll(d);
                         }

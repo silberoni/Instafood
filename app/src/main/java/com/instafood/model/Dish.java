@@ -49,7 +49,7 @@ public class Dish implements Serializable {
         this.likes = 0;
         this.checked = false;
         this.deleted = false;
-        this.lastUpdated = 0L;
+        this.lastUpdated = 0;
     }
 
     public Dish() {
@@ -60,7 +60,7 @@ public class Dish implements Serializable {
         this.likes = 0;
         this.checked = false;
         this.deleted = false;
-        this.lastUpdated = 0L;
+        this.lastUpdated = 0;
     }
     public long getLastUpdated() {
         return lastUpdated;
