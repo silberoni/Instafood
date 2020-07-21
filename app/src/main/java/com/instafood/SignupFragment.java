@@ -180,7 +180,7 @@ public class SignupFragment extends Fragment {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                Chef cchef = new Chef(task.getResult().getUser().getUid(), email, username, nname, null);
+                                                Chef cchef = new Chef(task.getResult().getUser().getUid(), email, username, nname);
                                                 ChefModel.instance.addChef(cchef, new DishModel.Listener<Boolean>() {
                                                     @Override
                                                     public void onComplete(Boolean data) {

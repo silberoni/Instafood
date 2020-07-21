@@ -13,7 +13,7 @@ public interface ChefDao {
     List<Chef> getAll();
 
     // TODO: build single chef select
-    @Query("select * from Chef")
+    @Query("select * from Chef where chef.id = id")
     Chef getChef();
 
     // Can be used as update: Insert the object with same primary-key and new data

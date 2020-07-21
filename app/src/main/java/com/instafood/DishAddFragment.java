@@ -122,7 +122,8 @@ public class DishAddFragment extends Fragment {
             @Override
             public void onClick(View view) {
           //      takePhoto();
-                Toast.makeText(getActivity(), "No photos for you", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "No photos for you", Toast.LENGTH_SHORT).show();
+                Log.d("NOTIFY", "No photos for you ");
             }
         });
         return view;

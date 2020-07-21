@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.instafood.model.Chef;
+import com.instafood.model.ChefModel;
 import com.instafood.model.Dish;
 
 public class ChefDetailsFragment extends Fragment {
@@ -46,7 +47,9 @@ public class ChefDetailsFragment extends Fragment {
         chef_desc = view.findViewById(R.id.fragment_chef_details_chef_desc_tv);
         chef_name = view.findViewById(R.id.fragment_chef_details_chef_name_tv);
         chef_edit = view.findViewById(R.id.fragment_chef_details_edit_btn);
+        String chef_id = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChefId();
 
+        // ChefModel.instance.getChef(null);
         if (chef != null) {
             update_display();
         }

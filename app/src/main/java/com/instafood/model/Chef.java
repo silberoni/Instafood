@@ -18,12 +18,22 @@ public class Chef implements Serializable {
     String imgUrl;
 
 
-    public Chef(@NonNull String id,String email, String name, String desc, String imgUrl) {
+    public Chef(){
+    }
+
+    public Chef(@NonNull String id,String email, String name) {
+        this.id = id;
+        this.email=email;
+        this.name = name;
+        this.desc = "";
+        this.imgUrl = "";
+    }
+    public Chef(@NonNull String id,String email, String name, String desc) {
         this.id = id;
         this.email=email;
         this.name = name;
         this.desc = desc;
-        this.imgUrl = imgUrl;
+        this.imgUrl = "";
     }
 
     @NonNull

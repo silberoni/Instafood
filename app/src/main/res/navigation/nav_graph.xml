@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_dishListFragment_to_dishDetailsFragment"
             app:destination="@id/dishDetailsFragment" />
-        <action
-            android:id="@+id/action_dishListFragment_to_chefDetailsFragment"
-            app:destination="@id/chefDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/dishDetailsFragment"
@@ -32,8 +29,8 @@
         android:label="@string/application_title"
         tools:layout="@layout/fragment_chef_details" >
         <argument
-            android:name="chef"
-            app:argType="com.instafood.model.Chef" />
+            android:name="chef_id"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -72,5 +69,6 @@
             android:defaultValue="@null" />
     </fragment>
     <action android:id="@+id/action_global_dishAddFragment" app:destination="@id/dishAddFragment" />
+    <action android:id="@+id/action_global_chefDetailsFragment" app:destination="@id/chefDetailsFragment" />
 
 </navigation>

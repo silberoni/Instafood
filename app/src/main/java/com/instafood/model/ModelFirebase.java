@@ -24,15 +24,14 @@ public class ModelFirebase {
 
     public static FirebaseFirestore db;
     final static String DISH_COLLECTION = "dishes";
+    final static String CHEF_COLLECTION = "data";
 
-    public ModelFirebase()
-    {
+    public ModelFirebase() {
         db = FirebaseFirestore.getInstance();
     }
 
     public void SaveDishInDb(String id, String name, String desc, String imgUrl, String makerID, String basedOn,
-                             String ingredients, String instructions, int likes, boolean checked, boolean deleted)
-    {
+                             String ingredients, String instructions, int likes, boolean checked, boolean deleted) {
         // If ModelFirebase hasn't been initiated yet
         ModelFirebase modelFirebase = new ModelFirebase();
 
@@ -130,25 +129,23 @@ public class ModelFirebase {
     }
 
     private static Dish dishFactory(Map<String, Object> json) {
-        // TODO: fill with correct data
         Dish dsh = new Dish();
-        dsh.id = (String)json.get("id");
-        dsh.name = (String)json.get("name");
-        dsh.imgUrl = (String)json.get("imgUrl");
-        dsh.desc = (String)json.get("desc");
-        dsh.makerID = (String)json.get("makerID");
-        dsh.basedOn = (String)json.get("basedOn");
-        dsh.ingredients = (String)json.get("ingredients");
-        dsh.instructions = (String)json.get("instructions");
-        dsh.checked = (boolean)json.get("checked");
-        dsh.deleted = (boolean)json.get("deleted");
-        Timestamp ts = (Timestamp)json.get("lastUpdated");
+        dsh.id = (String) json.get("id");
+        dsh.name = (String) json.get("name");
+        dsh.imgUrl = (String) json.get("imgUrl");
+        dsh.desc = (String) json.get("desc");
+        dsh.makerID = (String) json.get("makerID");
+        dsh.basedOn = (String) json.get("basedOn");
+        dsh.ingredients = (String) json.get("ingredients");
+        dsh.instructions = (String) json.get("instructions");
+        dsh.checked = (boolean) json.get("checked");
+        dsh.deleted = (boolean) json.get("deleted");
+        Timestamp ts = (Timestamp) json.get("lastUpdated");
         if (ts != null) dsh.lastUpdated = ts.getSeconds();
         return dsh;
     }
 
     private static Map<String, Object> toJson(Dish dsh) {
-        // TODO: fill with correct data
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", dsh.id);
         result.put("name", dsh.name);
@@ -163,4 +160,38 @@ public class ModelFirebase {
         result.put("lastUpdated", FieldValue.serverTimestamp());
         return result;
     }
+
+    public static void addChef(Chef chef, final ChefModel.Listener<Boolean> listnr) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Adds the new student by ID. Does override for update?
+        db.collection(CHEF_COLLECTION).document(chef.getId()).set(toJson(chef)).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (listnr != null) {
+                    listnr.onComplete(task.isSuccessful());
+                }
+            }
+        });
+    }
+
+    private static Chef chefFactory(Map<String, Object> json) {
+        Chef chf = new Chef();
+        chf.id = (String) json.get("id");
+        chf.name = (String) json.get("name");
+        chf.imgUrl = (String) json.get("imgUrl");
+        chf.desc = (String) json.get("desc");
+        chf.email = (String) json.get("email");
+        return chf;
+    }
+
+    private static Map<String, Object> toJson(Chef chf) {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", chf.id);
+        result.put("name", chf.name);
+        result.put("imgUrl", chf.imgUrl);
+        result.put("email", chf.email);
+        result.put("desc", chf.desc);
+        return result;
+    }
+
 }

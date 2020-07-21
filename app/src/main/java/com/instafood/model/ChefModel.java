@@ -18,7 +18,7 @@ public class ChefModel {
     private ChefModel() {
     }
 
-    public void getChef(final Listener<Chef> getListener) {
+    public void getChef(String cid, final Listener<Chef> getListener) {
         class AsyTask extends AsyncTask<String, String, String> {
             Chef data;
 
@@ -42,7 +42,6 @@ public class ChefModel {
         class AsyTask extends AsyncTask<String, String, String> {
             @Override
             protected String doInBackground(String... strings) {
-                fillChefs();
                 AppLocalDb.db.ChefDao().insertAll(chef);
                 return null;
             }
@@ -62,7 +61,6 @@ public class ChefModel {
         class AsyTask extends AsyncTask<String, String, String> {
             @Override
             protected String doInBackground(String... strings) {
-                fillChefs();
                 AppLocalDb.db.ChefDao().insertAll(chef);
                 return null;
             }
@@ -76,9 +74,5 @@ public class ChefModel {
         }
         AsyTask task = new AsyTask();
         task.execute();
-    }
-
-    public void fillChefs() {
-        AppLocalDb.db.ChefDao().insertAll(new Chef("1","gas@on.com", "chef Gaston", "I'm the known chef Gaston and I'm happy to post my recipes here", ""));
     }
 }
