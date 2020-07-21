@@ -96,18 +96,19 @@ public class DishListFragment extends Fragment {
             }
         });
 
-//        final SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.dish_list_swipe_refresh);
-//        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                viewModel.refresh(new DishModel.LDListener() {
-//                    @Override
-//                    public void onComplete() {
-//                        swipeRefresh.setRefreshing(false);
-//                    }
-//                });
-//            }
-//        });
+
+        final SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.dish_list_swipe_refresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.refresh(new DishModel.LDListener() {
+                    @Override
+                    public void onComplete() {
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
+            }
+        });
         return view;
     }
 

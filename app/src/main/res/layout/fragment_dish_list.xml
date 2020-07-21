@@ -9,6 +9,11 @@
     tools:context=".DishListFragment"
     android:orientation="horizontal">
 
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/dish_list_swipe_refresh">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_dish_list_rv"
         android:layout_width="match_parent"
@@ -18,6 +23,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

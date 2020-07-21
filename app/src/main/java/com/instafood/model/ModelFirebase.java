@@ -70,6 +70,7 @@ public class ModelFirebase {
     public static void getAllDishesSince(long since, final DishModel.Listener<List<Dish>> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Timestamp ts = new Timestamp(since, 0);
+        Log.d("NOTIFY", String.valueOf("last updated: "+ts));
         db.collection(DISH_COLLECTION).whereGreaterThanOrEqualTo("lastUpdated", ts)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
