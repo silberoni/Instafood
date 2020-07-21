@@ -29,10 +29,10 @@ public class DishDetailsFragment extends Fragment {
     ImageView dish_img;
     EditText dish_name;
     EditText dish_desc;
-    CheckBox dish_made;
     EditText dish_sec_1;
     EditText dish_sec_2;
-    Button  make_version;
+    Button make_version;
+    Button see_chef;
     Button dish_edit;
     Button dish_save;
     Button dish_delete;
@@ -67,13 +67,13 @@ public class DishDetailsFragment extends Fragment {
         dish_img = view.findViewById(R.id.fragment_dish_details_image_iv);
         dish_name = view.findViewById(R.id.fragment_dish_details_dish_name_ev);
         dish_desc = view.findViewById(R.id.fragment_dish_details_dish_desc_ev);
-        dish_made = view.findViewById(R.id.fragment_dish_details_made_cb);
         dish_sec_1 = view.findViewById(R.id.fragment_dish_details_sec_1_eb);
         dish_sec_2 = view.findViewById(R.id.fragment_dish_details_sec_2_eb);
         dish_edit = view.findViewById(R.id.fragment_dish_details_edit_btn);
         dish_save = view.findViewById(R.id.fragment_dish_details_save_btn);
         dish_delete = view.findViewById(R.id.fragment_dish_details_delete_btn);
-        make_version=view.findViewById(R.id.fragment_dish_details_make_version_btn);
+        make_version = view.findViewById(R.id.fragment_dish_details_make_version_btn);
+        see_chef= view.findViewById(R.id.fragment_dish_details_chef_btn);
 
         dish = DishDetailsFragmentArgs.fromBundle(getArguments()).getDish();
         update_display();
@@ -81,15 +81,8 @@ public class DishDetailsFragment extends Fragment {
     }
 
     private void update_display() {
-        dish_name.setText(dish.getName()+" -----   creator "+dish.getMakerID());
+        dish_name.setText(dish.getName());
         dish_desc.setText(dish.getDesc());
-        dish_made.setChecked(dish.isChecked());
-        dish_made.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dish.setChecked(dish_made.isChecked());
-            }
-        });
         dish_sec_1.setText(dish.getIngredients());
         dish_sec_2.setText(dish.getInstructions());
 
@@ -99,6 +92,15 @@ public class DishDetailsFragment extends Fragment {
                 NavController navController = Navigation.findNavController(view);
                 NavGraphDirections.ActionGlobalDishAddFragment action = DishAddFragmentDirections.actionGlobalDishAddFragment();
                 action.setDish(dish);
+                navController.navigate(action);
+            }
+        });
+
+        see_chef.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(view);
+                NavGraphDirections.ActionGlobalChefDetailsFragment action = ChefDetailsFragmentDirections.actionGlobalChefDetailsFragment(dish.getMakerID());
                 navController.navigate(action);
             }
         });

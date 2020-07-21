@@ -52,30 +52,9 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="50dp"
             android:enabled="false"
+            android:inputType="textMultiLine"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_dish_name_ev" />
-
-        <CheckBox
-            android:id="@+id/fragment_dish_details_made_cb"
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
-            android:focusable="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_image_iv" />
-
-        <TextView
-            android:id="@+id/fragment_dish_details_made_it_lbl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="28dp"
-            android:layout_marginRight="28dp"
-            android:text="@string/dish_details_made_title"
-            app:layout_constraintEnd_toStartOf="@+id/fragment_dish_details_made_cb"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_image_iv" />
 
         <TextView
             android:id="@+id/fragment_dish_details_sec_1_lbl"
@@ -96,6 +75,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
             android:enabled="false"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_sec_1_lbl" />
 
@@ -119,6 +100,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
             android:enabled="false"
+            android:inputType="textMultiLine"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_sec_2_lbl" />
 
@@ -129,6 +111,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:text="@string/dish_edit_btn"
+            android:clickable="false"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -170,13 +154,23 @@
             android:id="@+id/fragment_dish_details_make_version_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/dish_make_version_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_image_iv" />
 
+        <Button
+            android:id="@+id/fragment_dish_details_chef_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:text="@string/chef_frgmnt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_details_image_iv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

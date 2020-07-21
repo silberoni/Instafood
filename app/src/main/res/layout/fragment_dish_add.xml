@@ -50,7 +50,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="50dp"
-            android:inputType="textLongMessage"
+            android:inputType="textMultiLine"
             android:hint="@string/dish_desc_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_dish_name_ev"
@@ -74,7 +74,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
-            android:inputType="textLongMessage"
+            android:inputType="textMultiLine"
             android:hint="@string/dish_ing_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_1_lbl" />
@@ -98,7 +98,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
-            android:inputType="textLongMessage"
+            android:inputType="textMultiLine"
             android:hint="@string/dish_inst_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_2_lbl" />

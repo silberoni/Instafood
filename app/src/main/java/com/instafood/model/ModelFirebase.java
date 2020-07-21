@@ -138,7 +138,6 @@ public class ModelFirebase {
         dsh.basedOn = (String) json.get("basedOn");
         dsh.ingredients = (String) json.get("ingredients");
         dsh.instructions = (String) json.get("instructions");
-        dsh.checked = (boolean) json.get("checked");
         dsh.deleted = (boolean) json.get("deleted");
         Timestamp ts = (Timestamp) json.get("lastUpdated");
         if (ts != null) dsh.lastUpdated = ts.getSeconds();
@@ -155,7 +154,6 @@ public class ModelFirebase {
         result.put("ingredients", dsh.ingredients);
         result.put("instructions", dsh.instructions);
         result.put("desc", dsh.desc);
-        result.put("checked", dsh.checked);
         result.put("deleted", dsh.deleted);
         result.put("lastUpdated", FieldValue.serverTimestamp());
         return result;

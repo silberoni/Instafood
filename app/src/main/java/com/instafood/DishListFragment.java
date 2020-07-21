@@ -119,18 +119,10 @@ public class DishListFragment extends Fragment {
     static class DishViewHolder extends RecyclerView.ViewHolder {
         Dish dish;
         TextView nametv;
-        CheckBox cb;
 
         public DishViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             nametv = itemView.findViewById(R.id.dish_row_name_tv);
-            cb = itemView.findViewById(R.id.dish_row_check_cb);
-            cb.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dish.setChecked(cb.isChecked());
-                }
-            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -146,7 +138,6 @@ public class DishListFragment extends Fragment {
         void bind(Dish dish) {
             this.dish = dish;
             nametv.setText(dish.getName());
-            cb.setChecked(dish.isChecked());
         }
     }
 

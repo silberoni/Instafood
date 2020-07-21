@@ -47,7 +47,6 @@ public class Dish implements Serializable {
         this.instructions = instructions;
         // might change to versions instead of likes.
         this.likes = 0;
-        this.checked = false;
         this.deleted = false;
         this.lastUpdated = 0;
     }
@@ -58,7 +57,6 @@ public class Dish implements Serializable {
     public Dish(@NonNull String id) {
         this.id = id;
         this.likes = 0;
-        this.checked = false;
         this.deleted = false;
         this.lastUpdated = 0;
     }
@@ -68,10 +66,6 @@ public class Dish implements Serializable {
 
     public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
-    }
-
-    public void setChecked(boolean checked) {
-        this.checked = checked;
     }
 
     public void setId(@NonNull String id) {
@@ -135,10 +129,6 @@ public class Dish implements Serializable {
 
     public String getBasedOn() {
         return basedOn;
-    }
-
-    public boolean isChecked() {
-        return checked;
     }
 
     public String getIngredients() {
