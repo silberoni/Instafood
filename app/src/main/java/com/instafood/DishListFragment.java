@@ -23,11 +23,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.instafood.model.Dish;
 import com.instafood.model.DishModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -125,9 +127,12 @@ public class DishListFragment extends Fragment {
     static class DishViewHolder extends RecyclerView.ViewHolder {
         Dish dish;
         TextView nametv;
+        ImageView image;
+
 
         public DishViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
+            image = itemView.findViewById(R.id.fragment_dish_row_image_iv);
             nametv = itemView.findViewById(R.id.dish_row_name_tv);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -144,6 +149,13 @@ public class DishListFragment extends Fragment {
         void bind(Dish dish) {
             this.dish = dish;
             nametv.setText(dish.getName());
+            if (dish.getImgUrl() != null && dish.getImgUrl() != "") {
+                Picasso.get().load(dish.getImgUrl()).into(image);
+            }
+            else
+            {
+                image.setImageResource(R.drawable.avatar);
+            }
         }
     }
 
