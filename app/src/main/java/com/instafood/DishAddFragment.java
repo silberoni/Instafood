@@ -24,7 +24,9 @@ import androidx.navigation.Navigation;
 import com.google.android.material.snackbar.Snackbar;
 import com.instafood.model.Dish;
 import com.instafood.model.DishModel;
+import com.instafood.model.StoreModel;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class DishAddFragment extends Fragment {
@@ -38,6 +40,7 @@ public class DishAddFragment extends Fragment {
     Button dish_save;
     Button dish_add_photo;
     String chef_id;
+    Bitmap imageBitmap;
 
     public DishAddFragment() {
         // Required empty public constructor
@@ -109,9 +112,23 @@ public class DishAddFragment extends Fragment {
                         } else {
                             Log.d("NOTIFY", "Something went wrong ");
                         }
+                    }
+                });
+
+                Date d = new Date();
+                StoreModel.uploadImage(imageBitmap, "", d.getTime(), new StoreModel.Listener(){
+
+                    @Override
+                    public void onSuccess(String url) {
+
+                    }
+
+                    @Override
+                    public void onFail() {
 
                     }
                 });
+
 
                 NavController navCtrl = Navigation.findNavController(view);
                 navCtrl.popBackStack();
@@ -146,8 +163,7 @@ public class DishAddFragment extends Fragment {
 
 
     void takePhoto() {
-        Intent takePictureIntent = new Intent(
-                MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }

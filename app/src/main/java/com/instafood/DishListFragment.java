@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -16,6 +17,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -68,6 +72,7 @@ public class DishListFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_dish_list, container, false);
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         dish_list = view.findViewById(R.id.fragment_dish_list_rv);
         dish_list.setHasFixedSize(true);
 
@@ -183,5 +188,25 @@ public class DishListFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_add_dish:
+                NavController navController = Navigation.findNavController(getView());
+                navController.navigate(R.id.action_dishListFragment_to_dishAddFragment);
+
+                Log.d("TAG", "fragment handle add menu");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
