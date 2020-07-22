@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.instafood.model.ChefModel;
 import com.instafood.model.Dish;
 import com.instafood.model.ModelFirebase;
 
@@ -34,19 +35,8 @@ import java.util.concurrent.Executor;
 
 import static android.content.Context.MODE_PRIVATE;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LoginFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    public FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
-
-    //public FirebaseAuth firebaseAuth;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -59,68 +49,39 @@ public class LoginFragment extends Fragment {
         return fragment;
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //firebase
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view =  inflater.inflate(R.layout.fragment_login, container, false);
+        final View view = inflater.inflate(R.layout.fragment_login, container, false);
         final View view2 = view;
 
         // Hide Action Bar
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        ModelFirebase firebase = new ModelFirebase();
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        Button btnLoginSignup = (Button)view.findViewById(R.id.buttonLoginSignup);
+        Button btnLoginSignup = (Button) view.findViewById(R.id.buttonLoginSignup);
         Button btnLogin = view.findViewById(R.id.buttonLoginLogin);
         final EditText textLoginEmail = view.findViewById(R.id.textLoginUsername);
         final EditText textLoginPassword = view.findViewById(R.id.textLoginPassword);
 
-
-
         // Open SignUp fragment when clicking
         btnLoginSignup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View V){
+            public void onClick(View V) {
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.action_loginFragment_to_signupFragment);
 
             }
         });
-
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
-                if (mFirebaseUser != null){
-                    Toast.makeText(getContext(), "You are logged in", Toast.LENGTH_SHORT).show();
-
-
-
-                    Intent i = new Intent (getContext(), MainActivity.class);
-                    startActivity(i);
-                }
-                else
-                {
-                    Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = textLoginEmail.getText().toString();
+                final String email = textLoginEmail.getText().toString();
                 String pwd = textLoginPassword.getText().toString();
 
                 if (email.isEmpty()) {
@@ -134,32 +95,26 @@ public class LoginFragment extends Fragment {
 
                 if (!(email.isEmpty() && pwd.isEmpty())) {
                     // Try Login and authenticate with DB
-                    firebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    ChefModel.instance.authUser(email, pwd, new ChefModel.Listener<Boolean>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (!task.isSuccessful()){
-                                Log.d("NOTIFY", String.valueOf(task.getException()));
-                                Toast.makeText(getActivity(), "Login Error, Please Try Again", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                // save the user information
+                        public void OnComplete(Boolean data) {
+                            if (data) {
                                 SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
-                                edit.putString("CurrentUser", task.getResult().getUser().getUid());
+                                edit.putString("CurrentUser", email);
+                                Log.d("NOTIFY", "CurrentUser " + email);
                                 edit.commit();
 
                                 NavController navController = Navigation.findNavController(view2);
                                 navController.navigate(R.id.action_loginFragment_to_dishListFragment);
+
+                            } else {
+                                Toast.makeText(getActivity(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }
-                else
-                {
-                    Toast.makeText(getActivity(), "Error Occured", Toast.LENGTH_SHORT).show();
-                }
             }
         });
-
-                return view;
+        return view;
     }
 }

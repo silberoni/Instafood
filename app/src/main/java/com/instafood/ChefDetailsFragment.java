@@ -55,11 +55,17 @@ public class ChefDetailsFragment extends Fragment {
         chef_edit = view.findViewById(R.id.fragment_chef_details_edit_btn);
         chef_id = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChefId();
 
-        ChefModel.instance.getChef(chef_id, null);
-        // insert result to chef
-        if (chef != null) {
-            update_display();
-        }
+        ChefModel.instance.getChef(chef_id, new ChefModel.Listener<Chef>() {
+            @Override
+            public void OnComplete(Chef data) {
+                // insert result to chef
+                if (data != null) {
+                    chef = data;
+                    update_display();
+                }
+            }
+        });
+
         return view;
     }
 

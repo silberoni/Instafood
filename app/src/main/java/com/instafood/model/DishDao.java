@@ -10,7 +10,7 @@ import java.util.List;
 
 @Dao
 public interface DishDao{
-    @Query("select * from Dish")
+    @Query("select * from Dish ORDER BY lastUpdated DESC")
     LiveData<List<Dish>> getAll();
 
     // Can be used as update: Insert the object with same primary-key and new data
