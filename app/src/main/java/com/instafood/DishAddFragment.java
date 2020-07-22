@@ -90,62 +90,46 @@ public class DishAddFragment extends Fragment {
             @Override
             public void onClick(final View view) {
                 // How do we get a new ID each time?
-                String id = UUID.randomUUID().toString();
-                dishNew = new Dish(id);
+                if(checkFields()) {
 
-                dishNew.setName(dish_name.getText().toString());
-                dishNew.setDesc(dish_desc.getText().toString());
-                // picture
+                    String id = UUID.randomUUID().toString();
 
-                dishNew.setMakerID(chef_id);
+                    dishNew = new Dish(id);
+                    dishNew.setName(dish_name.getText().toString());
+                    dishNew.setDesc(dish_desc.getText().toString());
+                    // picture
+                    dishNew.setMakerID(chef_id);
+                    if (dishBased != null) {
+                        dishNew.setBasedOn(dishBased.getId());
+                    }
+                    dishNew.setIngredients(dish_sec_1.getText().toString());
+                    dishNew.setInstructions(dish_sec_2.getText().toString());
 
-                if (dishBased != null) {
-                    dishNew.setBasedOn(dishBased.getId());
-                }
-
-                dishNew.setIngredients(dish_sec_1.getText().toString());
-                dishNew.setInstructions(dish_sec_2.getText().toString());
-
-                //DishModel.instance.addDish(dishNew, new DishModel.Listener<Boolean>() {
-                //    @Override
-                //    public void onComplete(Boolean data) {
-                //        if(data){
-                //            Log.d("NOTIFY", "added dish ");
-                //        } else {
-                //            Log.d("NOTIFY", "Something went wrong ");
-                //        }
-                //    }
-                //});
-
-                Date d = new Date();
-                StoreModel.uploadImage(imageBitmap, "my_photo" + d.getTime(), new StoreModel.Listener(){
-                    @Override
-                    public void onSuccess(String url) {
-                        Log.d("TAG", "url:" + url);
-                        dishNew.setImgUrl(url);
-                        DishModel.instance.addDish(dishNew, new DishModel.Listener<Boolean>() {
-                            @Override
-                            public void onComplete(Boolean data) {
-                                if(data){
-                                    NavController navCtrl = Navigation.findNavController(view);
-                                    navCtrl.navigateUp();
-                                    Log.d("NOTIFY", "added dish ");
-                                } else {
-                                    Log.d("NOTIFY", "Something went wrong ");
+                    Date d = new Date();
+                    StoreModel.uploadImage(imageBitmap, "my_photo" + d.getTime(), new StoreModel.Listener() {
+                        @Override
+                        public void onSuccess(String url) {
+                            Log.d("TAG", "url:" + url);
+                            dishNew.setImgUrl(url);
+                            DishModel.instance.addDish(dishNew, new DishModel.Listener<Boolean>() {
+                                @Override
+                                public void onComplete(Boolean data) {
+                                    if (data) {
+                                        Log.d("NOTIFY", "added dish ");
+                                    } else {
+                                        Log.d("NOTIFY", "Something went wrong ");
+                                    }
                                 }
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onFail() {
-
-                    }
-                });
-
-
-                NavController navCtrl = Navigation.findNavController(view);
-                navCtrl.popBackStack();
+                            });
+                        }
+                        @Override
+                        public void onFail() {
+                            Log.d("NOTIFY", "Something went wrong with adding a photo");
+                        }
+                    });
+                    NavController navCtrl = Navigation.findNavController(view);
+                    navCtrl.popBackStack();
+                }
             }
         });
 
@@ -175,6 +159,17 @@ public class DishAddFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     final static int RESULT_SUCCESS = 0;
 
+    public Boolean checkFields() {
+        if ((dish_name.getText().toString()!=null)&&
+                (dish_desc.getText().toString()!=null)&&
+                (dish_sec_1.getText().toString()!=null)&&
+                (dish_sec_2.getText().toString()!=null)){
+            return true;
+        } else {
+            Log.d("NOTIFY", "Cannot leave empty fields");
+            return false;
+        }
+    }
 
     void takePhoto() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

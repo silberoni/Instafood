@@ -9,9 +9,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -19,12 +23,17 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ModelFirebase {
 
     public static FirebaseFirestore db;
     final static String DISH_COLLECTION = "dishes";
     final static String CHEF_COLLECTION = "data";
+
+    public interface Listener<Boolean> {
+        void OnComplete(Boolean data);
+    }
 
     public ModelFirebase() {
         db = FirebaseFirestore.getInstance();
@@ -70,7 +79,6 @@ public class ModelFirebase {
     public static void getAllDishesSince(long since, final DishModel.Listener<List<Dish>> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Timestamp ts = new Timestamp(since, 0);
-        Log.d("NOTIFY", String.valueOf("last updated: "+ts));
         db.collection(DISH_COLLECTION).whereGreaterThanOrEqualTo("lastUpdated", ts)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -88,7 +96,7 @@ public class ModelFirebase {
                     }
                 }
                 listener.onComplete(dshData);
-                Log.d("NOTIFY", "refresh " + dshData.size());
+                Log.d("NOTIFY", "added " + dshData.size() + " items: " + dshData.get(0).getName());
             }
         });
     }
@@ -116,9 +124,25 @@ public class ModelFirebase {
         });
     }
 
+    public static void getChef(final String email, final ChefModel.Listener<Chef> listener){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(CHEF_COLLECTION).document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    if (task.getResult().getData() == null){
+                        listener.OnComplete( null);
+                    } else {
+                        Map<String, Object> json = task.getResult().getData();
+                        listener.OnComplete( chefFactory(json));
+                    }
+                }
+            }
+        });
+    }
+
     public static void addDish(Dish dish, final DishModel.Listener<Boolean> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        // Adds the new student by ID. Does override for update?
         db.collection(DISH_COLLECTION).document(dish.getId()).set(toJson(dish)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -162,12 +186,11 @@ public class ModelFirebase {
 
     public static void addChef(Chef chef, final ChefModel.Listener<Boolean> listnr) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        // Adds the new student by ID. Does override for update?
         db.collection(CHEF_COLLECTION).document(chef.getId()).set(toJson(chef)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (listnr != null) {
-                    listnr.onComplete(task.isSuccessful());
+                    listnr.OnComplete(task.isSuccessful());
                 }
             }
         });
@@ -175,7 +198,7 @@ public class ModelFirebase {
 
     private static Chef chefFactory(Map<String, Object> json) {
         Chef chf = new Chef();
-        chf.id = (String) json.get("id");
+        chf.id = (String) json.get("email");
         chf.name = (String) json.get("name");
         chf.imgUrl = (String) json.get("imgUrl");
         chf.desc = (String) json.get("desc");
@@ -191,6 +214,27 @@ public class ModelFirebase {
         result.put("email", chf.email);
         result.put("desc", chf.desc);
         return result;
+    }
+
+    public static void AuthUser(String email, String pwd, final Listener<Boolean> listener) {
+        FirebaseAuth frBase = FirebaseAuth.getInstance();
+        frBase.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                // Log in chef and if it was successful return true to user
+                listener.OnComplete(task.isSuccessful());
+            }
+        });
+    }
+
+    public static void CreateUser(final String email, final String pwd, final String name, final Listener<Boolean> listener) {
+        FirebaseAuth frBase = FirebaseAuth.getInstance();
+        frBase.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (listener!=null) listener.OnComplete(task.isSuccessful());
+            }
+        });
     }
 
 }

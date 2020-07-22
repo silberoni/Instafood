@@ -39,4 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/fragment_dish_row_image_iv"
         app:layout_constraintVertical_bias="1.0" />
 
+
+    app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,8 +13,8 @@ public interface ChefDao {
     List<Chef> getAll();
 
     // TODO: build single chef select
-    @Query("select * from Chef where chef.id = id")
-    Chef getChef();
+    @Query("select * from Chef where id = :id")
+    Chef getChef(String id);
 
     // Can be used as update: Insert the object with same primary-key and new data
     @Insert(onConflict = OnConflictStrategy.REPLACE)
