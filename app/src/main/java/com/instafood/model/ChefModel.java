@@ -43,6 +43,7 @@ public class ChefModel {
             @Override
             protected String doInBackground(String... strings) {
                 AppLocalDb.db.ChefDao().insertAll(chef);
+
                 return null;
             }
 

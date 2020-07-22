@@ -53,8 +53,8 @@ public class DishModel {
 
     public LiveData<List<Dish>> getAllDishes() {
         LiveData<List<Dish>> liveData = AppLocalDb.db.dishDao().getAll();
-        getEverything(null);
-        //refreshDishList(null);
+        //getEverything(null);
+        refreshDishList(null);
         return liveData;
     }
 
