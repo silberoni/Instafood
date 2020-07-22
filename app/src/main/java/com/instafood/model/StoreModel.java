@@ -2,6 +2,7 @@ package com.instafood.model;
 import android.graphics.Bitmap;
 import android.graphics.ColorSpace;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,25 +24,31 @@ public class StoreModel {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference imagesRef = storage.getReference().child("images").child(name);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        imageBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-        UploadTask uploadTask = imagesRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception exception) {
-                listener.onFail();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Uri downloadUrl = uri;
-                        listener.onSuccess(downloadUrl.toString());
-                    }
-                });
-            }
-        });
+
+        if (imageBmp != null) {
+            imageBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+
+            UploadTask uploadTask = imagesRef.putBytes(data);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(Exception exception) {
+                    listener.onFail();
+                    Log.d("NOTIFY", "upload BITMAP task Failure");
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Uri downloadUrl = uri;
+                            listener.onSuccess(downloadUrl.toString());
+                        }
+                    });
+                }
+            });
+        }
     }
 }

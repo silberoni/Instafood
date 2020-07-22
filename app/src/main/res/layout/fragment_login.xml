@@ -18,10 +18,10 @@
 
        <ImageView
            android:id="@+id/imageView"
-           android:layout_width="400dp"
+           android:layout_width="350dp"
            android:layout_height="150dp"
            android:layout_gravity="center"
-           android:src="@drawable/untitled_1" />
+           android:src="@drawable/instalogo" />
 
        <!-- android:textColor="#FF9C8B" -->
        <TextView

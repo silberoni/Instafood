@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -58,6 +59,8 @@ public class LoginFragment extends Fragment {
         return fragment;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +85,7 @@ public class LoginFragment extends Fragment {
         Button btnLogin = view.findViewById(R.id.buttonLoginLogin);
         final EditText textLoginEmail = view.findViewById(R.id.textLoginUsername);
         final EditText textLoginPassword = view.findViewById(R.id.textLoginPassword);
+
 
 
         // Open SignUp fragment when clicking
