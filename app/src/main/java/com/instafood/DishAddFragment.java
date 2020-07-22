@@ -41,6 +41,7 @@ public class DishAddFragment extends Fragment {
     Button dish_add_photo;
     String chef_id;
     Bitmap imageBitmap;
+    ImageView imageView;
 
     public DishAddFragment() {
         // Required empty public constructor
@@ -79,7 +80,6 @@ public class DishAddFragment extends Fragment {
 
         chef_id =MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
 
-
         dishBased = DishAddFragmentArgs.fromBundle(getArguments()).getDish();
         if (dishBased != null) {
             update_display();
@@ -116,7 +116,7 @@ public class DishAddFragment extends Fragment {
                 });
 
                 Date d = new Date();
-                StoreModel.uploadImage(imageBitmap, "", d.getTime(), new StoreModel.Listener(){
+                StoreModel.uploadImage(imageBitmap, "my_photo" + d.getTime(), new StoreModel.Listener(){
 
                     @Override
                     public void onSuccess(String url) {
@@ -138,7 +138,7 @@ public class DishAddFragment extends Fragment {
         dish_add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-          //      takePhoto();
+                takePhoto();
                 //Toast.makeText(getActivity(), "No photos for you", Toast.LENGTH_SHORT).show();
                 Log.d("NOTIFY", "No photos for you ");
             }
@@ -167,6 +167,10 @@ public class DishAddFragment extends Fragment {
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+        else
+        {
+            Log.d("NOTIFY", "There is no camera to take photos with ");
+        }
     }
 
     @Override
@@ -175,6 +179,8 @@ public class DishAddFragment extends Fragment {
                 resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            //imageView.setImageBitmap(imageBitmap);
+
             dish_img.setImageBitmap(imageBitmap);
         }
     }

@@ -198,6 +198,10 @@ public class DishListFragment extends Fragment {
 
                 Log.d("TAG", "fragment handle add menu");
                 return true;
+            case R.id.menu_home:
+                return true;
+            case R.id.menu_user:
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -19,7 +19,7 @@ public class StoreModel {
         void onFail();
     }
 
-    public static void uploadImage(Bitmap imageBmp, String name, long time, final Listener listener){
+    public static void uploadImage(Bitmap imageBmp, String name, final Listener listener){
         FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference imagesRef = storage.getReference().child("images").child(name);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
