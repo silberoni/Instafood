@@ -150,7 +150,7 @@ public class DishListFragment extends Fragment {
             this.dish = dish;
             nametv.setText(dish.getName());
             if (dish.getImgUrl() != null && dish.getImgUrl() != "") {
-                Picasso.get().load(dish.getImgUrl()).into(image);
+                Picasso.get().load(dish.getImgUrl()).placeholder(R.drawable.avatar).into(image);
             }
             else
             {
