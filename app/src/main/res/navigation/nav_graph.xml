@@ -16,6 +16,11 @@
         <action
             android:id="@+id/action_dishListFragment_to_dishAddFragment"
             app:destination="@id/dishAddFragment" />
+        <argument
+            android:name="chef_list"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
     </fragment>
     <fragment
         android:id="@+id/dishDetailsFragment"
@@ -81,8 +86,6 @@
         app:destination="@id/chefDetailsFragment" />
     <action
         android:id="@+id/action_global_dishListFragment"
-        app:destination="@id/dishListFragment"
-        app:popUpTo="@id/dishListFragment"
-        app:popUpToInclusive="true" />
+        app:destination="@id/dishListFragment" />
 
 </navigation>

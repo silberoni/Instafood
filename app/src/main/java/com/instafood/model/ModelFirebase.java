@@ -124,6 +124,29 @@ public class ModelFirebase {
         });
     }
 
+    public static void getDishesBy(String id, final DishModel.Listener<List<Dish>> listener){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(DISH_COLLECTION).whereArrayContains("makerID",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<Dish> dshData = null;
+                if (task.isSuccessful()) {
+                    dshData = new LinkedList<Dish>();
+                    // Adds all of the current items in the db, maps them from json and adds an object to the linked list
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        Map<String, Object> json = doc.getData();
+                        Dish dish = dishFactory(json);
+                        dshData.add(dish);
+                        if (dish.id != null && !dish.deleted) {
+                            dshData.add(dish);
+                        }
+                    }
+                }
+                listener.onComplete(dshData);
+            }
+        });
+    }
+
     public static void getChef(final String email, final ChefModel.Listener<Chef> listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(CHEF_COLLECTION).document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

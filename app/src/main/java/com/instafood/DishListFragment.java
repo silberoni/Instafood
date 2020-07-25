@@ -40,6 +40,7 @@ public class DishListFragment extends Fragment {
     private DishListViewModel viewModel;
     private dishListAdapter adptr;
     private LiveData<List<Dish>> liveData;
+    String chef_id;
 
 
     public DishListFragment() {
@@ -89,28 +90,41 @@ public class DishListFragment extends Fragment {
             }
         });
 
-        liveData = viewModel.getData();
-        liveData.observe(getViewLifecycleOwner(), new Observer<List<Dish>>() {
-            @Override
-            public void onChanged(List<Dish> dishes) {
-                data = dishes;
-                adptr.notifyDataSetChanged();
-            }
-        });
+        chef_id = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChefId();
+        if(chef_id == null) {
+            liveData = viewModel.getAllData();
+            liveData.observe(getViewLifecycleOwner(), new Observer<List<Dish>>() {
+                @Override
+                public void onChanged(List<Dish> dishes) {
+                    data = dishes;
+                    adptr.notifyDataSetChanged();
+                }
+            });
 
 
-        final SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.dish_list_swipe_refresh);
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                viewModel.refresh(new DishModel.LDListener() {
-                    @Override
-                    public void onComplete() {
-                        swipeRefresh.setRefreshing(false);
-                    }
-                });
-            }
-        });
+            final SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.dish_list_swipe_refresh);
+            swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    viewModel.refresh(new DishModel.LDListener() {
+                        @Override
+                        public void onComplete() {
+                            swipeRefresh.setRefreshing(false);
+                        }
+                    });
+                }
+            });
+        } else
+        {
+            liveData = viewModel.getChefData(chef_id);
+            liveData.observe(getViewLifecycleOwner(), new Observer<List<Dish>>() {
+                @Override
+                public void onChanged(List<Dish> dishes) {
+                    data = dishes;
+                    adptr.notifyDataSetChanged();
+                }
+            });
+        }
         return view;
     }
 

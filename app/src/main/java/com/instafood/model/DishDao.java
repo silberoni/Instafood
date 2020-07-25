@@ -17,6 +17,9 @@ public interface DishDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Dish... dishs);
 
+    @Query("select * from Dish where makerID = :id")
+    LiveData<List<Dish>> getByChef(String id);
+
     @Delete
     void delete(Dish dish);
 }

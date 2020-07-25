@@ -44,6 +44,7 @@ public class ChefDetailsFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -56,6 +57,7 @@ public class ChefDetailsFragment extends Fragment {
         chef_name = view.findViewById(R.id.fragment_chef_details_chef_name_tv);
         chef_edit = view.findViewById(R.id.fragment_chef_details_edit_btn);
         chef_save = view.findViewById(R.id.fragment_chef_details_save_btn);
+
         chef_id = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChefId();
         CurrUser = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
         if(chef_id == null){
@@ -83,6 +85,7 @@ public class ChefDetailsFragment extends Fragment {
                 chef_edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         chef_save.setVisibility(View.VISIBLE);
                         chef_name.setEnabled(true);
                         chef_name.setHint(R.string.chef_name_hint);

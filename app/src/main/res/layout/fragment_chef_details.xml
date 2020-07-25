@@ -37,10 +37,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="16dp"
             android:enabled="false"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_chef_details_image_iv" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_chef_details_see_dishes_btn" />
 
         <EditText
             android:id="@+id/fragment_chef_details_chef_desc_tv"
@@ -66,22 +66,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_chef_details_chef_desc_tv" />
+
         <Button
             android:id="@+id/fragment_chef_details_save_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp"
-            android:text="@string/dish_save_btn"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="invisible"
             android:clickable="false"
+            android:text="@string/dish_save_btn"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_chef_details_chef_desc_tv" />
 
-
-<!--        small list of all the different dishes this chef made-->
+        <Button
+            android:id="@+id/fragment_chef_details_see_dishes_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_chef_details_image_iv"
+            tools:text="@string/chef_dishes" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,6 +57,12 @@ public class DishModel {
         return liveData;
     }
 
+    public LiveData<List<Dish>> getDishesBy(String id) {
+        refreshByList(null, id);
+        LiveData<List<Dish>> liveData = AppLocalDb.db.dishDao().getByChef(id);
+        return liveData;
+    }
+
     public void refreshDishList(final LDListener listener) {
         long LastUpdate = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getLong("DishLastUpdateTime", 0);
         ModelFirebase.getAllDishesSince(LastUpdate, new Listener<List<Dish>>() {
@@ -71,7 +77,7 @@ public class DishModel {
                         for (Dish d : data) {
                             AppLocalDb.db.dishDao().insertAll(d);
                             if (d.lastUpdated > lastUpdated) {
-                                Log.d("NOTIFY", String.valueOf("last updated changed to: "+lastUpdated));
+                                Log.d("NOTIFY", String.valueOf("last updated changed to: " + lastUpdated));
                                 lastUpdated = d.lastUpdated;
                             }
                         }
@@ -145,14 +151,28 @@ public class DishModel {
         task.execute();
     }
 
-    public boolean delete(Dish dish) {
-        return true;
-    }
+    public void refreshByList(final LDListener LDlistener, final String id) {
+        ModelFirebase.getDishesBy(id, new Listener<List<Dish>>() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onComplete(final List<Dish> data) {
+                new AsyncTask<String, String, String>() {
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        for (Dish d : data) {
+                            AppLocalDb.db.dishDao().insertAll(d);
 
-    public void fillDishes() {
-        for (int i = 1; i <= 10; i++) {
-            Dish dsh = new Dish("" + i, "dish " + i, "Yummy Yummy this dish is so good :) " + i + " dish is just delicious. I love making it so much yum yum", "", "1", "", "stuff 1 \n stuff 2 \n " + i, "stuff 1 \n stuff 2 \n " + i);
-            addDish(dsh, null);
-        }
+                        }
+                        return "";
+                    }
+
+                    @Override
+                    protected void onPostExecute(String d) {
+                        super.onPostExecute(d);
+                        if (LDlistener != null) LDlistener.onComplete();
+                    }
+                }. execute("");
+            }
+        });
     }
 }
