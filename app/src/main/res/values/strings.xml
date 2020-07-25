@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Instafood</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- dish details -->
     <string name="dish_details_made_title">Made it and loved it!</string>
     <string name="dish_details_pic_desc">Yummy picture of this dish</string>
     <string name="dish_details_sec_1">Ingredients</string>
@@ -19,10 +16,13 @@
     <string name="application_title">INSTAFOOD</string>
     <string name="dish_name_hint">Chocolate chip cookies</string>
     <string name="dish_desc_hint">Found in my grandmas cabinet, this recipe turned so good!</string>
-    <string name="dish_ing_hint">Flour
-    spice
+    <string name="dish_ing_hint">Flour /n
+    spice /n
     everything nice</string>
-    <string name="dish_inst_hint">Mix everything
+    <string name="dish_inst_hint">Mix everything /n
     put in oven</string>
+    <string name="dish_add_title">Add your own!</string>
     <string name="dish_add_photo_btn">Add a picture</string>
+    <string name="chef_name_hint">What is your name?</string>
+    <string name="chef_desc_hint">Tell us a little about yourself</string>
 </resources>

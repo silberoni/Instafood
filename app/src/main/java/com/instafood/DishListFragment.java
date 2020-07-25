@@ -34,7 +34,6 @@ import com.squareup.picasso.Picasso;
 import java.util.LinkedList;
 import java.util.List;
 
-// TODO: will recieve a list/pointer to a list of dish posts to show. We can reuse the same fragment with different data.
 public class DishListFragment extends Fragment {
     private RecyclerView dish_list;
     private List<Dish> data = new LinkedList<Dish>();
@@ -46,7 +45,6 @@ public class DishListFragment extends Fragment {
     public DishListFragment() {
     }
 
-    // TODO: is needed?
     public static DishListFragment newInstance() {
         DishListFragment fragment = new DishListFragment();
         Bundle args = new Bundle();
@@ -62,10 +60,7 @@ public class DishListFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        // TODO: finish building the option menu
         setHasOptionsMenu(true);
-
-        // TODO: use live data
         viewModel = new ViewModelProvider(this).get(DishListViewModel.class);
     }
 
@@ -197,23 +192,25 @@ public class DishListFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        NavController navController = Navigation.findNavController(getView());
         switch (item.getItemId()){
             case R.id.menu_add_dish:
-                NavController navController = Navigation.findNavController(getView());
-                navController.navigate(R.id.action_dishListFragment_to_dishAddFragment);
-
-                Log.d("TAG", "fragment handle add menu");
-                return true;
+                navController.navigate(DishAddFragmentDirections.actionGlobalDishAddFragment());
+                break;
             case R.id.menu_home:
-                return true;
+                navController.navigate(DishListFragmentDirections.actionGlobalDishListFragment());
+                break;
             case R.id.menu_user:
-                return true;
+                String Current =MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
+                NavGraphDirections.ActionGlobalChefDetailsFragment action = ChefDetailsFragmentDirections.actionGlobalChefDetailsFragment();
+                action.setChefId(Current);
+                navController.navigate(action);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

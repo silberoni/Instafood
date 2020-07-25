@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.squareup.picasso.Picasso;
 import com.google.android.material.snackbar.Snackbar;
 import com.instafood.model.Dish;
 import com.instafood.model.DishModel;
@@ -86,6 +86,14 @@ public class DishDetailsFragment extends Fragment {
         dish_sec_1.setText(dish.getIngredients());
         dish_sec_2.setText(dish.getInstructions());
 
+        if (dish.getImgUrl() != null && dish.getImgUrl() != "") {
+            Picasso.get().load(dish.getImgUrl()).placeholder(R.drawable.avatar).into(dish_img);
+        }
+        else
+        {
+            dish_img.setImageResource(R.drawable.avatar);
+        }
+
         make_version.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,14 +108,17 @@ public class DishDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(view);
-                NavGraphDirections.ActionGlobalChefDetailsFragment action = ChefDetailsFragmentDirections.actionGlobalChefDetailsFragment(dish.getMakerID());
+                NavGraphDirections.ActionGlobalChefDetailsFragment action = ChefDetailsFragmentDirections.actionGlobalChefDetailsFragment();
+                action.setChefId(dish.getMakerID());
                 navController.navigate(action);
             }
         });
 
         //TODO: add check if user supposed to have edit button
         String CurrUser = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
-        if (CurrUser == dish.getMakerID()) {
+        if (CurrUser.equalsIgnoreCase(dish.getMakerID())) {
+            dish_edit.setVisibility(View.VISIBLE);
+            dish_edit.setClickable(true);
             dish_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

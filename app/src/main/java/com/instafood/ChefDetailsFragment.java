@@ -29,6 +29,7 @@ public class ChefDetailsFragment extends Fragment {
     Button chef_edit;
     Button chef_save;
     String chef_id;
+    String CurrUser;
 
     public ChefDetailsFragment() {
         // Required empty public constructor
@@ -37,6 +38,7 @@ public class ChefDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -53,56 +55,55 @@ public class ChefDetailsFragment extends Fragment {
         chef_desc = view.findViewById(R.id.fragment_chef_details_chef_desc_tv);
         chef_name = view.findViewById(R.id.fragment_chef_details_chef_name_tv);
         chef_edit = view.findViewById(R.id.fragment_chef_details_edit_btn);
+        chef_save = view.findViewById(R.id.fragment_chef_details_save_btn);
         chef_id = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChefId();
+        CurrUser = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
+        if(chef_id == null){
+            chef_id = CurrUser;
+        }
 
         ChefModel.instance.getChef(chef_id, new ChefModel.Listener<Chef>() {
             @Override
             public void OnComplete(Chef data) {
-                // insert result to chef
-                if (data != null) {
-                    chef = data;
-                    update_display();
-                }
+                chef = data;
+                update_display();
             }
         });
 
         return view;
     }
 
-    public void setChef(Chef chef) {
-        this.chef = chef;
-        if (chef_name != null) {
-            update_display();
-        }
-    }
-
     private void update_display() {
-        chef_name.setText(chef.getName());
-        chef_desc.setText(chef.getDesc());
-        if (chef_id == chef.getId()) {
-            chef_edit.setVisibility(View.VISIBLE);
-            chef_edit.setClickable(true);
-            chef_edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    chef_save.setVisibility(View.VISIBLE);
-                    chef_name.setEnabled(true);
-                    chef_desc.setEnabled(true);
-                    chef_edit.setClickable(false);
-                    chef_edit.setVisibility(View.INVISIBLE);
-                }
-            });
-            chef_save.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    chef.setName(chef_name.getText().toString());
-                    chef.setDesc(chef_desc.getText().toString());
-                    ChefModel.instance.update(chef);
-                    Toast.makeText(getActivity(), "Changes saves", Toast.LENGTH_SHORT).show();
-                    NavController navCtrl = Navigation.findNavController(view);
-                    navCtrl.popBackStack();
-                }
-            });
+        if (chef != null) {
+            chef_name.setText(chef.getName());
+            chef_desc.setText(chef.getDesc());
+            if (CurrUser.equalsIgnoreCase(chef.getId())) {
+                chef_edit.setVisibility(View.VISIBLE);
+                chef_edit.setClickable(true);
+                chef_edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        chef_save.setVisibility(View.VISIBLE);
+                        chef_name.setEnabled(true);
+                        chef_name.setHint(R.string.chef_name_hint);
+                        chef_desc.setEnabled(true);
+                        chef_desc.setHint(R.string.chef_desc_hint);
+                        chef_edit.setClickable(false);
+                        chef_edit.setVisibility(View.INVISIBLE);
+                    }
+                });
+                chef_save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        chef.setName(chef_name.getText().toString());
+                        chef.setDesc(chef_desc.getText().toString());
+                        ChefModel.instance.update(chef);
+                        Toast.makeText(getActivity(), "Changes saves", Toast.LENGTH_SHORT).show();
+                        NavController navCtrl = Navigation.findNavController(view);
+                        navCtrl.popBackStack();
+                    }
+                });
+            }
         }
     }
 

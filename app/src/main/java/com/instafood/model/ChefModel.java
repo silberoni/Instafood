@@ -19,27 +19,33 @@ public class ChefModel {
     }
 
     public void getChef(final String cid, final Listener<Chef> getListener) {
-
-        class AsyTask extends AsyncTask<String, String, String> {
-            Chef cdata;
+        ModelFirebase.getChef(cid, new Listener<Chef>() {
             @Override
-            protected String doInBackground(String... strings) {
-                cdata = AppLocalDb.db.ChefDao().getChef(cid);
-                if (cdata==null){
-                    // if does not exist in local db, go to firebase
-                    ModelFirebase.getChef(cid, new Listener<Chef>() {
-                        @Override
-                        public void OnComplete(Chef data) {
-                            cdata = data;
-                        }
-                    });
-                }
-                getListener.OnComplete(cdata);
-                return null;
+            public void OnComplete(Chef data) {
+                getListener.OnComplete(data);
             }
-        }
-        AsyTask task = new AsyTask();
-        task.execute();
+        });
+//
+//        class AsyTask extends AsyncTask<String, String, String> {
+//            Chef cdata;
+//            @Override
+//            protected String doInBackground(String... strings) {
+//                cdata = AppLocalDb.db.ChefDao().getChef(cid);
+//                if (cdata==null){
+//                    // if does not exist in local db, go to firebase
+//                    ModelFirebase.getChef(cid, new Listener<Chef>() {
+//                        @Override
+//                        public void OnComplete(Chef data) {
+//                            cdata = data;
+//                        }
+//                    });
+//                }
+//                getListener.OnComplete(cdata);
+//                return null;
+//            }
+//        }
+//        AsyTask task = new AsyTask();
+//        task.execute();
     }
 
     // TODO: maybe delete
