@@ -28,6 +28,7 @@ public class ChefDetailsFragment extends Fragment {
     EditText chef_desc;
     Button chef_edit;
     Button chef_save;
+    Button chef_dishes;
     String chef_id;
     String CurrUser;
 
@@ -57,6 +58,7 @@ public class ChefDetailsFragment extends Fragment {
         chef_name = view.findViewById(R.id.fragment_chef_details_chef_name_tv);
         chef_edit = view.findViewById(R.id.fragment_chef_details_edit_btn);
         chef_save = view.findViewById(R.id.fragment_chef_details_save_btn);
+        chef_dishes = view.findViewById(R.id.fragment_chef_details_see_dishes_btn);
 
         chef_id = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChefId();
         CurrUser = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
@@ -79,13 +81,24 @@ public class ChefDetailsFragment extends Fragment {
         if (chef != null) {
             chef_name.setText(chef.getName());
             chef_desc.setText(chef.getDesc());
+            chef_dishes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NavController navController = Navigation.findNavController(getView());
+                    NavGraphDirections.ActionGlobalDishListFragment action = DishListFragmentDirections.actionGlobalDishListFragment();
+                    action.setChefList(chef_id);
+                    navController.navigate(action);
+                }
+            });
+
             if (CurrUser.equalsIgnoreCase(chef.getId())) {
                 chef_edit.setVisibility(View.VISIBLE);
                 chef_edit.setClickable(true);
                 chef_edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        chef_dishes.setVisibility(View.INVISIBLE);
+                        chef_dishes.setClickable(false);
                         chef_save.setVisibility(View.VISIBLE);
                         chef_name.setEnabled(true);
                         chef_name.setHint(R.string.chef_name_hint);
@@ -102,8 +115,19 @@ public class ChefDetailsFragment extends Fragment {
                         chef.setDesc(chef_desc.getText().toString());
                         ChefModel.instance.update(chef);
                         Toast.makeText(getActivity(), "Changes saves", Toast.LENGTH_SHORT).show();
-                        NavController navCtrl = Navigation.findNavController(view);
-                        navCtrl.popBackStack();
+
+                        chef_dishes.setVisibility(View.VISIBLE);
+                        chef_dishes.setClickable(true);
+                        chef_save.setVisibility(View.INVISIBLE);
+                        chef_name.setEnabled(false);
+                        chef_name.setHint("");
+                        chef_desc.setEnabled(false);
+                        chef_desc.setHint("");
+                        chef_edit.setClickable(true);
+                        chef_edit.setVisibility(View.VISIBLE);
+
+                        //NavController navCtrl = Navigation.findNavController(view);
+                        //navCtrl.popBackStack();
                     }
                 });
             }

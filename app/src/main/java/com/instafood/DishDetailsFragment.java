@@ -133,6 +133,10 @@ public class DishDetailsFragment extends Fragment {
                     dish_sec_2.setEnabled(true);
                     dish_edit.setClickable(false);
                     dish_edit.setVisibility(View.INVISIBLE);
+                    make_version.setClickable(false);
+                    make_version.setVisibility(View.INVISIBLE);
+                    see_chef.setClickable(false);
+                    see_chef.setVisibility(View.INVISIBLE);
                 }
             });
             dish_save.setOnClickListener(new View.OnClickListener() {
@@ -144,8 +148,24 @@ public class DishDetailsFragment extends Fragment {
                     dish.setInstructions(dish_sec_2.getText().toString());
                     DishModel.instance.update(dish);
                     Toast.makeText(getActivity(), "Item saves", Toast.LENGTH_SHORT).show();
-                    NavController navCtrl = Navigation.findNavController(view);
-                    navCtrl.popBackStack();
+
+                    dish_save.setVisibility(View.INVISIBLE);
+                    dish_delete.setVisibility(View.INVISIBLE);
+                    dish_delete.setClickable(false);
+                    dish_save.setClickable(false);
+                    dish_name.setEnabled(false);
+                    dish_desc.setEnabled(false);
+                    dish_sec_1.setEnabled(false);
+                    dish_sec_2.setEnabled(false);
+                    dish_edit.setClickable(true);
+                    dish_edit.setVisibility(View.VISIBLE);
+                    make_version.setClickable(true);
+                    make_version.setVisibility(View.VISIBLE);
+                    see_chef.setClickable(true);
+                    see_chef.setVisibility(View.VISIBLE);
+
+                    //NavController navCtrl = Navigation.findNavController(view);
+                    //navCtrl.popBackStack();
                 }
             });
             dish_delete.setOnClickListener(new View.OnClickListener() {

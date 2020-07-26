@@ -21,7 +21,7 @@ public class DishListViewModel extends ViewModel {
     }
     public LiveData<List<Dish>> getChefData(String id) {
         // static list, but uses live data
-        ChefData = DishModel.instance.getAllDishes();
+        ChefData = DishModel.instance.getDishesBy(id);
         return ChefData;
     }
     public void refresh(DishModel.LDListener listener) {

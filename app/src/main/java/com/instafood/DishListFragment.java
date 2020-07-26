@@ -90,8 +90,8 @@ public class DishListFragment extends Fragment {
             }
         });
 
-        chef_id = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChefId();
-        if(chef_id == null) {
+        chef_id = DishListFragmentArgs.fromBundle(getArguments()).getChefList();
+        if(chef_id.equalsIgnoreCase("null")) {
             liveData = viewModel.getAllData();
             liveData.observe(getViewLifecycleOwner(), new Observer<List<Dish>>() {
                 @Override
@@ -124,6 +124,8 @@ public class DishListFragment extends Fragment {
                     adptr.notifyDataSetChanged();
                 }
             });
+            final SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.dish_list_swipe_refresh);
+            swipeRefresh.setEnabled(false);
         }
         return view;
     }

@@ -70,7 +70,7 @@
     <fragment
         android:id="@+id/dishAddFragment"
         android:name="com.instafood.DishAddFragment"
-        android:label="fragment_dish_add"
+        android:label="@string/application_title"
         tools:layout="@layout/fragment_dish_add">
         <argument
             android:name="Dish"
