@@ -97,7 +97,7 @@ public class ChefDetailsFragment extends Fragment {
                 chef_edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        chef_dishes.setVisibility(View.INVISIBLE);
+                        chef_dishes.setVisibility(View.GONE);
                         chef_dishes.setClickable(false);
                         chef_save.setVisibility(View.VISIBLE);
                         chef_name.setEnabled(true);
@@ -105,7 +105,7 @@ public class ChefDetailsFragment extends Fragment {
                         chef_desc.setEnabled(true);
                         chef_desc.setHint(R.string.chef_desc_hint);
                         chef_edit.setClickable(false);
-                        chef_edit.setVisibility(View.INVISIBLE);
+                        chef_edit.setVisibility(View.GONE);
                     }
                 });
                 chef_save.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +118,7 @@ public class ChefDetailsFragment extends Fragment {
 
                         chef_dishes.setVisibility(View.VISIBLE);
                         chef_dishes.setClickable(true);
-                        chef_save.setVisibility(View.INVISIBLE);
+                        chef_save.setVisibility(View.GONE);
                         chef_name.setEnabled(false);
                         chef_name.setHint("");
                         chef_desc.setEnabled(false);

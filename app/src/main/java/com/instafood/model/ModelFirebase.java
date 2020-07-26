@@ -103,7 +103,7 @@ public class ModelFirebase {
 
     public static void getAllDishes(final DishModel.Listener<List<Dish>> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(DISH_COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(DISH_COLLECTION).whereArrayContains("deleted",false).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<Dish> dshData = null;
