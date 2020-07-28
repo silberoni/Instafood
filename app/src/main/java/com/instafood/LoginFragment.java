@@ -104,7 +104,7 @@ public class LoginFragment extends Fragment {
                                 Log.d("NOTIFY", "CurrentUser " + email);
                                 edit.commit();
 
-                                NavController navController = Navigation.findNavController(view2);
+                                NavController navController = Navigation.findNavController(getView());
                                 navController.navigate(R.id.action_loginFragment_to_dishListFragment);
 
                             } else {

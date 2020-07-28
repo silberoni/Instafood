@@ -24,6 +24,7 @@
     put in oven</string>
     <string name="dish_add_title">Add your own!</string>
     <string name="dish_add_photo_btn">Add a picture</string>
+    <string name="chef_add_photo_btn">Add a picture</string>
     <string name="chef_name_hint">What is your name?</string>
     <string name="chef_desc_hint">Tell us a little about yourself</string>
 </resources>

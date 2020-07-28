@@ -99,7 +99,7 @@ public class DishDetailsFragment extends Fragment {
         dish_sec_1.setText(dish.getIngredients());
         dish_sec_2.setText(dish.getInstructions());
 
-        if (dish.getImgUrl() != null && dish.getImgUrl() != "") {
+        if (dish.getImgUrl() != null) {
             Picasso.get().load(dish.getImgUrl()).placeholder(R.drawable.avatar).into(dish_img);
         }
         else
@@ -164,7 +164,6 @@ public class DishDetailsFragment extends Fragment {
                         dish.setIngredients(dish_sec_1.getText().toString());
                         dish.setInstructions(dish_sec_2.getText().toString());
 
-                        Toast.makeText(getActivity(), "Item saves", Toast.LENGTH_SHORT).show();
 
                         dish_save.setVisibility(View.GONE);
                         dish_delete.setVisibility(View.GONE);
@@ -195,6 +194,7 @@ public class DishDetailsFragment extends Fragment {
                                     public void onComplete(Boolean data) {
                                         if (data) {
                                             Log.d("NOTIFY", "added updated ");
+                                      //      Toast.makeText(getActivity(), "Dish saves", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Log.d("NOTIFY", "Something went wrong ");
                                         }
@@ -206,6 +206,8 @@ public class DishDetailsFragment extends Fragment {
                                 Log.d("NOTIFY", "Something went wrong");
                             }
                         });
+
+
 
                         //NavController navCtrl = Navigation.findNavController(view);
                         //navCtrl.popBackStack();
@@ -226,11 +228,12 @@ public class DishDetailsFragment extends Fragment {
                             }
                         }
                     });
-                    Toast.makeText(getActivity(), "Item deleted", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getActivity(), "Dish deleted", Toast.LENGTH_SHORT).show();
                     NavController navCtrl = Navigation.findNavController(view);
                     navCtrl.popBackStack();
                 }
             });
+
             dish_add_photo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -251,14 +254,15 @@ public class DishDetailsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-    }static final int REQUEST_IMAGE_CAPTURE = 1;
+    }
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     final static int RESULT_SUCCESS = 0;
 
     public Boolean checkFields() {
-        if ((dish_name.getText().toString()!=null)&&
-                (dish_desc.getText().toString()!=null)&&
-                (dish_sec_1.getText().toString()!=null)&&
-                (dish_sec_2.getText().toString()!=null)){
+        if ((!dish_name.getText().toString().isEmpty())&&
+                (!dish_desc.getText().toString().isEmpty())&&
+                (!dish_sec_1.getText().toString().isEmpty())&&
+                (!dish_sec_2.getText().toString().isEmpty())){
             return true;
         } else {
             Log.d("NOTIFY", "Cannot leave empty fields");

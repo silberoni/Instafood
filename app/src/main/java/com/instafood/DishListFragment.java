@@ -160,7 +160,7 @@ public class DishListFragment extends Fragment {
         void bind(Dish dish) {
             this.dish = dish;
             nametv.setText(dish.getName());
-            if (dish.getImgUrl() != null && dish.getImgUrl() != "") {
+            if (dish.getImgUrl() != null && !dish.getImgUrl().equals("")) {
                 Picasso.get().load(dish.getImgUrl()).placeholder(R.drawable.avatar).into(image);
             }
             else
@@ -206,28 +206,28 @@ public class DishListFragment extends Fragment {
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        NavController navController = Navigation.findNavController(getView());
-        switch (item.getItemId()){
-            case R.id.menu_add_dish:
-                navController.navigate(DishAddFragmentDirections.actionGlobalDishAddFragment());
-                break;
-            case R.id.menu_home:
-                navController.navigate(DishListFragmentDirections.actionGlobalDishListFragment());
-                break;
-            case R.id.menu_user:
-                String Current =MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
-                NavGraphDirections.ActionGlobalChefDetailsFragment action = ChefDetailsFragmentDirections.actionGlobalChefDetailsFragment();
-                action.setChefId(Current);
-                navController.navigate(action);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        NavController navController = Navigation.findNavController(getView());
+//        switch (item.getItemId()){
+//            case R.id.menu_add_dish:
+//                navController.navigate(DishAddFragmentDirections.actionGlobalDishAddFragment());
+//                break;
+//            case R.id.menu_home:
+//                navController.navigate(DishListFragmentDirections.actionGlobalDishListFragment());
+//                break;
+//            case R.id.menu_user:
+//                String Current =MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
+//                NavGraphDirections.ActionGlobalChefDetailsFragment action = ChefDetailsFragmentDirections.actionGlobalChefDetailsFragment();
+//                action.setChefId(Current);
+//                navController.navigate(action);
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 }

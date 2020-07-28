@@ -28,6 +28,7 @@ import com.instafood.model.StoreModel;
 
 import java.util.Date;
 import java.util.UUID;
+
 import static android.app.Activity.RESULT_OK;
 
 public class DishAddFragment extends Fragment {
@@ -79,7 +80,7 @@ public class DishAddFragment extends Fragment {
         dish_save = view.findViewById(R.id.fragment_dish_add_save_btn);
         dish_add_photo = view.findViewById(R.id.fragment_dish_add_photo_btn);
 
-        chef_id =MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
+        chef_id = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
 
         dishBased = DishAddFragmentArgs.fromBundle(getArguments()).getDish();
         if (dishBased != null) {
@@ -90,7 +91,7 @@ public class DishAddFragment extends Fragment {
             @Override
             public void onClick(final View view) {
                 // How do we get a new ID each time?
-                if(checkFields()) {
+                if (checkFields()) {
 
                     String id = UUID.randomUUID().toString();
 
@@ -116,12 +117,15 @@ public class DishAddFragment extends Fragment {
                                 public void onComplete(Boolean data) {
                                     if (data) {
                                         Log.d("NOTIFY", "added dish ");
+                                       // Snackbar.make(view, "Dish added", Snackbar.LENGTH_SHORT).show();
+                                      //  Toast.makeText(getActivity(), "Dish added", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Log.d("NOTIFY", "Something went wrong ");
                                     }
                                 }
                             });
                         }
+
                         @Override
                         public void onFail() {
                             Log.d("NOTIFY", "Something went wrong with adding a photo");
@@ -129,6 +133,8 @@ public class DishAddFragment extends Fragment {
                     });
                     NavController navCtrl = Navigation.findNavController(view);
                     navCtrl.popBackStack();
+                } else {
+                    Toast.makeText(getActivity(), "Cannot leave empty fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -145,7 +151,7 @@ public class DishAddFragment extends Fragment {
     }
 
     private void update_display() {
-        dish_name.setText(dishBased.getName()+"  -    -  "+chef_id);
+        dish_name.setText(dishBased.getName() + "  -    -  " + chef_id);
         dish_desc.setText(dishBased.getDesc());
         dish_sec_1.setText(dishBased.getIngredients());
         dish_sec_2.setText(dishBased.getInstructions());
@@ -160,10 +166,10 @@ public class DishAddFragment extends Fragment {
     final static int RESULT_SUCCESS = 0;
 
     public Boolean checkFields() {
-        if ((dish_name.getText().toString()!=null)&&
-                (dish_desc.getText().toString()!=null)&&
-                (dish_sec_1.getText().toString()!=null)&&
-                (dish_sec_2.getText().toString()!=null)){
+        if ((!dish_name.getText().toString().isEmpty()) &&
+                (!dish_desc.getText().toString().isEmpty()) &&
+                (!dish_sec_1.getText().toString().isEmpty()) &&
+                (!dish_sec_2.getText().toString().isEmpty())) {
             return true;
         } else {
             Log.d("NOTIFY", "Cannot leave empty fields");
@@ -176,9 +182,7 @@ public class DishAddFragment extends Fragment {
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             Log.d("NOTIFY", "Opened Camera");
-        }
-        else
-        {
+        } else {
             Log.d("NOTIFY", "There is no camera to take photos with ");
         }
     }
@@ -194,9 +198,7 @@ public class DishAddFragment extends Fragment {
 
             dish_img.setImageBitmap(imageBitmap);
             Log.d("NOTIFY", "BITMAP SUCCESS");
-        }
-        else
-        {
+        } else {
             Log.d("NOTIFY", "BITMAP FAILED ");
         }
     }

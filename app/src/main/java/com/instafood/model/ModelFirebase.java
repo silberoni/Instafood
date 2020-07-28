@@ -96,7 +96,6 @@ public class ModelFirebase {
                     }
                 }
                 listener.onComplete(dshData);
-                Log.d("NOTIFY", "added " + dshData.size() + " items: " + dshData.get(0).getName());
             }
         });
     }

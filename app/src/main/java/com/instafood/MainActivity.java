@@ -18,6 +18,7 @@ import androidx.navigation.ui.NavigationUI;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.instafood.model.Dish;
@@ -47,11 +48,25 @@ public class MainActivity extends AppCompatActivity{
         return true;
     }
 
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
-            navController.navigateUp();
-            return true;
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                navController.navigateUp();
+                break;
+            case R.id.menu_add_dish:
+                navController.navigate(DishAddFragmentDirections.actionGlobalDishAddFragment());
+                break;
+            case R.id.menu_home:
+                navController.navigate(DishListFragmentDirections.actionGlobalDishListFragment());
+                break;
+            case R.id.menu_user:
+                String Current =MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
+                NavGraphDirections.ActionGlobalChefDetailsFragment action = ChefDetailsFragmentDirections.actionGlobalChefDetailsFragment();
+                action.setChefId(Current);
+                navController.navigate(action);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
