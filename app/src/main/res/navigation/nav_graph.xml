@@ -20,7 +20,7 @@
             android:name="chef_list"
             app:argType="string"
             app:nullable="true"
-            android:defaultValue="null" />
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/dishDetailsFragment"
@@ -37,10 +37,10 @@
         android:label="@string/application_title"
         tools:layout="@layout/fragment_chef_details">
         <argument
-            android:name="chef_id"
-            app:argType="string"
+            android:name="chef"
+            app:argType="com.instafood.model.Chef"
             app:nullable="true"
-            android:defaultValue="null" />
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

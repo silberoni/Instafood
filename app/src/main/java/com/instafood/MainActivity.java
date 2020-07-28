@@ -62,9 +62,7 @@ public class MainActivity extends AppCompatActivity{
                 navController.navigate(DishListFragmentDirections.actionGlobalDishListFragment());
                 break;
             case R.id.menu_user:
-                String Current =MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
                 NavGraphDirections.ActionGlobalChefDetailsFragment action = ChefDetailsFragmentDirections.actionGlobalChefDetailsFragment();
-                action.setChefId(Current);
                 navController.navigate(action);
                 break;
         }

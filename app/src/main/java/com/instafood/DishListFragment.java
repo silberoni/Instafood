@@ -90,8 +90,9 @@ public class DishListFragment extends Fragment {
             }
         });
 
+        // Checking if a general dish list or a chef dishes list
         chef_id = DishListFragmentArgs.fromBundle(getArguments()).getChefList();
-        if(chef_id.equalsIgnoreCase("null")) {
+        if(chef_id == null) {
             liveData = viewModel.getAllData();
             liveData.observe(getViewLifecycleOwner(), new Observer<List<Dish>>() {
                 @Override

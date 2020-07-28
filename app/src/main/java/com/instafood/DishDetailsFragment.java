@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.instafood.model.Chef;
+import com.instafood.model.ChefModel;
 import com.instafood.model.StoreModel;
 import com.squareup.picasso.Picasso;
 import com.google.android.material.snackbar.Snackbar;
@@ -35,6 +37,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class DishDetailsFragment extends Fragment {
     private Dish dish;
+    private Chef chef;
     ImageView dish_img;
     EditText dish_name;
     EditText dish_desc;
@@ -89,7 +92,15 @@ public class DishDetailsFragment extends Fragment {
         dish_add_photo = view.findViewById(R.id.fragment_dish_details_photo_btn);
 
         dish = DishDetailsFragmentArgs.fromBundle(getArguments()).getDish();
-        update_display();
+
+        ChefModel.instance.getChef(dish.getMakerID(), new ChefModel.Listener<Chef>() {
+            @Override
+            public void OnComplete(Chef data) {
+                chef = data;
+                update_display();
+            }
+        });
+
         return view;
     }
 
@@ -117,12 +128,14 @@ public class DishDetailsFragment extends Fragment {
             }
         });
 
+        see_chef.setText(chef.getName());
+
         see_chef.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(view);
                 NavGraphDirections.ActionGlobalChefDetailsFragment action = ChefDetailsFragmentDirections.actionGlobalChefDetailsFragment();
-                action.setChefId(dish.getMakerID());
+                action.setChef(chef);
                 navController.navigate(action);
             }
         });

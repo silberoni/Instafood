@@ -32,7 +32,6 @@ public class DishModel {
 
     public void addDish(final Dish dsh, final Listener<Boolean> listener) {
         class AsyTask extends AsyncTask<String, String, String> {
-            // TODO: need to insert and override in the firebase too
             @Override
             protected String doInBackground(String... strings) {
                 AppLocalDb.db.dishDao().insertAll(dsh);
@@ -43,7 +42,6 @@ public class DishModel {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                // TODO: check if possible to return true/false as success..
                 Log.d("NOTIFY", "Added new dish to the DB");
             }
         }

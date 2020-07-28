@@ -48,8 +48,7 @@ public class ChefModel {
 //        task.execute();
     }
 
-    // TODO: maybe delete
-    public void addChef(final Chef chef, final ChefModel.Listener<Boolean> listener) {
+    public void addChef(final Chef chef, final Listener<Boolean> listener) {
         class AsyTask extends AsyncTask<String, String, String> {
             @Override
             protected String doInBackground(String... strings) {

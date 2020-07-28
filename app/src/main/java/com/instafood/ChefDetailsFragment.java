@@ -75,20 +75,20 @@ public class ChefDetailsFragment extends Fragment {
         chef_add_photo = view.findViewById(R.id.fragment_chef_details_add_photo_btn);
 
         assert getArguments() != null;
-        chef_id = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChefId();
+        chef = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChef();
         CurrUser = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
-        if(chef_id == null){
-            chef_id = CurrUser;
+
+        if(chef == null){
+            ChefModel.instance.getChef(CurrUser, new ChefModel.Listener<Chef>() {
+                @Override
+                public void OnComplete(Chef data) {
+                    chef = data;
+                    update_display();
+                }
+            });
+        } else {
+            update_display();
         }
-
-        ChefModel.instance.getChef(chef_id, new ChefModel.Listener<Chef>() {
-            @Override
-            public void OnComplete(Chef data) {
-                chef = data;
-                update_display();
-            }
-        });
-
         return view;
     }
 
@@ -98,7 +98,7 @@ public class ChefDetailsFragment extends Fragment {
             chef_name.setText(chef.getName());
             chef_desc.setText(chef.getDesc());
 
-            if (chef.getImgUrl() == null) {
+            if (chef.getImgUrl() != null) {
                 Picasso.get().load(chef.getImgUrl()).placeholder(R.drawable.avatar).into(chef_img);
             }
             else
@@ -111,7 +111,7 @@ public class ChefDetailsFragment extends Fragment {
                 public void onClick(View view) {
                     NavController navController = Navigation.findNavController(getView());
                     NavGraphDirections.ActionGlobalDishListFragment action = DishListFragmentDirections.actionGlobalDishListFragment();
-                    action.setChefList(chef_id);
+                    action.setChefList(chef.getId());
                     navController.navigate(action);
                 }
             });
@@ -143,8 +143,6 @@ public class ChefDetailsFragment extends Fragment {
                     public void onClick(View view) {
                         chef.setName(chef_name.getText().toString());
                         chef.setDesc(chef_desc.getText().toString());
-                        ChefModel.instance.update(chef);
-                    //    Toast.makeText(getActivity(), "Changes saves", Toast.LENGTH_SHORT).show();
 
                         chef_dishes.setVisibility(View.VISIBLE);
                         chef_dishes.setClickable(true);
@@ -159,7 +157,6 @@ public class ChefDetailsFragment extends Fragment {
                         chef_name.setHint("");
                         chef_desc.setEnabled(false);
                         chef_desc.setHint("");
-
 
                         Date d = new Date();
                         StoreModel.uploadImage(imageBitmap, "my_photo" + d.getTime(), new StoreModel.Listener() {
