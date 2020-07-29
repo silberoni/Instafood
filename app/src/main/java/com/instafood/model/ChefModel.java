@@ -99,11 +99,16 @@ public class ChefModel {
             @Override
             public void OnComplete(Boolean data) {
                 if (data){
-                    // if created in the firebase, create in the local DB
-                    Chef cchef = new Chef(email, name);
-                    AppLocalDb.db.ChefDao().insertAll(cchef);
-                    ModelFirebase.addChef(cchef, listener);
-                    Log.d("NOTIFY", "Finished adding chef to the DB");
+                    class AsyTask extends AsyncTask<String, String, String> {
+                        @Override
+                        protected String doInBackground(String... strings) {
+                            Chef cchef = new Chef(email, name);
+                            AppLocalDb.db.ChefDao().insertAll(cchef);
+                            ModelFirebase.addChef(cchef, listener);
+                            Log.d("NOTIFY", "Finished adding chef to the DB");
+                            return null;
+                        }
+                    }
                 }
                 listener.OnComplete(data);
             }

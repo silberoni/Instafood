@@ -10,14 +10,14 @@ import java.util.List;
 
 @Dao
 public interface DishDao{
-    @Query("select * from Dish ORDER BY lastUpdated DESC")
+    @Query("select * from Dish WHERE deleted = 0 ORDER BY lastUpdated DESC")
     LiveData<List<Dish>> getAll();
 
     // Can be used as update: Insert the object with same primary-key and new data
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Dish... dishs);
 
-    @Query("select * from Dish where makerID = :id")
+    @Query("select * from Dish where makerID = :id AND deleted = 0")
     LiveData<List<Dish>> getByChef(String id);
 
     @Delete

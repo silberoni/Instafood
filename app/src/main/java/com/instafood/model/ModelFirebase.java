@@ -90,7 +90,7 @@ public class ModelFirebase {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         Map<String, Object> json = doc.getData();
                         Dish dish = dishFactory(json);
-                        if (dish.id != null && !dish.deleted) {
+                        if (dish.id != null) {
                             dshData.add(dish);
                         }
                     }
@@ -102,7 +102,7 @@ public class ModelFirebase {
 
     public static void getAllDishes(final DishModel.Listener<List<Dish>> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(DISH_COLLECTION).whereArrayContains("deleted",false).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(DISH_COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<Dish> dshData = null;
@@ -113,7 +113,7 @@ public class ModelFirebase {
                         Map<String, Object> json = doc.getData();
                         Dish dish = dishFactory(json);
                         dshData.add(dish);
-                        if (dish.id != null && !dish.deleted) {
+                        if (dish.id != null) {
                             dshData.add(dish);
                         }
                     }
@@ -123,9 +123,9 @@ public class ModelFirebase {
         });
     }
 
-    public static void getDishesBy(String id, final DishModel.Listener<List<Dish>> listener){
+    public static void getDishesBy(String id, final DishModel.Listener<List<Dish>> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(DISH_COLLECTION).whereArrayContains("makerID",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(DISH_COLLECTION).whereArrayContains("makerID", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<Dish> dshData = null;
@@ -136,7 +136,7 @@ public class ModelFirebase {
                         Map<String, Object> json = doc.getData();
                         Dish dish = dishFactory(json);
                         dshData.add(dish);
-                        if (dish.id != null && !dish.deleted) {
+                        if (dish.id != null) {
                             dshData.add(dish);
                         }
                     }
@@ -146,17 +146,17 @@ public class ModelFirebase {
         });
     }
 
-    public static void getChef(final String email, final ChefModel.Listener<Chef> listener){
+    public static void getChef(final String email, final ChefModel.Listener<Chef> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(CHEF_COLLECTION).document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    if (task.getResult().getData() == null){
-                        listener.OnComplete( null);
+                if (task.isSuccessful()) {
+                    if (task.getResult().getData() == null) {
+                        listener.OnComplete(null);
                     } else {
                         Map<String, Object> json = task.getResult().getData();
-                        listener.OnComplete( chefFactory(json));
+                        listener.OnComplete(chefFactory(json));
                     }
                 }
             }
@@ -254,7 +254,7 @@ public class ModelFirebase {
         frBase.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (listener!=null) listener.OnComplete(task.isSuccessful());
+                if (listener != null) listener.OnComplete(task.isSuccessful());
             }
         });
     }

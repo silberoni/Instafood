@@ -90,10 +90,16 @@ public class SignupFragment extends Fragment {
                                 Log.d("NOTIFY", "CurrentUser"+ email);
                                 edit.commit();
 
-                                NavController navController = Navigation.findNavController(view2);
+                                NavController navController;
+                                if(getView() == null) {
+                                    navController = Navigation.findNavController(view2);
+                                } else {
+                                    navController = Navigation.findNavController(getView());
+                                }
                                 navController.navigate(R.id.action_signupFragment_to_dishListFragment);
                             } else {
                                 Toast.makeText(getActivity(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+
                             }
                         }
                     });

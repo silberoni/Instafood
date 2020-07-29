@@ -10,7 +10,7 @@
     <string name="dish_add_btn">Serve!</string>
     <string name="dish_delete_btn">Delete</string>
     <string name="dish_list_frgmnt">To the feast</string>
-    <string name="chef_frgmnt">See the Chef</string>
+    <string name="chef_frgmnt"> </string>
     <string name="chef_dishes">See dishes made by me!</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>

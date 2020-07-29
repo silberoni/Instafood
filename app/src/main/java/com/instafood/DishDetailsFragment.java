@@ -128,8 +128,10 @@ public class DishDetailsFragment extends Fragment {
             }
         });
 
-        see_chef.setText(chef.getName());
-
+        if(chef !=null) {
+            see_chef.setText(chef.getName());
+            see_chef.setEnabled(true);
+        }
         see_chef.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
