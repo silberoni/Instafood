@@ -6,6 +6,7 @@ import java.util.List;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 public class ChefModel {
@@ -25,27 +26,6 @@ public class ChefModel {
                 getListener.OnComplete(data);
             }
         });
-//
-//        class AsyTask extends AsyncTask<String, String, String> {
-//            Chef cdata;
-//            @Override
-//            protected String doInBackground(String... strings) {
-//                cdata = AppLocalDb.db.ChefDao().getChef(cid);
-//                if (cdata==null){
-//                    // if does not exist in local db, go to firebase
-//                    ModelFirebase.getChef(cid, new Listener<Chef>() {
-//                        @Override
-//                        public void OnComplete(Chef data) {
-//                            cdata = data;
-//                        }
-//                    });
-//                }
-//                getListener.OnComplete(cdata);
-//                return null;
-//            }
-//        }
-//        AsyTask task = new AsyTask();
-//        task.execute();
     }
 
     public void addChef(final Chef chef, final Listener<Boolean> listener) {
@@ -109,6 +89,8 @@ public class ChefModel {
                             return null;
                         }
                     }
+                    AsyTask task = new AsyTask();
+                    task.execute();
                 }
                 listener.OnComplete(data);
             }

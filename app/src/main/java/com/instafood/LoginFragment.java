@@ -60,7 +60,6 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_login, container, false);
         final View view2 = view;
-
         // Hide Action Bar
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
@@ -80,7 +79,7 @@ public class LoginFragment extends Fragment {
         });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 final String email = textLoginEmail.getText().toString();
                 String pwd = textLoginPassword.getText().toString();
 
@@ -93,6 +92,8 @@ public class LoginFragment extends Fragment {
                     textLoginPassword.requestFocus();
                 }
 
+                final NavController navController = Navigation.findNavController(getView());
+
                 if (!(email.isEmpty() && pwd.isEmpty())) {
                     // Try Login and authenticate with DB
                     ChefModel.instance.authUser(email, pwd, new ChefModel.Listener<Boolean>() {
@@ -104,12 +105,8 @@ public class LoginFragment extends Fragment {
                                 Log.d("NOTIFY", "CurrentUser " + email);
                                 edit.commit();
 
-                                NavController navController;
-                                if(getView() == null) {
-                                    navController = Navigation.findNavController(view2);
-                                } else {
-                                    navController = Navigation.findNavController(getView());
-                                }
+                                // TODO: uncomment if no back to login possible
+                                // navController.popBackStack();
                                 navController.navigate(R.id.action_loginFragment_to_dishListFragment);
 
                             } else {

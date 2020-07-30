@@ -151,7 +151,7 @@ public class DishAddFragment extends Fragment {
     }
 
     private void update_display() {
-        dish_name.setText(dishBased.getName() + "  -    -  " + chef_id);
+        dish_name.setText(dishBased.getName() + "  -  version by" + chef_id);
         dish_desc.setText(dishBased.getDesc());
         dish_sec_1.setText(dishBased.getIngredients());
         dish_sec_2.setText(dishBased.getInstructions());

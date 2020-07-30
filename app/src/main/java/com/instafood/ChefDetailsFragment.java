@@ -98,7 +98,7 @@ public class ChefDetailsFragment extends Fragment {
             chef_name.setText(chef.getName());
             chef_desc.setText(chef.getDesc());
 
-            if (chef.getImgUrl() != null) {
+            if (!chef.getImgUrl().isEmpty()) {
                 Picasso.get().load(chef.getImgUrl()).placeholder(R.drawable.avatar).into(chef_img);
             }
             else
@@ -182,8 +182,6 @@ public class ChefDetailsFragment extends Fragment {
                             }
                         });
 
-                        //NavController navCtrl = Navigation.findNavController(view);
-                        //navCtrl.popBackStack();
                     }
                 });
 

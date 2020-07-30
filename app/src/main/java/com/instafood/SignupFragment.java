@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +46,7 @@ public class SignupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_signup, container, false);
+        final View view = inflater.inflate(R.layout.fragment_signup, container, false);
         final View view2 = view;
 
         final EditText textSignupName = view.findViewById(R.id.textSignupFirstname);
@@ -79,28 +80,29 @@ public class SignupFragment extends Fragment {
                     textSignupUsername.requestFocus();
                 }
 
+                final NavController navController = Navigation.findNavController(getView());
+
                 if (!(email.isEmpty() && pwd.isEmpty() && nname.isEmpty())) {
                     ChefModel.instance.createUser(email, pwd, nname, new ChefModel.Listener<Boolean>() {
                         @Override
                         public void OnComplete(Boolean data) {
                             if (data){
-                                Toast.makeText(getActivity(), "SignUp Successful", Toast.LENGTH_SHORT).show();
                                 SharedPreferences.Editor edit = MainActivity.context.getSharedPreferences("NOTIFY", MODE_PRIVATE).edit();
                                 edit.putString("CurrentUser", email);
-                                Log.d("NOTIFY", "CurrentUser"+ email);
+                                Log.d("NOTIFY", "CurrentUser "+ email);
                                 edit.commit();
 
-                                NavController navController;
-                                if(getView() == null) {
-                                    navController = Navigation.findNavController(view2);
-                                } else {
-                                    navController = Navigation.findNavController(getView());
-                                }
-                                navController.navigate(R.id.action_signupFragment_to_dishListFragment);
+                                // TODO: uncomment if no back to login possible
+                                // navController.popBackStack();
+                                navController.popBackStack();
+                                navController.navigate(R.id.action_global_dishListFragment);
+
+
                             } else {
                                 Toast.makeText(getActivity(), "Something went wrong!", Toast.LENGTH_SHORT).show();
 
                             }
+
                         }
                     });
                 }
