@@ -45,8 +45,10 @@
            android:drawableLeft="@drawable/ic_person"
            android:drawablePadding="10dp"
            android:hint="Email"
+           android:inputType="textEmailAddress"
            android:padding="20dp"
            android:textColorHint="#FFFF"
+           android:textColor="#FFFF"
            android:textStyle="bold" />
 
        <EditText
@@ -55,6 +57,7 @@
            android:layout_height="wrap_content"
            android:hint="Password"
            android:textColorHint="#FFFF"
+           android:textColor="#FFFF"
            android:layout_gravity="center"
            android:inputType="textPassword"
            android:textStyle="bold"

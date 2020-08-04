@@ -3,6 +3,7 @@ package com.instafood;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -26,10 +27,13 @@ import com.instafood.model.Dish;
 import com.instafood.model.DishModel;
 import com.instafood.model.StoreModel;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
+import static com.instafood.MainActivity.context;
 
 public class DishAddFragment extends Fragment {
     private Dish dishNew;
@@ -41,6 +45,7 @@ public class DishAddFragment extends Fragment {
     EditText dish_sec_2;
     Button dish_save;
     Button dish_add_photo;
+    Button dish_upload_photo;
     String chef_id;
     Bitmap imageBitmap;
     ImageView imageView;
@@ -79,8 +84,9 @@ public class DishAddFragment extends Fragment {
         dish_sec_2 = view.findViewById(R.id.fragment_dish_add_sec_2_eb);
         dish_save = view.findViewById(R.id.fragment_dish_add_save_btn);
         dish_add_photo = view.findViewById(R.id.fragment_dish_add_photo_btn);
+        dish_upload_photo = view.findViewById(R.id.fragment_dish_upload_photo_from_gallery_btn);
 
-        chef_id = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
+        chef_id = context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
 
         dishBased = DishAddFragmentArgs.fromBundle(getArguments()).getDish();
         if (dishBased != null) {
@@ -147,6 +153,15 @@ public class DishAddFragment extends Fragment {
                 Log.d("NOTIFY", "No photos for you ");
             }
         });
+
+        dish_upload_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadPhoto();
+                //Toast.makeText(getActivity(), "No photos for you", Toast.LENGTH_SHORT).show();
+                Log.d("NOTIFY", "Problem with uploading photo ");
+            }
+        });
         return view;
     }
 
@@ -164,6 +179,7 @@ public class DishAddFragment extends Fragment {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     final static int RESULT_SUCCESS = 0;
+    public static final int PICK_IMAGE = 2;
 
     public Boolean checkFields() {
         if ((!dish_name.getText().toString().isEmpty()) &&
@@ -175,6 +191,13 @@ public class DishAddFragment extends Fragment {
             Log.d("NOTIFY", "Cannot leave empty fields");
             return false;
         }
+    }
+
+    void uploadPhoto()
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE);
     }
 
     void takePhoto() {
@@ -198,7 +221,23 @@ public class DishAddFragment extends Fragment {
 
             dish_img.setImageBitmap(imageBitmap);
             Log.d("NOTIFY", "BITMAP SUCCESS");
-        } else {
+        }
+        else if (requestCode == PICK_IMAGE && resultCode == RESULT_OK)
+        {
+            if (data == null) {
+                //Display an error
+                return;
+            }
+            try {
+                InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
+                imageBitmap = BitmapFactory.decodeStream(inputStream);
+                dish_img.setImageBitmap(imageBitmap);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            //Now you can do whatever you want with your inpustream, save it as file, upload to a server, decode a bitmap...
+        }
+        else {
             Log.d("NOTIFY", "BITMAP FAILED ");
         }
     }

@@ -41,7 +41,9 @@
             android:hint="@string/dish_name_hint"
             android:inputType="textShortMessage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_photo_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_photo_btn"
+            android:background="@drawable/editinapp"
+            android:padding="20dp"/>
 
         <EditText
             android:id="@+id/fragment_dish_add_dish_desc_ev"
@@ -54,7 +56,9 @@
             android:hint="@string/dish_desc_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_dish_name_ev"
-            android:autofillHints="" />
+            android:autofillHints=""
+            android:background="@drawable/editinapp"
+            android:padding="20dp"/>
 
         <TextView
             android:id="@+id/fragment_dish_add_sec_1_lbl"
@@ -65,7 +69,8 @@
             android:layout_marginTop="32dp"
             android:text="@string/dish_details_sec_1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_dish_desc_ev" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_dish_desc_ev"
+            />
 
         <EditText
             android:id="@+id/fragment_dish_add_sec_1_eb"
@@ -77,7 +82,9 @@
             android:inputType="textMultiLine"
             android:hint="@string/dish_ing_hint"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_1_lbl" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_1_lbl"
+            android:background="@drawable/editinapp"
+            android:padding="20dp"/>
 
 
         <TextView
@@ -101,8 +108,9 @@
             android:inputType="textMultiLine"
             android:hint="@string/dish_inst_hint"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_2_lbl" />
-
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_2_lbl"
+            android:background="@drawable/editinapp"
+            android:padding="20dp"/>
 
         <Button
             android:id="@+id/fragment_dish_add_save_btn"
@@ -114,7 +122,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_2_eb" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_2_eb"
+            android:background="@drawable/buttoninapp"/>
 
         <Button
             android:id="@+id/fragment_dish_add_photo_btn"
@@ -123,8 +132,23 @@
             android:layout_marginTop="16dp"
             android:text="@string/dish_add_photo_btn"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.697"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_image_iv" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_image_iv"
+            android:background="@drawable/buttoninapp"/>
+
+        <Button
+            android:id="@+id/fragment_dish_upload_photo_from_gallery_btn"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:text="From Gallery"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_dish_add_photo_btn"
+            app:layout_constraintHorizontal_bias="0.671"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_image_iv"
+            android:background="@drawable/buttoninapp"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -93,7 +93,6 @@ public class DishModel {
                 }.execute("");
             }
         });
-
     }
 
     public void getEverything(final LDListener listener) {
@@ -120,7 +119,6 @@ public class DishModel {
                 }.execute("");
             }
         });
-
     }
 
     public Dish getDish(String id) {
