@@ -3,6 +3,7 @@ package com.instafood;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,9 +29,12 @@ import com.instafood.model.Chef;
 import com.instafood.model.ChefModel;
 import com.instafood.model.Dish;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
+import static com.instafood.MainActivity.context;
 
 public class ChefDetailsFragment extends Fragment {
     private Chef chef;
@@ -74,6 +78,7 @@ public class ChefDetailsFragment extends Fragment {
         chef_dishes = view.findViewById(R.id.fragment_chef_details_see_dishes_btn);
         chef_add_photo = view.findViewById(R.id.fragment_chef_details_add_photo_btn);
 
+
         assert getArguments() != null;
         chef = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChef();
         CurrUser = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
@@ -89,6 +94,9 @@ public class ChefDetailsFragment extends Fragment {
         } else {
             update_display();
         }
+
+
+
         return view;
     }
 
@@ -100,6 +108,7 @@ public class ChefDetailsFragment extends Fragment {
 
             if (!chef.getImgUrl().isEmpty()) {
                 Picasso.get().load(chef.getImgUrl()).placeholder(R.drawable.avatar).into(chef_img);
+
             }
             else
             {
@@ -138,6 +147,10 @@ public class ChefDetailsFragment extends Fragment {
 
                     }
                 });
+
+                //chef_add_photo.setEnabled(true);
+                chef_add_photo.setVisibility(View.VISIBLE);
+
                 chef_save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -150,8 +163,8 @@ public class ChefDetailsFragment extends Fragment {
                         chef_edit.setClickable(true);
                         chef_edit.setVisibility(View.VISIBLE);
 
-                        chef_add_photo.setEnabled(false);
-                        chef_add_photo.setVisibility(View.GONE);
+                        chef_add_photo.setEnabled(true);
+                        chef_add_photo.setVisibility(View.VISIBLE);
                         chef_save.setVisibility(View.GONE);
                         chef_name.setEnabled(false);
                         chef_name.setHint("");
@@ -191,12 +204,26 @@ public class ChefDetailsFragment extends Fragment {
                         takePhoto();
                     }
                 });
+
+            }
+            else{
+                    chef_add_photo.setEnabled(false);
+                    chef_add_photo.setVisibility(View.GONE);
+
             }
         }
     }
 
     final static int RESULT_SUCCESS = 0;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int PICK_IMAGE = 2;
+
+    void uploadPhoto()
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE);
+    }
 
     void takePhoto() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -221,6 +248,21 @@ public class ChefDetailsFragment extends Fragment {
 
             chef_img.setImageBitmap(imageBitmap);
             Log.d("NOTIFY", "BITMAP SUCCESS");
+        }
+        else if (requestCode == PICK_IMAGE && resultCode == RESULT_OK)
+        {
+            if (data == null) {
+                //Display an error
+                return;
+            }
+            try {
+                InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
+                imageBitmap = BitmapFactory.decodeStream(inputStream);
+                chef_img.setImageBitmap(imageBitmap);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            //Now you can do whatever you want with your inpustream, save it as file, upload to a server, decode a bitmap...
         }
         else
         {

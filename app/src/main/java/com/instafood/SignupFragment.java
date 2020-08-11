@@ -1,6 +1,7 @@
 package com.instafood;
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,6 +55,12 @@ public class SignupFragment extends Fragment {
         final EditText textSignupEmail = view.findViewById(R.id.textSignupEmail);
         final EditText textSignupPassword = view.findViewById(R.id.textSignupPassword);
         final EditText textSignupUsername = view.findViewById(R.id.textSignupUsername);
+
+        LinearLayout linearl = view.findViewById(R.id.SignupLayout);
+        AnimationDrawable ad = (AnimationDrawable) linearl.getBackground();
+        ad.setEnterFadeDuration(2000);
+        ad.setExitFadeDuration(2500);
+        ad.start();
 
         Button btnSignUp = (Button) view.findViewById(R.id.buttonSignupSignup);
 

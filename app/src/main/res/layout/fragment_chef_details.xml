@@ -89,6 +89,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/chef_dishes"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.819"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_chef_details_image_iv" />
 
@@ -100,9 +101,10 @@
             android:enabled="false"
             android:text="@string/chef_add_photo_btn"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.118"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_chef_details_image_iv"
-            tools:visibility="gone" />
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

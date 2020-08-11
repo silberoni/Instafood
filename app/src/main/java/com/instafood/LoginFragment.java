@@ -2,6 +2,7 @@ package com.instafood;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,8 +19,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,9 +53,7 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +63,12 @@ public class LoginFragment extends Fragment {
         final View view2 = view;
         // Hide Action Bar
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+
+        LinearLayout linearl = view.findViewById(R.id.loginlayout);
+        AnimationDrawable ad = (AnimationDrawable) linearl.getBackground();
+        ad.setEnterFadeDuration(2000);
+        ad.setExitFadeDuration(4000);
+        ad.start();
 
         Button btnLoginSignup = (Button) view.findViewById(R.id.buttonLoginSignup);
         Button btnLogin = view.findViewById(R.id.buttonLoginLogin);

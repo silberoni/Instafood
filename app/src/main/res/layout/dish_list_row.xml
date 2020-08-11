@@ -8,13 +8,10 @@
 
     <ImageView
         android:id="@+id/fragment_dish_row_image_iv"
-        android:layout_width="330dp"
+        android:layout_width="match_parent"
         android:layout_height="330dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.369"

@@ -29,7 +29,6 @@ public class StoreModel {
             imageBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] data = baos.toByteArray();
 
-
             UploadTask uploadTask = imagesRef.putBytes(data);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
