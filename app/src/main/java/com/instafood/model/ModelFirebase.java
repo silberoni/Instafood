@@ -249,6 +249,20 @@ public class ModelFirebase {
         });
     }
 
+   // public static void editChefDesc(Chef chef, String desc)
+   // {
+   //     FirebaseAuth frBase = FirebaseAuth.getInstance();
+   //     db.collection(CHEF_COLLECTION).document(chef.getId()).set(toJson(chef)).addOnCompleteListener(new OnCompleteListener<Void>() {
+   //         @Override
+   //         public void onComplete(@NonNull Task<Void> task) {
+   //             if (listener != null) {
+   //                 listnr.OnComplete(task.isSuccessful());
+   //             }
+   //         }
+   //     });
+
+   // }
+
     public static void CreateUser(final String email, final String pwd, final String name, final Listener<Boolean> listener) {
         FirebaseAuth frBase = FirebaseAuth.getInstance();
         frBase.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

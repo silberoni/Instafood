@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.instafood.model.DishModel;
+import com.instafood.model.ModelFirebase;
 import com.instafood.model.StoreModel;
 import com.squareup.picasso.Picasso;
 import com.instafood.model.Chef;
@@ -78,7 +79,6 @@ public class ChefDetailsFragment extends Fragment {
         chef_dishes = view.findViewById(R.id.fragment_chef_details_see_dishes_btn);
         chef_add_photo = view.findViewById(R.id.fragment_chef_details_add_photo_btn);
 
-
         assert getArguments() != null;
         chef = ChefDetailsFragmentArgs.fromBundle(getArguments()).getChef();
         CurrUser = MainActivity.context.getSharedPreferences("NOTIFY", Context.MODE_PRIVATE).getString("CurrentUser", "");
@@ -88,21 +88,24 @@ public class ChefDetailsFragment extends Fragment {
                 @Override
                 public void OnComplete(Chef data) {
                     chef = data;
+                    Log.d("TAG", "chef 1 :" + chef);
+
                     update_display();
                 }
             });
         } else {
+            chef_id = chef.getId();
             update_display();
         }
-
-
 
         return view;
     }
 
     private void update_display() {
-        if (chef != null) {
+        Log.d("TAG", "chef:" + chef);
 
+        if (chef != null)
+        {
             chef_name.setText(chef.getName());
             chef_desc.setText(chef.getDesc());
 
@@ -125,13 +128,16 @@ public class ChefDetailsFragment extends Fragment {
                 }
             });
 
-            if (CurrUser.equalsIgnoreCase(chef.getId())) {
+            Log.d("TAG", "chef id:" + chef.getId());
+
+            if (CurrUser.equalsIgnoreCase(chef.getId()))
+            {
                 chef_edit.setVisibility(View.VISIBLE);
                 chef_edit.setClickable(true);
                 chef_edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        chef_dishes.setVisibility(View.INVISIBLE);
+                        chef_dishes.setVisibility(View.GONE);
                         chef_dishes.setClickable(false);
                         chef_dishes.setEnabled(false);
                         chef_save.setVisibility(View.VISIBLE);
@@ -144,18 +150,22 @@ public class ChefDetailsFragment extends Fragment {
 
                         chef_edit.setClickable(false);
                         chef_edit.setVisibility(View.GONE);
-
                     }
                 });
-
-                //chef_add_photo.setEnabled(true);
-                chef_add_photo.setVisibility(View.VISIBLE);
 
                 chef_save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         chef.setName(chef_name.getText().toString());
                         chef.setDesc(chef_desc.getText().toString());
+                        ModelFirebase.addChef(chef, new ChefModel.Listener<Boolean>() {
+                            @Override
+                            public void OnComplete(Boolean data) {
+
+                            }
+                        });
+
+
 
                         chef_dishes.setVisibility(View.VISIBLE);
                         chef_dishes.setClickable(true);
@@ -163,8 +173,8 @@ public class ChefDetailsFragment extends Fragment {
                         chef_edit.setClickable(true);
                         chef_edit.setVisibility(View.VISIBLE);
 
-                        chef_add_photo.setEnabled(true);
-                        chef_add_photo.setVisibility(View.VISIBLE);
+                        chef_add_photo.setEnabled(false);
+                        chef_add_photo.setVisibility(View.INVISIBLE);
                         chef_save.setVisibility(View.GONE);
                         chef_name.setEnabled(false);
                         chef_name.setHint("");
@@ -204,12 +214,6 @@ public class ChefDetailsFragment extends Fragment {
                         takePhoto();
                     }
                 });
-
-            }
-            else{
-                    chef_add_photo.setEnabled(false);
-                    chef_add_photo.setVisibility(View.GONE);
-
             }
         }
     }
@@ -230,9 +234,7 @@ public class ChefDetailsFragment extends Fragment {
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             Log.d("NOTIFY", "Opened Camera");
-        }
-        else
-        {
+        } else {
             Log.d("NOTIFY", "There is no camera to take photos with ");
         }
     }

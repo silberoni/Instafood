@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -166,7 +167,7 @@ public class DishAddFragment extends Fragment {
     }
 
     private void update_display() {
-        dish_name.setText(dishBased.getName() + "  -  version by" + chef_id);
+        dish_name.setText(dishBased.getName() + "  -  version by " + chef_id);
         dish_desc.setText(dishBased.getDesc());
         dish_sec_1.setText(dishBased.getIngredients());
         dish_sec_2.setText(dishBased.getInstructions());
@@ -231,6 +232,7 @@ public class DishAddFragment extends Fragment {
             try {
                 InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
                 imageBitmap = BitmapFactory.decodeStream(inputStream);
+              //  imageBitmap = RotateBitmap(imageBitmap, 90);
                 dish_img.setImageBitmap(imageBitmap);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -240,5 +242,12 @@ public class DishAddFragment extends Fragment {
         else {
             Log.d("NOTIFY", "BITMAP FAILED ");
         }
+    }
+
+    public static Bitmap RotateBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 }

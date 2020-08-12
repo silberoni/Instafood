@@ -17,14 +17,10 @@
 
         <ImageView
             android:id="@+id/fragment_dish_add_image_iv"
-            android:layout_width="330dp"
+            android:layout_width="match_parent"
             android:layout_height="330dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:contentDescription="@string/dish_details_pic_desc"
+            android:scaleType="centerCrop"
             android:src="@drawable/avatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.369"
@@ -36,28 +32,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
+            android:textColorHint="#CBE4E2"
+            android:backgroundTint="#70AAA5"
             android:layout_marginTop="16dp"
+            android:textColor="#7DBDB8"
+            android:textStyle="bold"
             android:hint="@string/dish_name_hint"
             android:inputType="textShortMessage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_photo_btn"
-            android:background="@drawable/editinapp"
-            android:padding="20dp"/>
+            />
 
         <EditText
             android:id="@+id/fragment_dish_add_dish_desc_ev"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="#70AAA5"
             android:inputType="textMultiLine"
+            android:textColor="#7DBDB8"
+            android:textStyle="bold"
+            android:textColorHint="#CBE4E2"
             android:hint="@string/dish_desc_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_dish_name_ev"
             android:autofillHints=""
-            android:background="@drawable/editinapp"
             android:padding="20dp"/>
 
         <TextView
@@ -67,6 +71,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
+            android:textColor="#70AAA5"
+            android:textStyle="bold"
+            android:textSize="25dp"
             android:text="@string/dish_details_sec_1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_dish_desc_ev"
@@ -77,13 +84,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="15dp"
             android:inputType="textMultiLine"
+            android:backgroundTint="#70AAA5"
+            android:textColorHint="#CBE4E2"
+            android:textColor="#7DBDB8"
+            android:textStyle="bold"
             android:hint="@string/dish_ing_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_1_lbl"
-            android:background="@drawable/editinapp"
             android:padding="20dp"/>
 
 
@@ -94,6 +105,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
+            android:textColor="#70AAA5"
+            android:textStyle="bold"
+            android:textSize="25dp"
             android:text="@string/dish_details_sec_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_1_eb" />
@@ -103,13 +117,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="15dp"
             android:inputType="textMultiLine"
+            android:backgroundTint="#70AAA5"
+            android:textColor="#7DBDB8"
+            android:textColorHint="#CBE4E2"
+            android:textStyle="bold"
             android:hint="@string/dish_inst_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_2_lbl"
-            android:background="@drawable/editinapp"
             android:padding="20dp"/>
 
         <Button
@@ -119,11 +137,15 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
             android:text="@string/dish_add_btn"
+            android:backgroundTint="#CBE4E2"
+            android:textColor="#7DBDB8"
+            android:background="@drawable/buttoninapp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_sec_2_eb"
-            android:background="@drawable/buttoninapp"/>
+            />
 
         <Button
             android:id="@+id/fragment_dish_add_photo_btn"
@@ -131,6 +153,9 @@
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:text="@string/dish_add_photo_btn"
+            android:textColor="#7DBDB8"
+            android:backgroundTint="#CBE4E2"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.697"
             app:layout_constraintStart_toStartOf="parent"
@@ -143,11 +168,15 @@
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:text="From Gallery"
+            android:textColor="#7DBDB8"
+            android:backgroundTint="#CBE4E2"
+            android:background="@drawable/buttoninapp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/fragment_dish_add_photo_btn"
             app:layout_constraintHorizontal_bias="0.671"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_dish_add_image_iv"
-            android:background="@drawable/buttoninapp"
+
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
